@@ -21,6 +21,10 @@
    * .jmx for Jmeter testing
    * .yml for travis-ci testing
    * JUnits for unit testing
+   
+4) To build:
+   * Go to gradle projects in IntelliJ > tasks > build > right click on war and run to build it.
+   * Setup Tomcat and run the project to the run application.
 
 For running the application locally
 Change the property `spring.profiles.active` in application properties to dev
