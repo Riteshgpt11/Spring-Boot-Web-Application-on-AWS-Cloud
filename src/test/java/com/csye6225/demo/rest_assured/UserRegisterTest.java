@@ -11,11 +11,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.*;
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserRegisterTest {
 
-    @Autowired
+   /* @Autowired
     private UserDao userDao;
 
     @Test
@@ -46,5 +46,5 @@ public class UserRegisterTest {
         assertNull(u);
 
 
-    }
+    }*/
 }

@@ -38,23 +38,30 @@ idea {
     }
 }
 
-sourceSets{
+test {
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
+}
+
+/*sourceSets{
     test{
         java{
                         srcDirs = ["com.csye6255.demo/rest_assured/LoginUserTest"]
 
                 }
             }
-        }
+        }*/
 
-sourceSets{
+/*sourceSets{
+
     test{
         java{
-            srcDirs = ["com.csye6255.demo/rest_assured/UserRegisterTest"]
+            srcDirs = ["com.csye6255.demo/rest_assured/Demo"]
 
         }
     }
-}
+}*/
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
@@ -86,7 +93,7 @@ dependencies {
     testCompile('io.rest-assured:rest-assured:3.0.3')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
-    testCompile("junit:junit:4.11")
+    //testCompile("junit:junit:4.11")
 }
 
 war {
