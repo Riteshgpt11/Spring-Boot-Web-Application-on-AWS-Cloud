@@ -41,17 +41,12 @@ idea {
 sourceSets{
     test{
         java{
-            com{
-                csye6225{
-                    demo{
-                        srcDirs = ["rest_assured/LoginUserTest"]
-                        
-                    }
+                        srcDirs = ["com.csye6255.demo/rest_assured/LoginUserTest"]
+
                 }
             }
         }
-    }
-}
+
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
