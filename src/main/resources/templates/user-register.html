@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h2>Register New User</h2>
+    <form action="#" th:action="@{/register.htm}" th:object="${user}" method="post">
+        <p>First Name: <input type="text" th:field="*{firstName}" pattern="^[a-zA-Z ]{2,30}$"
+                              size="30"/></p>
+        <p>Last Name: <input type="text" th:field="*{lastName}" pattern="^[a-zA-Z ]{2,30}$"
+                             size="30"/></p>
+        <p>Email Id: <input type="text" th:field="*{emailId}" size="30"
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" type="email"/></p>
+        <p>Password: <input type="text" th:field="*{password}" size="30" pattern=".{6,}"/></p>
+        <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+    </form>
+
+</div>
+</body>
+</html>
