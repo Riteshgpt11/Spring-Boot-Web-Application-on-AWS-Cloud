@@ -56,7 +56,7 @@ test {
 sourceSets{
     main{
           java{
-            srcDirs = ["src"]
+            srcDirs = ["src/main/java/com.csye6255.demo"]
         }
        }
     test{
