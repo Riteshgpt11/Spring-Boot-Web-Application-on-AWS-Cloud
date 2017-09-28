@@ -53,7 +53,7 @@ test {
             }
         }*/
 
-sourceSets{
+/*sourceSets{
     main{
           java{
             srcDirs = ["/home/travis/build/yogitaj508/csye6225-fall2017/src/main/java/com.csye6255.demo/DemoApplication"]
@@ -67,7 +67,7 @@ sourceSets{
 
         }
     }
-}
+}*/
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
@@ -99,7 +99,7 @@ dependencies {
     testCompile('io.rest-assured:rest-assured:3.0.3')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
-    testCompile("junit:junit:4.11")
+    //testCompile("junit:junit:4.11")
 }
 
 war {
