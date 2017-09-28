@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest()
-@ContextConfiguration()
+//@ContextConfiguration()
 public class Demo {
 
 
