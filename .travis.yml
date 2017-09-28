@@ -13,7 +13,7 @@ script:
   - ./gradlew war
   - ./gradlew test --info 
   
-  notifications:
+notifications:
   email:
     recipients:
       - jain.yo@husky.neu.edu
