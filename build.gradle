@@ -5,8 +5,11 @@ buildscript {
     repositories {
         mavenCentral()
     }
+
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+
+
     }
 }
 
@@ -32,6 +35,21 @@ idea {
     module {
         downloadJavadoc = true
         downloadSources = true
+    }
+}
+
+sourceSets{
+    test{
+        java{
+            com{
+                csye6225{
+                    demo{
+                        srcDirs = ["rest_assured/LoginUserTest"]
+                        
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -65,6 +83,7 @@ dependencies {
     testCompile('io.rest-assured:rest-assured:3.0.3')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
+    testCompile("junit:junit:4.11")
 }
 
 war {

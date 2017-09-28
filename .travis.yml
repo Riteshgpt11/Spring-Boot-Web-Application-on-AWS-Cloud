@@ -1,9 +1,7 @@
 branches:
   only:
   - assignment3
-env:
-  - DB=mysql
-  - test=unit
+
 language: java
 jdk:
   - oraclejdk8
@@ -13,4 +11,4 @@ install: true
 
 script:
   - ./gradlew war
-  - gradle LoginUserTest
+  - ./gradlew test
