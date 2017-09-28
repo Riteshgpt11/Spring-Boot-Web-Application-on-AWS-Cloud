@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LoginUserTest {
 
-    @Autowired
+  /*  @Autowired
     private UserDao userDao;
 
     // Login user
@@ -40,5 +40,5 @@ public class LoginUserTest {
         assertNull(u);
 
 
-    }
+    }*/
 }
