@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 @Controller
@@ -25,6 +26,8 @@ public class HomeController {
     private final static Logger logger = LoggerFactory.getLogger(HomeController.class);
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private HttpSession session;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) throws Exception {
@@ -51,6 +54,7 @@ public class HomeController {
                 String hashedPassword = passwordEncoder.encode(user.getPassword());
                 user.setPassword(hashedPassword);
                 userDao.save(user);
+                session.invalidate();
                 return new ModelAndView("registration");
             } else {
                 return new ModelAndView("registration-failed");
@@ -77,6 +81,7 @@ public class HomeController {
                 boolean flag = passwordEncoder.matches(user.getPassword(), user1.getPassword());
                 if (flag) {
                     model.addAttribute("standardDate", new Date());
+                    session.setAttribute("userSession", user1);
                     return new ModelAndView("login-successful");
                 } else {
                     return new ModelAndView("login-failed");
@@ -93,4 +98,11 @@ public class HomeController {
         return new ModelAndView("index");
     }
 
+    @RequestMapping(value = "/logout.htm", method = RequestMethod.GET)
+    public String logout(Model model) throws Exception {
+
+        session.invalidate();
+        model.addAttribute("user", new User());
+        return "index";
+    }
 }
