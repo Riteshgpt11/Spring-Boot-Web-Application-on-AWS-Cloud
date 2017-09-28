@@ -43,12 +43,7 @@ test {
         events "passed", "skipped", "failed", "standardOut", "standardError"
     }
 }
-test {
-    reports {
-        junitXml.enabled = false
-        html.enabled = true
-    }               
-}
+
 /*sourceSets{
     test{
         java{
@@ -61,12 +56,14 @@ test {
 sourceSets{
     main{
           java{
-            srcDirs = ["src/main/java/com.csye6255.demo"]
+            srcDirs = ["~/src/main/java/com.csye6255.demo"]
         }
        }
+       }
+sourceSets{
     test{
         java{
-            srcDirs = ["com.csye6255.demo/rest_assured/Demo"]
+            srcDirs = ["~/src/main/java/com.csye6255.demo/rest_assured/Demo"]
 
         }
     }
