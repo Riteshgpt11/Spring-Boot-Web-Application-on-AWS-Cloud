@@ -14,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest()
-@ContextConfiguration()
+//@ContextConfiguration()
 @ActiveProfiles("test")
 public class Demo {
 
