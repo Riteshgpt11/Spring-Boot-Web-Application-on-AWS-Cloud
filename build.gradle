@@ -47,6 +47,14 @@ sourceSets{
             }
         }
 
+sourceSets{
+    test{
+        java{
+            srcDirs = ["com.csye6255.demo/rest_assured/UserRegisterTest"]
+
+        }
+    }
+}
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')

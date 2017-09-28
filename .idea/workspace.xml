@@ -78,8 +78,8 @@
       <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="47" column="9" lean-forward="false" selection-start-line="47" selection-start-column="9" selection-end-line="47" selection-end-column="9" />
+            <state relative-caret-position="359">
+              <caret line="57" column="0" lean-forward="true" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -357,8 +357,8 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="3013118491000" />
-        <entry key="$PROJECT_DIR$/build.gradle" value="2399425883" />
+        <entry key="$PROJECT_DIR$" value="3013118669000" />
+        <entry key="$PROJECT_DIR$/build.gradle" value="1528219130" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -596,13 +596,6 @@
               <item name="csye6225-fall2017" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="csye6225-fall2017" type="b2602c69:ProjectViewProjectNode" />
-              <item name="csye6225-fall2017" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="csye6225-fall2017" type="b2602c69:ProjectViewProjectNode" />
@@ -934,7 +927,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1506557104080</updated>
-      <workItem from="1506557107663" duration="3693000" />
+      <workItem from="1506557107663" duration="3918000" />
     </task>
     <servers />
   </component>
@@ -947,7 +940,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3693000" />
+    <option name="totallyTimeSpent" value="3918000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="5" y="59" width="1215" height="602" extended-state="0" />
@@ -1025,8 +1018,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="47" column="9" lean-forward="false" selection-start-line="47" selection-start-column="9" selection-end-line="47" selection-end-column="9" />
+        <state relative-caret-position="359">
+          <caret line="57" column="0" lean-forward="true" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding />
         </state>
       </provider>
