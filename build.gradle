@@ -56,14 +56,14 @@ test {
 sourceSets{
     main{
           java{
-            srcDirs = ["~/src/main/java/com.csye6255.demo"]
+            srcDirs = ["/home/travis/build/yogitaj508/csye6225-fall2017/src/main/java/com.csye6255.demo"]
         }
        }
        }
 sourceSets{
     test{
         java{
-            srcDirs = ["~/src/main/java/com.csye6255.demo/rest_assured/Demo"]
+            srcDirs = ["/home/travis/build/yogitaj508/csye6225-fall2017/src/main/java/com.csye6255.demo"]
 
         }
     }
