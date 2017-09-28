@@ -54,7 +54,11 @@ test {
         }*/
 
 sourceSets{
-
+    main{
+          java{
+            srcDirs = ["com.csye6255.demo/DemoApplication"]
+        }
+       }
     test{
         java{
             srcDirs = ["com.csye6255.demo/rest_assured/Demo"]
