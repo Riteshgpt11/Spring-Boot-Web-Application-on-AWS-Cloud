@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest()
-//@ContextConfiguration()
+@ContextConfiguration()
 public class Demo {
 
 
