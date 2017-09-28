@@ -10,10 +10,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.ActiveProfiles;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest()
-//@ContextConfiguration()
+@ContextConfiguration()
+@ActiveProfiles("test")
 public class Demo {
 
 
