@@ -11,8 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
 import org.springframework.context.annotation.Configuration;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest()
+//@RunWith(SpringRunner.class)
+//@SpringBootTest()
 //@ContextConfiguration()
 public class Demo {
 
