@@ -6,6 +6,9 @@ language: java
 jdk:
   - oraclejdk8
 
+env:
+  CATALINA_BASE=/home/travis
+
 sudo: false
 install: true
 
