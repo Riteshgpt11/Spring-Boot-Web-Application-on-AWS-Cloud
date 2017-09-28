@@ -31,3 +31,9 @@ This will run the Junit tests on travisCI.
 
 This change is needed because the web application is integrated with MySQl database for it to fetch, authenticate and put data and we are using H2 database to run the tests on Travis on git commit.
 
+For running the JMeter test:
+Change the property `spring.profiles.active` in application properties to dev
+This will run the load tests in JMeter.
+
+The load test creates 100 random users and tests the GET and POST performance of the application.
+
