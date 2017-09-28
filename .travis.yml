@@ -11,4 +11,4 @@ install: true
 
 script:
   - ./gradlew war
-  - gradle test
+  - ./gradlew test --info
