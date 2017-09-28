@@ -37,3 +37,5 @@ This will run the load tests in JMeter.
 
 The load test creates 100 random users and tests the GET and POST performance of the application.
 
+link to travisci: https://travis-ci.com/yogitaj508/csye6225-fall2017
+
