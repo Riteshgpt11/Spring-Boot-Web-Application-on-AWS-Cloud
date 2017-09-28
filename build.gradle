@@ -44,31 +44,6 @@ test {
     }
 }
 
-/*sourceSets{
-    test{
-        java{
-                        srcDirs = ["com.csye6255.demo/rest_assured/LoginUserTest"]
-
-                }
-            }
-        }*/
-
-/*sourceSets{
-    main{
-          java{
-            srcDirs = ["/home/travis/build/yogitaj508/csye6225-fall2017/src/main/java/com.csye6255.demo/DemoApplication"]
-        }
-       }
-       }
-sourceSets{
-    test{
-        java{
-            srcDirs = ["/home/travis/build/yogitaj508/csye6225-fall2017/src/test/java/com.csye6255.demo/rest_assured/Demo.java"]
-
-        }
-    }
-}*/
-
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-actuator-docs')
