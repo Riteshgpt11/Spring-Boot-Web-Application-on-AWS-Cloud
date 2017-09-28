@@ -13,4 +13,4 @@ install: true
 
 script:
   - ./gradlew war
-  - gradle LoginUserTest
+  - gradle src/test/java/com/csye6225/demo/rest_assured/LoginUserTest
