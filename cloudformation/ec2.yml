@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Sample CloudFormation Template for CSYE 6225 - Fall 2017
+Resources:
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: ami-cd0f5cb6
+      InstanceType: t2.micro
+      SecurityGroupIds:
+        - !GetAtt
+          - WebServerSecurityGroup
+          - GroupId
+      KeyName: EC2_keypair
+      SubnetId: subnet-b833dcf3
+
+  WebServerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Enable HTTP access via port 80, SSH access via port 22'
+      VpcId: vpc-a9f6ffd0
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
