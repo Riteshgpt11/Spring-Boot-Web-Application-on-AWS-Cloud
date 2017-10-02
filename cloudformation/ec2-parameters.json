@@ -1,0 +1,17 @@
+[
+    {
+         "ParameterKey": "KeyName",
+         "ParameterValue": "EC2_keypair",
+         "UsePreviousValue": true
+     },
+     {
+          "ParameterKey": "InstanceType",
+          "ParameterValue": "t2.micro",
+          "UsePreviousValue": true
+      },
+      {
+           "ParameterKey": "Id",
+           "ParameterValue": "ami-cd0f5cb6",
+           "UsePreviousValue": true
+       }
+]
