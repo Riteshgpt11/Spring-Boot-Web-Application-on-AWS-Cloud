@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Sample CloudFormation Template for CSYE 6225 - Fall 2017
+
+Parameters:
+  KeyName:
+    Description: The Ec2 Key Pair to allow SSH access to the instance
+    Type: AWS::EC2::KeyPair::KeyName
+  InstanceType:
+    Description: Instance type to use
+    Type: "String"
+    AllowedValues:
+      - t2.micro
+      - m1.small
+      - m1.large
+    Description: Enter t2.micro, m1.small or m1.large
+  Id:
+    Description: Image id of the AMI
+    Type: AWS::EC2::Image::Id
+
+Resources:
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId:
+        Ref: Id #ami-cd0f5cb6
+      InstanceType:
+        Ref: InstanceType #t2.micro #instance_type #t2.micro
+      SecurityGroupIds:
+        - !GetAtt
+          - csyefall2017STACKNAMEwebapp #WebServerSecurityGroup
+          - GroupId
+      KeyName:
+        Ref: KeyName #EC2_keypair
+      SubnetId: subnet-b833dcf3
+      BlockDeviceMappings:
+        -
+          DeviceName: /dev/sda1
+          Ebs:
+            VolumeType: gp2
+            VolumeSize: 16
+  csyefall2017STACKNAMEwebapp:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: GroupName
+      GroupDescription: 'Enable HTTP access via port 80, SSH access via port 22'
+      VpcId: vpc-a9f6ffd0
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '443'
+          ToPort: '443'
+          CidrIp: 0.0.0.0/0
+  myDNSRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: ZV0SP3ADUV1M6
+      Name: ec2.csye6225-fall2017-jainyo.me.
+      Type: A
+      TTL: 60
+      ResourceRecords:
+      - !GetAtt EC2Instance.PublicIp
