@@ -13,6 +13,13 @@
   * The `create-csye6225-cloudformation-stack.sh` contains aws command to create the EC2 instance.
   * The `delete-csye6225-cloudformation-stack.sh` contains aws command to delete the stack and associated resources with it.
   
+ Change ParameterValue for the following:
+  * `KeyName`: put for EC2Keypair
+  * `SubnetId`: your subnet id
+  * `VpcId`: your VpcId
+  * `HostedZoneId`: hosted zone id created for the domain
+  * `DomainName`: domain name created in route 53
+  
 ### Instruction to create a stack
   * Navigate to cloudformation directory and run the below command
    
