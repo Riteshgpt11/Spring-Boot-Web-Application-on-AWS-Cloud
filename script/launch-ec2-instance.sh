@@ -1,7 +1,11 @@
 #!/bin/bash
 
+##Get Vpc Id
+vpc_id=`aws ec2 describe-vpcs --query "Vpcs[0].VpcId" --output text`
+echo $vpc_id
+
 ##Create a security group
-group_id=`aws ec2 create-security-group --group-name csye6225-fall2017-webapp --description "Csye6225" --vpc-id vpc-9e9374e6`
+group_id=`aws ec2 create-security-group --group-name csye6225-fall2017-webapp --description "Csye6225" --vpc-id "$vpc_id"`
 echo $group_id
 
 
@@ -29,7 +33,11 @@ echo $ip
 ##Parse the input json file and send Public IP of the instance  to the file
 sed -i '/Value/ s/^\(.*\)\("\)/\1'$ip'\2/' record.json
 
+##Fetch Hosted Zone ID
+host_id=`aws route53 list-hosted-zones | awk 'NR==1{print $3}' | cut --complement -b 1-12`
+echo $host_id
+
 ##Add/Update type A resource record set to the domain in the Route 53 zone with the IP of the newly launched EC2 instance
-dns=`aws route53 change-resource-record-sets --hosted-zone-id ZFLUDICG22F7Z --change-batch file://record.json`
+dns=`aws route53 change-resource-record-sets --hosted-zone-id "$host_id" --change-batch file://record.json`
 echo $dns
 
