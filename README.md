@@ -26,3 +26,5 @@
         `./delete-csye6225-cloudformation-stack.sh my_stack`
          
         `my_stack` is the stack name that'll be deleted.
+        
+        First it will `disable` termination protection on `EC2 instance` and then delete the stack along with the resources
