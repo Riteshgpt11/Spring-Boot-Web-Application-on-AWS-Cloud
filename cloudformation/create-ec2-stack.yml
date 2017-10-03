@@ -16,7 +16,31 @@ Parameters:
   Id:
     Description: Image id of the AMI
     Type: AWS::EC2::Image::Id
-
+  SubnetId:
+    Description: Subnet id of the AMI
+    Type: "String"
+  VpcId:
+    Description: Vpc id of the AMI
+    Type: "String"
+  SecurityGroupName:
+    Description: Security Group name
+    Type: "String"
+  HostedZoneId:
+    Description: Hosted zone id
+    Type: "String"
+  DomainName:
+    Description: domain name to create in the RecordSet
+    Type: "String"
+  DeviceName:
+    Description: device name to create in the RecordSet
+    Type: "String"
+  VolumeSize:
+    Description: volume size to create in the RecordSet
+    Type: "String"
+  VolumeType:
+    Description: volume type to create in the RecordSet
+    Type: "String"
+ 
 Resources:
   EC2Instance:
     Type: 'AWS::EC2::Instance'
@@ -25,25 +49,32 @@ Resources:
         Ref: Id
       InstanceType:
         Ref: InstanceType
+      DisableApiTermination: true
       SecurityGroupIds:
         - !GetAtt
-          - WebServerSecurityGroup 
+          - WebServerSecurityGroup
           - GroupId
       KeyName:
         Ref: KeyName
-      SubnetId: subnet-b833dcf3
+      SubnetId:
+        Ref: SubnetId
       BlockDeviceMappings:
         -
-          DeviceName: /dev/sda1
+          DeviceName:
+            Ref: DeviceName
           Ebs:
-            VolumeType: gp2
-            VolumeSize: 16
+            VolumeType:
+              Ref: VolumeType
+            VolumeSize:
+              Ref: VolumeSize
   WebServerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupName: csye6225-fall2017-STACK_NAME-webapp
+      GroupName:
+        Ref: SecurityGroupName
       GroupDescription: 'Enable HTTP access via port 80, SSH access via port 22'
-      VpcId: vpc-a9f6ffd0
+      VpcId:
+        Ref: VpcId
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '80'
@@ -60,8 +91,10 @@ Resources:
   myDNSRecord:
     Type: AWS::Route53::RecordSet
     Properties:
-      HostedZoneId: ZV0SP3ADUV1M6
-      Name: ec2.csye6225-fall2017-jainyo.me.
+      HostedZoneId:
+        Ref: HostedZoneId
+      Name:
+        Ref: DomainName
       Type: A
       TTL: 60
       ResourceRecords:
