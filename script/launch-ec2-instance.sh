@@ -27,9 +27,9 @@ ip=`aws ec2 describe-instances --instance-ids "$ec2_instance_id" | grep ASSOCIAT
 echo $ip
 
 ##Parse the input json file and send Public IP of the instance  to the file
-sed -i '/Value/ s/^\(.*\)\("\)/\1'$ip'\2/' /home/ritesh/record.json
+sed -i '/Value/ s/^\(.*\)\("\)/\1'$ip'\2/' record.json
 
 ##Add/Update type A resource record set to the domain in the Route 53 zone with the IP of the newly launched EC2 instance
-dns=`aws route53 change-resource-record-sets --hosted-zone-id ZFLUDICG22F7Z --change-batch file:///home/ritesh/record.json`
+dns=`aws route53 change-resource-record-sets --hosted-zone-id ZFLUDICG22F7Z --change-batch file://record.json`
 echo $dns
 
