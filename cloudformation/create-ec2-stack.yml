@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Sample CloudFormation Template for CSYE 6225 - Fall 2017
+Description: CloudFormation Template to create an EC2 instance
 
 Parameters:
   KeyName:
@@ -22,15 +22,15 @@ Resources:
     Type: 'AWS::EC2::Instance'
     Properties:
       ImageId:
-        Ref: Id #ami-cd0f5cb6
+        Ref: Id
       InstanceType:
-        Ref: InstanceType #t2.micro #instance_type #t2.micro
+        Ref: InstanceType
       SecurityGroupIds:
         - !GetAtt
-          - csyefall2017STACKNAMEwebapp #WebServerSecurityGroup
+          - WebServerSecurityGroup 
           - GroupId
       KeyName:
-        Ref: KeyName #EC2_keypair
+        Ref: KeyName
       SubnetId: subnet-b833dcf3
       BlockDeviceMappings:
         -
@@ -38,10 +38,10 @@ Resources:
           Ebs:
             VolumeType: gp2
             VolumeSize: 16
-  csyefall2017STACKNAMEwebapp:
+  WebServerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupName: GroupName
+      GroupName: csye6225-fall2017-STACK_NAME-webapp
       GroupDescription: 'Enable HTTP access via port 80, SSH access via port 22'
       VpcId: vpc-a9f6ffd0
       SecurityGroupIngress:
