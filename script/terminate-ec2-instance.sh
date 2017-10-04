@@ -5,6 +5,15 @@
 #Pratiksha Shetty, shetty.pr@husky.neu.edu, 001643697
 #Ritesh Gupta, gupta.rite@husky.neu.edu, 001280361
 
+##Check if enough arguements are passed
+if [ $# -lt 1 ]; then
+  echo 1>&2 "$0: Instance Id not provided"
+  exit 2
+elif [ $# -gt 1 ]; then
+  echo 1>&2 "$0: Too many Arguments"
+  exit 2
+fi
+
 ##Disabling instance termination protection
 aws ec2 modify-instance-attribute --instance-id $1 --no-disable-api-termination
 
