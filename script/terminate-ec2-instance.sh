@@ -27,7 +27,9 @@ aws ec2 terminate-instances --instance-ids $1
 ##Waiting for the instance to get terminated
 aws ec2 wait instance-terminated --instance-ids $1
 
+echo "EC2 instance deleted"
+
 ##Deleting the security group
 aws ec2 delete-security-group --group-id "$sg_id"
 
-
+echo "Security group deleted!"

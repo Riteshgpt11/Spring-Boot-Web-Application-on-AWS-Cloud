@@ -21,7 +21,7 @@ echo $group_id
 
 
 ##Fetch the subnet id
-subnet_id=`aws ec2 describe-subnets --filters "Name=vpc-id, Values=$VPC_ID" --query "Subnets[0].SubnetId" --output text`
+subnet_id=`aws ec2 describe-subnets --filters "Name=vpc-id, Values=$vpc_id" --query "Subnets[0].SubnetId" --output text`
 echo $subnet_id
 
 ##Run an ec2 Instance and Fetch Instance Id
@@ -49,3 +49,4 @@ echo $host_id
 dns=`aws route53 change-resource-record-sets --hosted-zone-id "$host_id" --change-batch file://record.json`
 echo $dns
 
+echo "EC2 instance is launched!"
