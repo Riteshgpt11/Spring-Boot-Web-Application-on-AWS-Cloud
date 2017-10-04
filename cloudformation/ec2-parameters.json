@@ -1,9 +1,4 @@
 [
-    {
-         "ParameterKey": "KeyName",
-         "ParameterValue": "EC2_keypair",
-         "UsePreviousValue": true
-     },
      {
           "ParameterKey": "InstanceType",
           "ParameterValue": "t2.micro",
@@ -16,12 +11,12 @@
        },
        {
          "ParameterKey": "SubnetId",
-         "ParameterValue": "subnet-b833dcf3",
+         "ParameterValue": "subnet-382d805c",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "VpcId",
-         "ParameterValue": "vpc-a9f6ffd0",
+         "ParameterValue": "vpc-9e9374e6",
          "UsePreviousValue": true
        },
        {
@@ -31,12 +26,12 @@
        },
        {
          "ParameterKey": "HostedZoneId",
-         "ParameterValue": "ZV0SP3ADUV1M6",
+         "ParameterValue": " ZFLUDICG22F7Z",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "DomainName",
-         "ParameterValue": "ec2.csye6225-fall2017-jainyo.me",
+         "ParameterValue": "ec2.csye6225-fall2017-guptarite.me",
          "UsePreviousValue": true
        },
        {
