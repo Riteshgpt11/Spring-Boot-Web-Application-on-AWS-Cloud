@@ -16,7 +16,7 @@ echo $group_id
 
 
 ##Fetch the subnet id
-subnet_id=`aws ec2 describe-subnets --filters "Name=availabilityZone,Values=us-east-1b" | awk '{print$9}'`
+subnet_id=`aws ec2 describe-subnets --filters "Name=vpc-id, Values=$VPC_ID" --query "Subnets[0].SubnetId" --output text`
 echo $subnet_id
 
 ##Run an ec2 Instance and Fetch Instance Id
@@ -30,7 +30,10 @@ echo $ec2_instance_id
 ip=`aws ec2 describe-instances --instance-ids "$ec2_instance_id" | grep ASSOCIATION | awk 'NR==1{print $4}'`
 echo $ip
 
-##Parse the input json file and send Public IP of the instance  to the file
+##Parsing the input json file and deleting any previous IP address
+sed -i 's/"Value":.*/"Value": ""/g' record.json
+
+##Parse the input json file and send Public IP of the instance to the file
 sed -i '/Value/ s/^\(.*\)\("\)/\1'$ip'\2/' record.json
 
 ##Fetch Hosted Zone ID
