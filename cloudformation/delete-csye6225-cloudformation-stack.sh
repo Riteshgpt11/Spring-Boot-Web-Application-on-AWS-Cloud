@@ -23,4 +23,7 @@ aws ec2 modify-instance-attribute --instance-id "$instanceid" --no-disable-api-t
 ## delete stack
 aws cloudformation delete-stack --stack-name $1
 
-echo "Stack deleted!"
+aws cloudformation wait stack-delete-complete --stack-name $1
+
+
+echo "Stack $1 deleted!"
