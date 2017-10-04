@@ -5,6 +5,15 @@
 #Pratiksha Shetty, shetty.pr@husky.neu.edu, 001643697
 #Ritesh Gupta, gupta.rite@husky.neu.edu, 001280361
 
+##Check if enough arguements are passed
+if [ $# -lt 1 ]; then
+  echo 1>&2 "$0: Stack name not provided"
+  exit 2
+elif [ $# -gt 1 ]; then
+  echo 1>&2 "$0: Too many Arguments"
+  exit 2
+fi
+
 # fetch instance id
 instanceid=`aws ec2 describe-instances --query "Reservations[*].Instances[*].InstanceId" --filters "Name=tag-key,Values=aws:cloudformation:stack-name" "Name=tag-value,Values=$1" --output text`
 echo "$instanceid"
