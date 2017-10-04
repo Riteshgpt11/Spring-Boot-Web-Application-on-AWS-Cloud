@@ -1,10 +1,15 @@
+#Yogita Jain, jain.yo@husky.neu.edu, 001643815
+#Rohan Magare, magare.r@husky.neu.edu, 001231457
+#Pratiksha Shetty, shetty.pr@husky.neu.edu, 001643697
+#Ritesh Gupta, gupta.rite@husky.neu.edu, 001280361
+
 AWSTemplateFormatVersion: 2010-09-09
 Description: CloudFormation Template to create an EC2 instance
 
 Parameters:
-  KeyName:
-    Description: The Ec2 Key Pair to allow SSH access to the instance
-    Type: AWS::EC2::KeyPair::KeyName
+  #KeyName:
+  #  Description: The Ec2 Key Pair to allow SSH access to the instance
+  #  Type: AWS::EC2::KeyPair::KeyName
   InstanceType:
     Description: Instance type to use
     Type: "String"
@@ -40,7 +45,7 @@ Parameters:
   VolumeType:
     Description: volume type to create in the RecordSet
     Type: "String"
- 
+
 Resources:
   EC2Instance:
     Type: 'AWS::EC2::Instance'
@@ -54,8 +59,8 @@ Resources:
         - !GetAtt
           - WebServerSecurityGroup
           - GroupId
-      KeyName:
-        Ref: KeyName
+  #    KeyName:
+  #      Ref: KeyName
       SubnetId:
         Ref: SubnetId
       BlockDeviceMappings:

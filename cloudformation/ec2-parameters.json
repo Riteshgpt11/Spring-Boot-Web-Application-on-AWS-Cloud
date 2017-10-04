@@ -1,9 +1,4 @@
 [
-    {
-         "ParameterKey": "KeyName",
-         "ParameterValue": "EC2_keypair",
-         "UsePreviousValue": true
-     },
      {
           "ParameterKey": "InstanceType",
           "ParameterValue": "t2.micro",
