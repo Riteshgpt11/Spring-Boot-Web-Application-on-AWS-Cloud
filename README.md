@@ -35,3 +35,17 @@
         `my_stack` is the stack name that'll be deleted.
         
         First it will `disable` termination protection on `EC2 instance` and then delete the stack along with the resources
+
+
+## Instructions to create an EC2 instance   
+   * Navigate to script directory and run the script launch-ec2-instance.sh. The script uses the record.json file for DNS record.
+
+     `./launch-ec2-instance.sh`
+
+### Instruction to delete an EC2 instance
+   * Navigate to script directory and run the below command
+
+        `./terminate-ec2-instance.sh <Instance ID>`
+
+        First it will `disable` termination protection on `EC2 instance` and then delete the instance along with the resources
+
