@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#Yogita Jain, jain.yo@husky.neu.edu, 001643815
+#Rohan Magare, magare.r@husky.neu.edu, 001231457
+#Pratiksha Shetty, shetty.pr@husky.neu.edu, 001643697
+#Ritesh Gupta, gupta.rite@husky.neu.edu, 001280361
+
 ##Get Vpc Id
 vpc_id=`aws ec2 describe-vpcs --query "Vpcs[0].VpcId" --output text`
 echo $vpc_id
