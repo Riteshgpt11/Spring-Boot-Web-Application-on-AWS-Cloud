@@ -14,6 +14,10 @@ elif [ $# -gt 1 ]; then
   exit 2
 fi
 
+# add stack name to the security group
+sed -i "s/STACK_NAME/$1/" ec2-parameters.json
+
+
 ##Creating Stack
 aws cloudformation create-stack --stack-name "$1" --template-body file://create-ec2-stack.yml --parameters file://ec2-parameters.json
 
