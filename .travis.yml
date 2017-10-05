@@ -1,10 +1,15 @@
 branches:
   only:
+<<<<<<< HEAD
   - assignment3
+=======
+  - master
+>>>>>>> 8c3dfb10945283bedc48075ac1d4a2765a761ed2
 
 language: java
 jdk:
   - oraclejdk8
+<<<<<<< HEAD
 services:
   - mysql
   
@@ -16,6 +21,9 @@ services:
   
 #before_install:
  # - mysql -e 'CREATE DATABASE IF NOT EXISTS user_database;'
+=======
+
+>>>>>>> 8c3dfb10945283bedc48075ac1d4a2765a761ed2
 env:
   CATALINA_BASE=/home/travis
 
@@ -24,8 +32,13 @@ install: true
 
 script:
   - ./gradlew war
+<<<<<<< HEAD
   - ./gradlew test --info 
   
+=======
+  - ./gradlew test --info
+
+>>>>>>> 8c3dfb10945283bedc48075ac1d4a2765a761ed2
 notifications:
   email:
     recipients:
