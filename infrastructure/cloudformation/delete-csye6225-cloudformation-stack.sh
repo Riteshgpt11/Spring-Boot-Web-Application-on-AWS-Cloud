@@ -27,5 +27,7 @@ aws cloudformation delete-stack --stack-name $1
 
 aws cloudformation wait stack-delete-complete --stack-name $1
 
+# replace stack name with generic name
+sed -i "s/$1/STACK_NAME/g" ec2-parameters.json
 
 echo "Stack $1 deleted!"
