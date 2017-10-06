@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  VpcId:
+    Description: Vpc id of the AMI
+    Type: "String"
+  WebServerSecurityGroup:
+    Description: Security Group name
+    Type: "String"
+  DBSecurityGroup:
+    Description: Security Group name
+    Type: "String"
+
+Resources:
+  SGBase:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: !Ref WebServerSecurityGroup
+      GroupDescription: Base Security Group
+      VpcId: !Ref VpcId 
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '443'
+          ToPort: '443'
+          CidrIp: 0.0.0.0/0
+  DBBase:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: !Ref DBSecurityGroup
+      VpcId: !Ref VpcId
+      GroupDescription: Base Security Group
+  SGBaseIngress:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      IpProtocol: tcp
+      FromPort: '3306'
+      ToPort: '3306'
+      SourceSecurityGroupId: !Ref SGBase
+      GroupId: !Ref DBBase
