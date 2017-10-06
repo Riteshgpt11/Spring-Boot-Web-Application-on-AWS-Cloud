@@ -1,0 +1,12 @@
+[
+       {
+         "ParameterKey": "ColumnName",
+         "ParameterValue": "Id",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "IdDataType",
+         "ParameterValue": "S",
+         "UsePreviousValue": true
+       }
+]
