@@ -1,0 +1,53 @@
+[
+    {
+      "ParameterKey": "WebServerSecurityGroup",
+      "ParameterValue": "csye6225-webapp",
+      "UsePreviousValue": true
+    },
+    {
+      "ParameterKey": "DBSecurityGroup",
+      "ParameterValue": "csye6225-rds",
+      "UsePreviousValue": true
+    },
+    {
+      "ParameterKey": "VpcId",
+      "ParameterValue": "vpc-a9f6ffd0",
+      "UsePreviousValue": true
+    },
+    {
+      "ParameterKey": "DBName",
+      "ParameterValue": "csye6225",
+      "UsePreviousValue": true
+    },
+    {
+      "ParameterKey": "DBAllocatedStorage",
+      "ParameterValue": "10",
+      "UsePreviousValue": true
+    },
+    {
+      "ParameterKey": "DBInstanceClass",
+      "ParameterValue": "db.t2.medium",
+      "UsePreviousValue": true
+    },
+    {
+      "ParameterKey": "DBUser",
+      "ParameterValue": "csye6225master",
+      "UsePreviousValue": true
+    },
+    {
+      "ParameterKey": "DBPassword",
+      "ParameterValue": "csye6225-password",
+      "UsePreviousValue": true
+    },
+    {
+      "ParameterKey": "ColumnName",
+      "ParameterValue": "Id",
+      "UsePreviousValue": true
+    },
+    {
+      "ParameterKey": "IdDataType",
+      "ParameterValue": "S",
+      "UsePreviousValue": true
+    }
+
+]

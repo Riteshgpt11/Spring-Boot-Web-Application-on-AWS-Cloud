@@ -1,0 +1,141 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  VpcId:
+    Description: Vpc id of the AMI
+    Type: "String"
+  WebServerSecurityGroup:
+    Description: Security Group name
+    Type: "String"
+  DBSecurityGroup:
+    Description: Security Group name
+    Type: "String"
+  DBName:
+    Description: Name of the RDS database
+    Type: "String"
+  DBAllocatedStorage:
+    Description: DBAllocatedStorage for RDS instance
+    Type: "String"
+  DBInstanceClass:
+    Description: Instance class type for the RDS database
+    Type: "String"
+  DBUser:
+    Description: database user name for RDS instance
+    Type: "String"
+  DBPassword:
+    Description: database password of the RDS database
+    Type: "String"
+  ColumnName:
+    Description: PrimaryKey Name for DB
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9]*'
+    MinLength: '1'
+    MaxLength: '2048'
+    ConstraintDescription: "only alphanumberic characters"
+  IdDataType:
+    Description: Id PrimaryKey Data Type
+    Type: String
+    Default: S
+    AllowedPattern: '[S|N]'
+    MinLength: '1'
+    MaxLength: '1'
+    ConstraintDescription: "must be either S or N"
+
+
+Resources:
+  SGBase:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: !Ref WebServerSecurityGroup
+      GroupDescription: Base Security Group
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '443'
+          ToPort: '443'
+          CidrIp: 0.0.0.0/0
+  DBBase:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: !Ref DBSecurityGroup
+      VpcId: !Ref VpcId
+      GroupDescription: Base Security Group
+  SGBaseIngress:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      IpProtocol: tcp
+      FromPort: '3306'
+      ToPort: '3306'
+      SourceSecurityGroupId: !Ref SGBase
+      GroupId: !Ref DBBase
+
+  DBSubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupDescription: "New subnet for RDS instance"
+      SubnetIds:
+        - "subnet-8dd7f9a1"
+        - "subnet-b833dcf3"
+
+## creating a RDS instance
+  RDSInstance:
+    Type: "AWS::RDS::DBInstance"
+    Properties:
+      DBName:
+        Ref: "DBName"
+      AllocatedStorage:
+        Ref: "DBAllocatedStorage"
+      DBInstanceClass:
+        Ref: "DBInstanceClass"
+      Engine: "MySQL"
+      EngineVersion: "5.6.35"
+      StorageType: "gp2"
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      DBInstanceIdentifier: "csye6255-fall2017"
+      PubliclyAccessible: false
+      #DBSecurityGroups: ""
+      MasterUsername:
+        Ref: "DBUser"
+      MasterUserPassword:
+        Ref: "DBPassword"
+      Tags:
+        -
+          Key: "Name"
+          Value: "My SQL Database"
+      MultiAZ: false
+    #DeletionPolicy: "Snapshot"
+ ## creation of S3 bucket
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: csye6225-fall2017-jainyo.me.csye6225.com
+      AccessControl: BucketOwnerRead
+
+## DynamoDB Table
+  DynamoDBTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      AttributeDefinitions:
+        -
+          AttributeName: !Ref ColumnName
+          AttributeType: !Ref IdDataType
+      KeySchema:
+        -
+          AttributeName: "Id"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+      TableName: "csye6225"
+
+Outputs:
+  BucketName:
+    Value: !Ref 'S3Bucket'
+    Description: Name of the Amazon S3 bucket
