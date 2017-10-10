@@ -39,7 +39,21 @@ Parameters:
     MinLength: '1'
     MaxLength: '1'
     ConstraintDescription: "must be either S or N"
-
+  SubnetId1:
+    Description: Subnet Id for us-east-1c
+    Type: "String"
+  SubnetId2:
+    Description: Subnet Id for us-east-1b
+    Type: "String"
+  BucketName:
+    Description: S3 Bucket Name
+    Type: "String"
+  TableName:
+    Description: DynamoDB Table Name
+    Type: "String"
+  InstanceIdentifier:
+    Description: DB instance identifier
+    Type: "String"
 
 Resources:
   SGBase:
@@ -81,8 +95,8 @@ Resources:
     Properties:
       DBSubnetGroupDescription: "New subnet for RDS instance"
       SubnetIds:
-        - "subnet-8dd7f9a1"
-        - "subnet-b833dcf3"
+        - !Ref SubnetId1
+        - !Ref SubnetId2
 
 ## creating a RDS instance
   RDSInstance:
@@ -98,7 +112,7 @@ Resources:
       EngineVersion: "5.6.35"
       StorageType: "gp2"
       DBSubnetGroupName: !Ref DBSubnetGroup
-      DBInstanceIdentifier: "csye6255-fall2017"
+      DBInstanceIdentifier: !Ref InstanceIdentifier
       PubliclyAccessible: false
       #DBSecurityGroups: ""
       MasterUsername:
@@ -115,7 +129,7 @@ Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: csye6225-fall2017-jainyo.me.csye6225.com
+      BucketName: !Ref BucketName
       AccessControl: BucketOwnerRead
 
 ## DynamoDB Table
@@ -133,7 +147,7 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: "5"
         WriteCapacityUnits: "5"
-      TableName: "csye6225"
+      TableName: !Ref TableName
 
 Outputs:
   BucketName:
