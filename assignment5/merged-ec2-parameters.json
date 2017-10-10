@@ -1,3 +1,4 @@
+
 [
     {
       "ParameterKey": "WebServerSecurityGroup",
@@ -11,7 +12,7 @@
     },
     {
       "ParameterKey": "VpcId",
-      "ParameterValue": "vpc-a9f6ffd0",
+      "ParameterValue": "vpc-ce3a20b7",
       "UsePreviousValue": true
     },
     {
@@ -36,7 +37,7 @@
     },
     {
       "ParameterKey": "DBPassword",
-      "ParameterValue": "csye6225-password",
+      "ParameterValue": "csye6225password",
       "UsePreviousValue": true
     },
     {
@@ -48,6 +49,30 @@
       "ParameterKey": "IdDataType",
       "ParameterValue": "S",
       "UsePreviousValue": true
+    },
+    {
+      "ParameterKey": "SubnetId1",
+      "ParameterValue": "subnet-51ecdd0b",
+      "UsePreviousValue": true
+    },
+    {
+      "ParameterKey": "SubnetId2",
+      "ParameterValue": "subnet-1cf70b57",
+      "UsePreviousValue": true
+    },
+    {
+      "ParameterKey": "BucketName",
+      "ParameterValue": "csye6225-fall2017-shettypr.me.tld.csye6225.com",
+      "UsePreviousValue": true
+    },
+    {
+      "ParameterKey": "TableName",
+      "ParameterValue": "csye6225",
+      "UsePreviousValue": true
+    },
+    {
+      "ParameterKey":"InstanceIdentifier",
+      "ParameterValue": "csye6225-fall2017",
+      "UsePreviousValue": true
     }
-
 ]
