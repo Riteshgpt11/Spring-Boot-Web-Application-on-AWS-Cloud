@@ -93,16 +93,16 @@ Resources:
       VpcId: !Ref VpcId
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: !Ref WebserverPort #'80'
-          ToPort: !Ref WebserverPort #'80'
+          FromPort: !Ref WebserverPort
+          ToPort: !Ref WebserverPort
           CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
-          FromPort: !Ref HttpPort #'22'
-          ToPort: !Ref HttpPort #'22'
+          FromPort: !Ref HttpPort
+          ToPort: !Ref HttpPort
           CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
-          FromPort: !Ref HttpsPort #'443'
-          ToPort: !Ref HttpsPort #'443'
+          FromPort: !Ref HttpsPort
+          ToPort: !Ref HttpsPort
           CidrIp: 0.0.0.0/0
 # VPC Security Group for RDS instance
   RDSSecurityGroup:
@@ -116,8 +116,8 @@ Resources:
     Type: 'AWS::EC2::SecurityGroupIngress'
     Properties:
       IpProtocol: tcp
-      FromPort: !Ref DBIngressPort #'3306'
-      ToPort: !Ref DBIngressPort #'3306'
+      FromPort: !Ref DBIngressPort
+      ToPort: !Ref DBIngressPort 
       SourceSecurityGroupId: !Ref EC2SecurityGroup
       GroupId: !Ref RDSSecurityGroup
 # Subnet group for RDS instance
