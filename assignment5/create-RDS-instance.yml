@@ -1,0 +1,132 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: CloudFormation Template to create a RDS instance
+
+Parameters:
+  WebAppSecurityGroup:
+    Description: Security Group name
+    Type: "String"
+  DBName:
+    Description: Name of the RDS database
+    Type: "String"
+  DBAllocatedStorage:
+    Description: DBAllocatedStorage for RDS instance
+    Type: "String"
+  DBInstanceClass:
+    Description: Instance class type for the RDS database
+    Type: "String"
+  DBUser:
+    Description: database user name for RDS instance
+    Type: "String"
+  DBPassword:
+    Description: database password of the RDS database
+    Type: "String"
+  DatabaseType:
+    Description: database Type
+    Type: "String"
+  DatabaseVersion:
+    Description: database Type
+    Type: "String"
+  DBInstanceIdentifier:
+    Description: database Type
+    Type: "String"
+  StorageType:
+    Description: database password of the RDS database
+    Type: "String"
+  SubnetId1:
+    Description: Subnet id 1 for Subnet group
+    Type: "String"
+  SubnetId2:
+    Description: Subnet id  2 for Subnet grou
+    Type: "String"
+  #BucketName:
+  #  Description: Name of the S3 bucket
+  #  Type: "String"
+  #DynamodbTableName:
+  #  Description: Name of the Dynamodb
+  #  Type: "String"
+  #ColumnName:
+  #  Description: PrimaryKey Name for DB
+  #  Type: String
+  #  AllowedPattern: '[a-zA-Z0-9]*'
+  #  MinLength: '1'
+  #  MaxLength: '2048'
+  #  ConstraintDescription: "only alphanumberic characters"
+  #IdDataType:
+  #  Description: Id PrimaryKey Data Type
+  #  Type: String
+  #  Default: S
+  #  AllowedPattern: '[S|N]'
+  #  MinLength: '1'
+  #  MaxLength: '1'
+  #  ConstraintDescription: "must be either S or N"
+  #ReadCU:
+  #  Description: Read capacity units for Dynamodb
+  #  Type: "String"
+  #WriteCU:
+  #  Description: Write capacity units for Dynamodb
+  #  Type: "String"
+
+
+
+
+Resources:
+  DBSubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupDescription: "New subnet for RDS instance"
+      SubnetIds:
+        - Ref: "SubnetId1"  #"subnet-8dd7f9a1"
+        - Ref: "SubnetId2" #"subnet-b833dcf3"
+  RDSInstance:
+    Type: "AWS::RDS::DBInstance"
+    Properties:
+      DBName:
+        Ref: "DBName"
+      AllocatedStorage:
+        Ref: "DBAllocatedStorage"
+      DBInstanceClass:
+        Ref: "DBInstanceClass"
+      Engine: !Ref DatabaseType
+      EngineVersion: !Ref DatabaseVersion
+      StorageType: !Ref StorageType
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      DBInstanceIdentifier: !Ref DBInstanceIdentifier
+      PubliclyAccessible: false
+      MasterUsername:
+        Ref: "DBUser"
+      MasterUserPassword:
+        Ref: "DBPassword"
+      Tags:
+        -
+          Key: "Name"
+          Value: "My SQL Database"
+      MultiAZ: false
+      DBSecurityGroups:
+      - Ref: DBSecurityGroup
+      #DeletionPolicy: "Snapshot
+  DBSecurityGroup:
+    Type: AWS::RDS::DBSecurityGroup
+    Properties:
+      DBSecurityGroupIngress:
+        EC2SecurityGroupName:
+          Ref: WebServerSecurityGroup
+      GroupDescription: For accessing web application
+
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Ref WebAppSecurityGroup
+      GroupDescription: Enable HTTP access via port 80 and SSH access
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '443'
+        ToPort: '443'
+        CidrIp: 0.0.0.0/0

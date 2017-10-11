@@ -13,5 +13,20 @@ elif [ $# -gt 1 ]; then
   exit 2
 fi
 
-aws cloudformation create-stack --stack-name "$1" --template-body file://merged_stack.yml --parameters file://merged-ec2-parameters.json
+#aws cloudformation create-stack --stack-name "$1" --template-body file://merged_stack.yml --parameters file://merged-ec2-parameters.json
+#aws cloudformation create-stack --stack-name "$1" --template-body file://create_security_groups_1.yml --parameters file://ec2-parameters.json
+aws cloudformation create-stack --stack-name "$1" --template-body file://create-RDS-instance.yml --parameters file://testSubnet.json
 
+
+# Create a security group
+#aws cloudformation create-stack --stack-name "$1" --template-body file://create_security_groups.yml --parameters file://ec2-parameters.json
+
+# create a S3 bucket
+#aws cloudformation create-stack --stack-name "$1" --template-body file://create-s3-bucket.yml
+
+#create a Dynamodb
+#aws cloudformation create-stack --stack-name "$1" --template-body file://create-dynamoDBTable.yml --parameters file://DynamoDB-parameters.json
+
+
+# create a RDS
+#aws cloudformation create-stack --stack-name "$1" --template-body file://create-RDS-instance.yml --parameters file://RDS-parameters.json

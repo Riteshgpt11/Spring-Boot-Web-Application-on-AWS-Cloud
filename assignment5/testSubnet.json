@@ -1,0 +1,68 @@
+[
+  {
+  "ParameterKey": "WebAppSecurityGroup",
+  "ParameterValue": "csye6225-webapp",
+  "UsePreviousValue": true
+  },
+  {
+    "ParameterKey": "DBName",
+    "ParameterValue": "csye6225",
+    "UsePreviousValue": true
+  },
+  {
+    "ParameterKey": "DBAllocatedStorage",
+    "ParameterValue": "10",
+    "UsePreviousValue": true
+  },
+  {
+    "ParameterKey": "DBInstanceClass",
+    "ParameterValue": "db.t2.medium",
+    "UsePreviousValue": true
+  },
+  {
+    "ParameterKey": "DBUser",
+    "ParameterValue": "csye6225master",
+    "UsePreviousValue": true
+  },
+  {
+    "ParameterKey": "DBPassword",
+    "ParameterValue": "csye6225-password",
+    "UsePreviousValue": true
+  },
+  {
+  "ParameterKey": "DatabaseType",
+  "ParameterValue": "MySQL",
+  "UsePreviousValue": true
+
+},
+{
+  "ParameterKey": "DatabaseVersion",
+  "ParameterValue": "5.6.35",
+  "UsePreviousValue": true
+
+},
+{
+  "ParameterKey": "StorageType",
+  "ParameterValue": "gp2",
+  "UsePreviousValue": true
+
+},
+{
+  "ParameterKey": "DBInstanceIdentifier",
+  "ParameterValue": "csye6225-fall2017",
+  "UsePreviousValue": true
+
+},
+  {
+  "ParameterKey": "SubnetId1",
+  "ParameterValue": "subnet-8dd7f9a1",
+  "UsePreviousValue": true
+},
+{
+  "ParameterKey": "SubnetId2",
+  "ParameterValue": "subnet-b833dcf3",
+  "UsePreviousValue": true
+}
+
+
+]
