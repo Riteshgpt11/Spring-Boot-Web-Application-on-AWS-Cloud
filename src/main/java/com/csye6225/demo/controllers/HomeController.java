@@ -1,113 +1,404 @@
 /**
- *rohan magare, 001231457, magare.r@husky.neu.edu
- *ritesh gupta, 001280361, gupta.rite@husky.neu.edu
- *pratiksha shetty, 00121643697, shetty.pr@husky.neu.edu
- *yogita jain, 001643815, jain.yo@husky.neu.edu
+ * rohan magare, 001231457, magare.r@husky.neu.edu
+ * ritesh gupta, 001280361, gupta.rite@husky.neu.edu
+ * pratiksha shetty, 00121643697, shetty.pr@husky.neu.edu
+ * yogita jain, 001643815, jain.yo@husky.neu.edu
  **/
 package com.csye6225.demo.controllers;
 
+import com.csye6225.demo.dao.MediaFileUploadDao;
+import com.csye6225.demo.dao.PersistTaskDao;
 import com.csye6225.demo.dao.UserDao;
+import com.csye6225.demo.entity.MediaFile;
+import com.csye6225.demo.entity.Task;
 import com.csye6225.demo.entity.User;
+import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.nio.charset.Charset;
+import java.util.Base64;
 import java.util.Date;
 
 @Controller
-public class HomeController {
+public class
+HomeController {
 
 
     private final static Logger logger = LoggerFactory.getLogger(HomeController.class);
     @Autowired
     private UserDao userDao;
     @Autowired
-    private HttpSession session;
+    private PersistTaskDao taskDao;
+    @Autowired
+    private MediaFileUploadDao fileUploadDao;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(Model model) throws Exception {
+    /**
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody()
+    public String home() throws Exception {
 
-        model.addAttribute("user", new User());
-        return "index";
+        JsonObject jsonO = new JsonObject();
+        jsonO.addProperty("message", "Home Page. Use /login.htm for login & /register.htm for register");
+        return jsonO.toString();
     }
 
-    @RequestMapping(value = "/register.htm", method = RequestMethod.GET)
-    protected ModelAndView registerUser() throws Exception {
+    /**
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json")
+    protected @ResponseBody
+    String registerNewUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        return new ModelAndView("user-register", "user", new User());
-
-    }
-
-    @RequestMapping(value = "/register.htm", method = RequestMethod.POST)
-    protected ModelAndView registerNewUser(HttpServletRequest request, @ModelAttribute("user") User user,
-                                           BindingResult result) throws Exception {
-
+        JsonObject j = new JsonObject();
         try {
-
-            if (userDao.findUserByEmailId(user.getEmailId()) == null) {
+            User user = new User();
+            if ((request.getParameter("emailId") != null) && (userDao.findUserByEmailId(request.getParameter("emailId")) == null)) {
                 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-                String hashedPassword = passwordEncoder.encode(user.getPassword());
+                String hashedPassword = passwordEncoder.encode(request.getParameter("password"));
                 user.setPassword(hashedPassword);
+                user.setEmailId(request.getParameter("emailId"));
                 userDao.save(user);
-                session.invalidate();
-                return new ModelAndView("registration");
+                j.addProperty("message", "User Registered");
+                response.setStatus(HttpServletResponse.SC_CREATED);
             } else {
-                return new ModelAndView("registration-failed");
+                j.addProperty("error", "User not registered. Email Id or password not entered or it already exists.");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
 
-
         } catch (IllegalStateException e) {
-            System.out.println("*** IllegalStateException: " + e.getMessage());
+            j.addProperty("Exception", e.toString());
 
         } catch (Exception e) {
-            System.out.println("*** Exception: " + e.getMessage());
+            j.addProperty("Exception", e.toString());
         }
-        return new ModelAndView("index");
+        return j.toString();
     }
 
-    @RequestMapping(value = "/login.htm", method = RequestMethod.POST)
-    protected ModelAndView login(HttpServletRequest request, @ModelAttribute("user") User user,
-                                 BindingResult result, Model model) throws Exception {
+    /**
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
+    protected @ResponseBody
+    String login(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        JsonObject jsonObject = new JsonObject();
         try {
-            User user1 = userDao.findUserByEmailId(user.getEmailId());
-            if (user1 != null) {
-                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-                boolean flag = passwordEncoder.matches(user.getPassword(), user1.getPassword());
-                if (flag) {
-                    model.addAttribute("standardDate", new Date());
-                    session.setAttribute("userSession", user1);
-                    return new ModelAndView("login-successful");
+            String authorization = request.getHeader("Authorization");
+            if (authorization != null && authorization.startsWith("Basic")) {
+                // Authorization: Basic base64credentials
+                String base64Credentials = authorization.substring("Basic".length()).trim();
+                String credentials = new String(Base64.getDecoder().decode(base64Credentials),
+                        Charset.forName("UTF-8"));
+                // credentials = username:password
+                final String[] values = credentials.split(":", 2);
+                User user = userDao.findUserByEmailId(values[0]);
+                if (user != null) {
+                    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                    boolean flag = passwordEncoder.matches(values[1], user.getPassword());
+                    if (flag) {
+                        response.setStatus(HttpServletResponse.SC_OK);
+                        jsonObject.addProperty("message", " welcome " + values[0].toString() + " !! you are logged in. The current time is " + new Date().toString());
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        jsonObject.addProperty("Error", "Invalid User Credentials");
+                    }
                 } else {
-                    return new ModelAndView("login-failed");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    jsonObject.addProperty("Error", "Invalid User Credentials");
+                }
+
+            }
+        } catch (IllegalStateException e) {
+            jsonObject.addProperty("Exception", e.toString());
+
+        } catch (Exception e) {
+            jsonObject.addProperty("Exception", e.toString());
+        }
+        return jsonObject.toString();
+    }
+
+    /**
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/tasks", method = RequestMethod.POST, produces = "application/json")
+    protected @ResponseBody
+    String createUserTask(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        JsonObject j = new JsonObject();
+        try {
+            User user = authenticateUser(request);
+            if (user != null) {
+                Task task = new Task();
+                if (request.getParameter("description").length() < 100) {
+                    task.setDescription(request.getParameter("description"));
+                    task.setUser(user);
+                    taskDao.save(task);
+                    j.addProperty("message", "Task Created");
+                    response.setStatus(HttpServletResponse.SC_CREATED);
+                } else {
+                    j.addProperty("Error", "Description exceeds maximum allowable length");
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }
             } else {
-                return new ModelAndView("login-failed");
+                j.addProperty("Error", "Invalid User Credentials");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
         } catch (IllegalStateException e) {
-            System.out.println("*** IllegalStateException: " + e.getMessage());
+            j.addProperty("Exception", e.toString());
 
         } catch (Exception e) {
-            System.out.println("*** Exception: " + e.getMessage());
+            j.addProperty("Exception", e.toString());
         }
-        return new ModelAndView("index");
+        return j.toString();
     }
 
-    @RequestMapping(value = "/logout.htm", method = RequestMethod.GET)
-    public String logout(Model model) throws Exception {
+    @RequestMapping(value = "/tasks/{id}", method = RequestMethod.DELETE, produces = "application/json")
+    public @ResponseBody
+    String deleteTask(@PathVariable("id") long id, HttpServletRequest request, HttpServletResponse response) {
 
-        session.invalidate();
-        model.addAttribute("user", new User());
-        return "index";
+        JsonObject j = new JsonObject();
+        try {
+            User user = authenticateUser(request);
+            if (user != null) {
+                Task task = taskDao.findByTaskId(id);
+                if (task != null) {
+                    if (user == task.getUser()) {
+                        taskDao.delete(task);
+                        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                        j.addProperty("message", "Task deleted");
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        j.addProperty("Error", "Access Denied. Task belongs to a different user.");
+                    }
+                } else {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    j.addProperty("Error", "Use correct ID.");
+                }
+            } else {
+                j.addProperty("Error", "Invalid User Credentials");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+        } catch (IllegalStateException e) {
+            j.addProperty("Exception", e.toString());
+
+        } catch (Exception e) {
+            j.addProperty("Exception", e.toString());
+        }
+        return j.toString();
+    }
+
+    /**
+     * @param id
+     * @param task
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/tasks/{id}", method = RequestMethod.PUT, produces = "application/json")
+    public @ResponseBody
+    String updateTasks(@PathVariable("id") long id, Task task, HttpServletRequest request, HttpServletResponse response) {
+
+        JsonObject j = new JsonObject();
+        try {
+            User user = authenticateUser(request);
+            if (user != null) {
+                Task currentTask = taskDao.findByTaskId(id);
+                if (currentTask != null) {
+                    if (user == currentTask.getUser()) {
+                        currentTask.setDescription(task.getDescription());
+                        taskDao.save(currentTask);
+                        j.addProperty("message", "Task Updated");
+                        response.setStatus(HttpServletResponse.SC_OK);
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        j.addProperty("Error", "Access Denied. Task belongs to a different user.");
+                    }
+                } else {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    j.addProperty("Error", "Use correct ID.");
+                }
+            } else {
+                j.addProperty("Error", "Invalid User Credentials");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+        } catch (IllegalStateException e) {
+            j.addProperty("Exception", e.toString());
+
+        } catch (Exception e) {
+            j.addProperty("Exception", e.toString());
+        }
+        return j.toString();
+    }
+
+    /**
+     * @param request
+     * @param id
+     * @param file
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/tasks/{id}/attachments", method = RequestMethod.POST)
+    public @ResponseBody
+    String handleFileUpload(HttpServletRequest request, @PathVariable("id") long id, @RequestParam(value = "file") MultipartFile file, HttpServletResponse response) throws Exception {
+
+
+        JsonObject jObj = new JsonObject();
+        try {
+            User user = authenticateUser(request);
+            if (user != null) {
+                Task task = taskDao.findByTaskId(id);
+                if (task != null) {
+                    if (user == task.getUser()) {
+                        MediaFile mediaFile = new MediaFile();
+                        MultipartFile fileInMemory = file;
+                        String fileName = fileInMemory.getOriginalFilename();
+                        String baseName = "/home/rohan/Documents/";
+                        File userFile = new File(baseName + task.getUser().getEmailId());
+                        String currentTime = String.valueOf(System.currentTimeMillis());
+                        if (!userFile.exists()) {
+                            if (userFile.mkdir()) {
+                                File eventFile = new File(userFile + "/" + currentTime);
+                                eventFile.mkdir();
+                                mediaFile.setFileName(eventFile.getPath());
+                            }
+                        } else {
+                            File eventFile = new File(userFile + "/" + currentTime);
+                            if (!eventFile.exists()) {
+                                if (eventFile.mkdir()) {
+                                    mediaFile.setFileName(eventFile.getPath());
+                                }
+                            }
+                        }
+                        File localFile = new File(baseName + task.getUser().getEmailId() + "/" + currentTime + "/", fileName);
+                        fileInMemory.transferTo(localFile);
+                        mediaFile.setFileName(localFile.getPath());
+                        mediaFile.setTask(task);
+                        fileUploadDao.save(mediaFile);
+                        jObj.addProperty("message", "File Location Saved");
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        jObj.addProperty("Error", "Access Denied. Task belongs to a different user.");
+                    }
+                } else {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    jObj.addProperty("Error", "Use correct ID.");
+                }
+            } else {
+                jObj.addProperty("Error", "Invalid User Credentials");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+        } catch (IllegalStateException e) {
+            jObj.addProperty("message", e.toString());
+
+        } catch (Exception e) {
+            jObj.addProperty("message", e.toString());
+        }
+        return jObj.toString();
+    }
+
+    /**
+     * @param idAttachments
+     * @param response
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/tasks/{id}/attachments/{idAttachments}", method = RequestMethod.DELETE, produces = "application/json")
+    public @ResponseBody
+    String deleteMediaFile(@PathVariable("idAttachments") long idAttachments, @PathVariable("id") long id, HttpServletResponse response, HttpServletRequest request) throws Exception {
+
+        JsonObject j = new JsonObject();
+        try {
+            User user = authenticateUser(request);
+            if (user != null) {
+                MediaFile mediaFile = fileUploadDao.findByFileId(idAttachments);
+                if (mediaFile != null) {
+                    Task task = taskDao.findByTaskId(id);
+                    if ((task != null) && (task == mediaFile.getTask())) {
+                        if (user == mediaFile.getTask().getUser()) {
+                            fileUploadDao.delete(mediaFile);
+                            j.addProperty("message", "File deleted");
+                        } else {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            j.addProperty("Error", "Access Denied. Task belongs to a different user.");
+                        }
+                    } else {
+                        j.addProperty("Error", "Task not found Or Attachment/File does not belong to this file.");
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    }
+                } else {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    j.addProperty("Error", "Use correct File ID.");
+                }
+            } else {
+                j.addProperty("Error", "Invalid User Credentials");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+        } catch (IllegalStateException e) {
+            j.addProperty("Exception", e.toString());
+
+        } catch (Exception e) {
+            j.addProperty("Exception", e.toString());
+        }
+        return j.toString();
+    }
+
+
+    /**
+     * Private class to authenticate user credentials. This class does not determine if the user is
+     * trying to access the tasks and files that do not belong to him,
+     * that verification is done inside the corresponding function.
+     *
+     * @param request
+     * @return
+     */
+    private User authenticateUser(HttpServletRequest request) {
+
+        String authorization = request.getHeader("Authorization");
+        if (authorization != null && authorization.startsWith("Basic")) {
+            // Authorization: Basic base64credentials
+            BCryptPasswordEncoder decodePassword = new BCryptPasswordEncoder();
+            String base64Credentials = authorization.substring("Basic".length()).trim();
+            String credentials = new String(Base64.getDecoder().decode(base64Credentials),
+                    Charset.forName("UTF-8"));
+            // credentials = username:password
+            final String[] values = credentials.split(":", 2);
+            User user = userDao.findUserByEmailId(values[0]);
+            if (user != null) {
+                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                boolean flag = passwordEncoder.matches(values[1], user.getPassword());
+                if (flag) {
+                    return user;
+                } else {
+                    user = null;
+                    return user;
+                }
+            } else {
+                return user;
+            }
+        }
+        return null;
     }
 }

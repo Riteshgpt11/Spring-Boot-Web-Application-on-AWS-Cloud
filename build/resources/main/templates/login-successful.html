@@ -20,9 +20,12 @@
 <h4>
     <p th:text="${#dates.format(standardDate, 'dd-MM-yyyy HH:mm')}"></p></h4>
 <br/>
-<h3>
-<a th:href="@{/}"><span
-        style="text-decoration: underline;">Click here to go back to login page</span></a></h3>
+<div class="container">
+    <form action="#" th:action="@{/logout.htm}" th:object="${user}">
+        <p><input type="submit" value="Logout"/></p>
+    </form>
+
+</div>
 <br/>
 </body>
 </html>
