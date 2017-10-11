@@ -13,8 +13,6 @@ elif [ $# -gt 1 ]; then
   exit 2
 fi
 
-aws cloudformation create-stack --stack-name "$1" --template-body file://cloudformation-stack.yml --parameters file://stack-parameters.json
+aws cloudformation create-stack --stack-name "$1" --template-body file://merged_stack.yml --parameters file://merged-ec2-parameters.json
 
-aws cloudformation wait stack-create-complete --stack-name $1
 
-echo "stack $1 is created"
