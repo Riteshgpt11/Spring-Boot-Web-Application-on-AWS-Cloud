@@ -1,8 +1,11 @@
 #!/bin/bash
+
 #Yogita Jain, jain.yo@husky.neu.edu, 001643815
 #Rohan Magare, magare.r@husky.neu.edu, 001231457
 #Pratiksha Shetty, shetty.pr@husky.neu.edu, 001643697
 #Ritesh Gupta, gupta.rite@husky.neu.edu, 001280361
+
+#Checking for  number of arguments
 set -e
 ##Check if enough arguements are passed
 if [ $# -lt 1 ]; then
@@ -13,8 +16,9 @@ elif [ $# -gt 1 ]; then
   exit 2
 fi
 
-aws cloudformation create-stack --stack-name "$1" --template-body file://cloudformation-stack.yml --parameters file://stack-parameters.json
+#Deleting the stack
+aws cloudformation delete-stack --stack-name $1
 
-aws cloudformation wait stack-create-complete --stack-name $1
+aws cloudformation wait stack-delete-complete --stack-name $1
 
-echo "stack $1 is created"
+echo "Stack $1 deleted!"
