@@ -1,14 +1,17 @@
 /**
- *rohan magare, 001231457, magare.r@husky.neu.edu
- *ritesh gupta, 001280361, gupta.rite@husky.neu.edu
- *pratiksha shetty, 00121643697, shetty.pr@husky.neu.edu
- *yogita jain, 001643815, jain.yo@husky.neu.edu
+ * rohan magare, 001231457, magare.r@husky.neu.edu
+ * ritesh gupta, 001280361, gupta.rite@husky.neu.edu
+ * pratiksha shetty, 00121643697, shetty.pr@husky.neu.edu
+ * yogita jain, 001643815, jain.yo@husky.neu.edu
  **/
 package com.csye6225.demo.entity;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -18,7 +21,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "userId")
+    @Column(name = "userId", unique = true, nullable = false)
     private Long userId;
     @Column(name = "emailId", unique = true, nullable = false)
     @NotNull
@@ -26,12 +29,8 @@ public class User implements Serializable {
     @Column(name = "password", nullable = false)
     @NotNull
     private String password;
-    @Column(name = "firstName", nullable = false)
-    @NotNull
-    private String firstName;
-    @Column(name = "lastName", nullable = false)
-    @NotNull
-    private String lastName;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Task> tasks = new HashSet<>(0);
 
     public Long getUserId() {
         return userId;
@@ -57,20 +56,13 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public Set<Task> getTasks() {
+        return tasks;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
 }
