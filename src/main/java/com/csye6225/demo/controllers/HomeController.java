@@ -26,8 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.nio.charset.Charset;
-import java.util.Base64;
-import java.util.Date;
+import java.util.*;
 
 @Controller
 public class
@@ -363,6 +362,57 @@ HomeController {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     j.addProperty("Error", "Use correct File ID.");
                 }
+            } else {
+                j.addProperty("Error", "Invalid User Credentials");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+        } catch (IllegalStateException e) {
+            j.addProperty("Exception", e.toString());
+
+        } catch (Exception e) {
+            j.addProperty("Exception", e.toString());
+        }
+        return j.toString();
+    }
+
+
+    /**
+     *
+     * @param id
+     * @param response
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/tasks/{id}/attachments", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    String getMediaFiles(@PathVariable("id") long id, HttpServletResponse response, HttpServletRequest request) throws Exception {
+
+        JsonObject j = new JsonObject();
+        try {
+            User user = authenticateUser(request);
+            if (user != null) {
+                    Task task = taskDao.findByTaskId(id);
+                    if ((task != null)) {
+                        if (user == task.getUser()) {
+                            List<MediaFile> files = task.getMediaFiles();
+                            if(!files.isEmpty()){
+                                for(int i = 0; i<files.size(); i++) {
+                                    j.addProperty("File ID" + files.get(i).getFileId(), files.get(i).getFileName());
+                                }
+                                response.setStatus(HttpServletResponse.SC_OK);
+                            }else{
+                                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                                j.addProperty("Error", "This task has no files attached to it.");
+                            }
+                        } else {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            j.addProperty("Error", "Access Denied. Task belongs to a different user.");
+                        }
+                    } else {
+                        j.addProperty("Error", "Task not found.");
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    }
             } else {
                 j.addProperty("Error", "Invalid User Credentials");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
