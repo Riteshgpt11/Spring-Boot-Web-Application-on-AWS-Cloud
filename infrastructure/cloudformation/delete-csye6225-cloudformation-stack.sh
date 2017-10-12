@@ -19,6 +19,7 @@ fi
 # fetch instance id
 instanceid=`aws ec2 describe-instances --query "Reservations[*].Instances[*].InstanceId" --filters "Name=tag-key,Values=aws:cloudformation:stack-name" "Name=tag-value,Values=$1" --output text`
 echo "$instanceid"
+
 ## Disbale instance terminatio protection
 aws ec2 modify-instance-attribute --instance-id "$instanceid" --no-disable-api-termination
 
@@ -28,6 +29,6 @@ aws cloudformation delete-stack --stack-name $1
 aws cloudformation wait stack-delete-complete --stack-name $1
 
 # replace stack name with generic name
-sed -i "s/$1/STACK_NAME/g" ec2-parameters.json
+#sed -i "s/$1/STACK_NAME/g" ec2-parameters.json
 
 echo "Stack $1 deleted!"
