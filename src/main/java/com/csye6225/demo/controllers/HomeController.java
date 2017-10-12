@@ -13,6 +13,7 @@ import com.csye6225.demo.entity.MediaFile;
 import com.csye6225.demo.entity.Task;
 import com.csye6225.demo.entity.User;
 import com.google.gson.JsonObject;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,7 @@ HomeController {
         JsonObject j = new JsonObject();
         try {
             User user = new User();
-            if ((request.getParameter("emailId") != null) && (userDao.findUserByEmailId(request.getParameter("emailId")) == null)) {
+            if ((!StringUtils.isBlank(request.getParameter("emailId"))) && (!StringUtils.isBlank(request.getParameter("password"))) && (userDao.findUserByEmailId(request.getParameter("emailId")) == null)) {
                 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
                 String hashedPassword = passwordEncoder.encode(request.getParameter("password"));
                 user.setPassword(hashedPassword);
@@ -150,14 +151,14 @@ HomeController {
             User user = authenticateUser(request);
             if (user != null) {
                 Task task = new Task();
-                if (request.getParameter("description").length() < 100) {
+                if ((!StringUtils.isBlank(request.getParameter("description"))) && request.getParameter("description").length() < 100) {
                     task.setDescription(request.getParameter("description"));
                     task.setUser(user);
                     taskDao.save(task);
                     j.addProperty("message", "Task Created");
                     response.setStatus(HttpServletResponse.SC_CREATED);
                 } else {
-                    j.addProperty("Error", "Description exceeds maximum allowable length");
+                    j.addProperty("Error", "Description is EMPTY or exceeds maximum allowable length");
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }
             } else {
@@ -186,7 +187,7 @@ HomeController {
                     if (user == task.getUser()) {
                         taskDao.delete(task);
                         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-                        j.addProperty("message", "Task deleted");
+                        j.addProperty("message", "Task Deleted");
                     } else {
                         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                         j.addProperty("Error", "Access Denied. Task belongs to a different user.");
@@ -226,10 +227,15 @@ HomeController {
                 Task currentTask = taskDao.findByTaskId(id);
                 if (currentTask != null) {
                     if (user == currentTask.getUser()) {
-                        currentTask.setDescription(task.getDescription());
-                        taskDao.save(currentTask);
-                        j.addProperty("message", "Task Updated");
-                        response.setStatus(HttpServletResponse.SC_OK);
+                        if ((!StringUtils.isBlank(request.getParameter("description"))) && request.getParameter("description").length() < 100) {
+                            currentTask.setDescription(task.getDescription());
+                            taskDao.save(currentTask);
+                            j.addProperty("message", "Task Updated");
+                            response.setStatus(HttpServletResponse.SC_OK);
+                        } else {
+                            j.addProperty("Error", "Description is EMPTY or exceeds maximum allowable length");
+                            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        }
                     } else {
                         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                         j.addProperty("Error", "Access Denied. Task belongs to a different user.");
@@ -267,6 +273,7 @@ HomeController {
         JsonObject jObj = new JsonObject();
         try {
             User user = authenticateUser(request);
+            if(file!=null){
             if (user != null) {
                 Task task = taskDao.findByTaskId(id);
                 if (task != null) {
@@ -308,6 +315,9 @@ HomeController {
             } else {
                 jObj.addProperty("Error", "Invalid User Credentials");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }}else{
+                jObj.addProperty("Error", "File not selected");
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         } catch (IllegalStateException e) {
             jObj.addProperty("message", e.toString());
@@ -339,6 +349,7 @@ HomeController {
                     if ((task != null) && (task == mediaFile.getTask())) {
                         if (user == mediaFile.getTask().getUser()) {
                             fileUploadDao.delete(mediaFile);
+                            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
                             j.addProperty("message", "File deleted");
                         } else {
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
