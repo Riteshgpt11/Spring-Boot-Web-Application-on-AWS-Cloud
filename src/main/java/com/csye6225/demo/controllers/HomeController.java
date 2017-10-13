@@ -280,7 +280,7 @@ HomeController {
                         MediaFile mediaFile = new MediaFile();
                         MultipartFile fileInMemory = file;
                         String fileName = fileInMemory.getOriginalFilename();
-                        String baseName = "/home/rohan/Documents/";
+                        String baseName = "/home/ritesh/Documents/";
                         File userFile = new File(baseName + task.getUser().getEmailId());
                         String currentTime = String.valueOf(System.currentTimeMillis());
                         if (!userFile.exists()) {
