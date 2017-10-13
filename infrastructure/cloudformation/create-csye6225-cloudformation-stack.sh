@@ -15,7 +15,7 @@ elif [ $# -gt 1 ]; then
 fi
 
 # add stack name to the security group
-sed -i "s/STACK_NAME/$1/" ec2-parameters.json
+#sed -i "s/STACK_NAME/$1/" ec2-parameters.json
 
 
 ##Creating Stack
