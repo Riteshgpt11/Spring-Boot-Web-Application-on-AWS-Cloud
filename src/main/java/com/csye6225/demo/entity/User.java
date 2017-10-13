@@ -10,8 +10,8 @@ package com.csye6225.demo.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -30,7 +30,7 @@ public class User implements Serializable {
     @NotNull
     private String password;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Task> tasks = new HashSet<>(0);
+    private List<Task> tasks;
 
     public Long getUserId() {
         return userId;
@@ -56,13 +56,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Set<Task> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(Set<Task> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
-
-
 }

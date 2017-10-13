@@ -26,8 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.nio.charset.Charset;
-import java.util.Base64;
-import java.util.Date;
+import java.util.*;
 
 @Controller
 public class
@@ -63,16 +62,16 @@ HomeController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json")
     protected @ResponseBody
-    String registerNewUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    String registerNewUser(HttpServletRequest request, HttpServletResponse response, @RequestBody User userReq) throws Exception {
 
         JsonObject j = new JsonObject();
         try {
             User user = new User();
-            if ((!StringUtils.isBlank(request.getParameter("emailId"))) && (!StringUtils.isBlank(request.getParameter("password"))) && (userDao.findUserByEmailId(request.getParameter("emailId")) == null)) {
+            if ((!StringUtils.isBlank(userReq.getEmailId())) && (!StringUtils.isBlank(userReq.getPassword())) && (userDao.findUserByEmailId(userReq.getEmailId()) == null)) {
                 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-                String hashedPassword = passwordEncoder.encode(request.getParameter("password"));
+                String hashedPassword = passwordEncoder.encode(userReq.getPassword());
                 user.setPassword(hashedPassword);
-                user.setEmailId(request.getParameter("emailId"));
+                user.setEmailId(userReq.getEmailId());
                 userDao.save(user);
                 j.addProperty("message", "User Registered");
                 response.setStatus(HttpServletResponse.SC_CREATED);
@@ -144,15 +143,15 @@ HomeController {
      */
     @RequestMapping(value = "/tasks", method = RequestMethod.POST, produces = "application/json")
     protected @ResponseBody
-    String createUserTask(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    String createUserTask(HttpServletRequest request, HttpServletResponse response, @RequestBody Task taskReq) throws Exception {
 
         JsonObject j = new JsonObject();
         try {
             User user = authenticateUser(request);
             if (user != null) {
                 Task task = new Task();
-                if ((!StringUtils.isBlank(request.getParameter("description"))) && request.getParameter("description").length() < 100) {
-                    task.setDescription(request.getParameter("description"));
+                if ((!StringUtils.isBlank(taskReq.getDescription())) && (taskReq.getDescription().length() < 100)) {
+                    task.setDescription(taskReq.getDescription());
                     task.setUser(user);
                     taskDao.save(task);
                     j.addProperty("message", "Task Created");
@@ -218,7 +217,7 @@ HomeController {
      */
     @RequestMapping(value = "/tasks/{id}", method = RequestMethod.PUT, produces = "application/json")
     public @ResponseBody
-    String updateTasks(@PathVariable("id") long id, Task task, HttpServletRequest request, HttpServletResponse response) {
+    String updateTasks(@PathVariable("id") long id, @RequestBody Task task, HttpServletRequest request, HttpServletResponse response) {
 
         JsonObject j = new JsonObject();
         try {
@@ -227,7 +226,7 @@ HomeController {
                 Task currentTask = taskDao.findByTaskId(id);
                 if (currentTask != null) {
                     if (user == currentTask.getUser()) {
-                        if ((!StringUtils.isBlank(request.getParameter("description"))) && request.getParameter("description").length() < 100) {
+                        if ((!StringUtils.isBlank(task.getDescription())) && (task.getDescription().length() < 100)) {
                             currentTask.setDescription(task.getDescription());
                             taskDao.save(currentTask);
                             j.addProperty("message", "Task Updated");
@@ -281,7 +280,7 @@ HomeController {
                         MediaFile mediaFile = new MediaFile();
                         MultipartFile fileInMemory = file;
                         String fileName = fileInMemory.getOriginalFilename();
-                        String baseName = "/home/rohan/Documents/";
+                        String baseName = "/home/ritesh/Documents/";
                         File userFile = new File(baseName + task.getUser().getEmailId());
                         String currentTime = String.valueOf(System.currentTimeMillis());
                         if (!userFile.exists()) {
@@ -363,6 +362,57 @@ HomeController {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     j.addProperty("Error", "Use correct File ID.");
                 }
+            } else {
+                j.addProperty("Error", "Invalid User Credentials");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+        } catch (IllegalStateException e) {
+            j.addProperty("Exception", e.toString());
+
+        } catch (Exception e) {
+            j.addProperty("Exception", e.toString());
+        }
+        return j.toString();
+    }
+
+
+    /**
+     *
+     * @param id
+     * @param response
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/tasks/{id}/attachments", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    String getMediaFiles(@PathVariable("id") long id, HttpServletResponse response, HttpServletRequest request) throws Exception {
+
+        JsonObject j = new JsonObject();
+        try {
+            User user = authenticateUser(request);
+            if (user != null) {
+                    Task task = taskDao.findByTaskId(id);
+                    if ((task != null)) {
+                        if (user == task.getUser()) {
+                            List<MediaFile> files = task.getMediaFiles();
+                            if(!files.isEmpty()){
+                                for(int i = 0; i<files.size(); i++) {
+                                    j.addProperty("File ID" + files.get(i).getFileId(), files.get(i).getFileName());
+                                }
+                                response.setStatus(HttpServletResponse.SC_OK);
+                            }else{
+                                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                                j.addProperty("Error", "This task has no files attached to it.");
+                            }
+                        } else {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            j.addProperty("Error", "Access Denied. Task belongs to a different user.");
+                        }
+                    } else {
+                        j.addProperty("Error", "Task not found.");
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    }
             } else {
                 j.addProperty("Error", "Invalid User Credentials");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

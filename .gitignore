@@ -3,16 +3,16 @@
 ### Example user template
 
 # IntelliJ project files
-# .idea
-*.iml
-# out
+ .idea
+.iml
+ out
 gen
 .gitignore
 .idea/inspectionProfiles/
-# build/reports/
-# build/tmp/compileJava/
-# build/tmp/compileTestJava/
+build/reports/
+ build/tmp/compileJava/
+ build/tmp/compileTestJava/
 # com.csye6255.demo/
 # java/
-# out/test/classes/com/csye6225/demo/rest_assured/Demo.class
+ out/test/classes/com/csye6225/demo/rest_assured/Demo.class
 # src/test/resources/

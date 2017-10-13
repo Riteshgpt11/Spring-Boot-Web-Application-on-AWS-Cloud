@@ -9,8 +9,8 @@ package com.csye6225.demo.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "task")
@@ -27,13 +27,13 @@ public class Task implements Serializable {
     @JoinColumn(name = "userId")
     private User user;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MediaFile> mediaFiles = new HashSet<>(0);
+    private List<MediaFile> mediaFiles;
 
-    public Set<MediaFile> getMediaFiles() {
+    public List<MediaFile> getMediaFiles() {
         return mediaFiles;
     }
 
-    public void setMediaFiles(Set<MediaFile> mediaFiles) {
+    public void setMediaFiles(List<MediaFile> mediaFiles) {
         this.mediaFiles = mediaFiles;
     }
 
