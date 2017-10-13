@@ -62,16 +62,16 @@ HomeController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json")
     protected @ResponseBody
-    String registerNewUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    String registerNewUser(HttpServletRequest request, HttpServletResponse response, @RequestBody User userReq) throws Exception {
 
         JsonObject j = new JsonObject();
         try {
             User user = new User();
-            if ((!StringUtils.isBlank(request.getParameter("emailId"))) && (!StringUtils.isBlank(request.getParameter("password"))) && (userDao.findUserByEmailId(request.getParameter("emailId")) == null)) {
+            if ((!StringUtils.isBlank(userReq.getEmailId())) && (!StringUtils.isBlank(userReq.getPassword())) && (userDao.findUserByEmailId(userReq.getEmailId()) == null)) {
                 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-                String hashedPassword = passwordEncoder.encode(request.getParameter("password"));
+                String hashedPassword = passwordEncoder.encode(userReq.getPassword());
                 user.setPassword(hashedPassword);
-                user.setEmailId(request.getParameter("emailId"));
+                user.setEmailId(userReq.getEmailId());
                 userDao.save(user);
                 j.addProperty("message", "User Registered");
                 response.setStatus(HttpServletResponse.SC_CREATED);
@@ -143,15 +143,15 @@ HomeController {
      */
     @RequestMapping(value = "/tasks", method = RequestMethod.POST, produces = "application/json")
     protected @ResponseBody
-    String createUserTask(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    String createUserTask(HttpServletRequest request, HttpServletResponse response, @RequestBody Task taskReq) throws Exception {
 
         JsonObject j = new JsonObject();
         try {
             User user = authenticateUser(request);
             if (user != null) {
                 Task task = new Task();
-                if ((!StringUtils.isBlank(request.getParameter("description"))) && request.getParameter("description").length() < 100) {
-                    task.setDescription(request.getParameter("description"));
+                if ((!StringUtils.isBlank(taskReq.getDescription())) && (taskReq.getDescription().length() < 100)) {
+                    task.setDescription(taskReq.getDescription());
                     task.setUser(user);
                     taskDao.save(task);
                     j.addProperty("message", "Task Created");
@@ -217,7 +217,7 @@ HomeController {
      */
     @RequestMapping(value = "/tasks/{id}", method = RequestMethod.PUT, produces = "application/json")
     public @ResponseBody
-    String updateTasks(@PathVariable("id") long id, Task task, HttpServletRequest request, HttpServletResponse response) {
+    String updateTasks(@PathVariable("id") long id, @RequestBody Task task, HttpServletRequest request, HttpServletResponse response) {
 
         JsonObject j = new JsonObject();
         try {
@@ -226,7 +226,7 @@ HomeController {
                 Task currentTask = taskDao.findByTaskId(id);
                 if (currentTask != null) {
                     if (user == currentTask.getUser()) {
-                        if ((!StringUtils.isBlank(request.getParameter("description"))) && request.getParameter("description").length() < 100) {
+                        if ((!StringUtils.isBlank(task.getDescription())) && (task.getDescription().length() < 100)) {
                             currentTask.setDescription(task.getDescription());
                             taskDao.save(currentTask);
                             j.addProperty("message", "Task Updated");
