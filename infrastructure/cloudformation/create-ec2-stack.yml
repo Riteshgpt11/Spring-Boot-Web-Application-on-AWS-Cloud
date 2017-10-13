@@ -78,6 +78,9 @@ Parameters:
   SubnetId2:
     Description: Subnet Id for us-east-1b
     Type: "String"
+  #BucketName:
+  #  Description: Name of the S3 bucket
+  #  Type: "String"
   DynamodbTableName:
     Description: Name of the Dynamodb
     Type: "String"
