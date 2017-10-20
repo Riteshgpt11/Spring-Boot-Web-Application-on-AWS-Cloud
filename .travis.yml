@@ -7,13 +7,13 @@ jdk:
   - oraclejdk8
 services:
   - mysql
-  
+
 ##test:
   ##adapter: mysql2
   #database: user_database
   #username: travis
   #encoding: utf8
-  
+
 #before_install:
  # - mysql -e 'CREATE DATABASE IF NOT EXISTS user_database;'
 env:
@@ -24,8 +24,38 @@ install: true
 
 script:
   - ./gradlew war
-  - ./gradlew test --info 
-  
+  #- ./gradlew test --info
+
+after_success:
+  - mkdir codedeploy
+  - zip -r WebApplication-${TRAVIS_JOB_NUMER}.zip build/libs/ROOT.war appsec.yml
+  - ls -al
+  - mv WebApplication-${TRAVIS_JOB_NUMER}.zip codedeploy/
+  - ls -al
+  - pwd
+  - cd codedeploy
+  - pwd
+
+before_success:
+  - cd ..
+
+deploy:
+  - provider: s3
+    access_key_id: AKIAJNWLVL5BIUMULAGQ
+    secret_access_key:
+      secure: "eYDpbJbOsbs8dZfQ3RFR8z7QQXj6NeSo+yyTQWWHJ9nLYz8Nj1jr8a66L4sEjcACJZdsyIRGlGqYkKrpjAccxP04NHmQXkCSTJCqYD4iaYnvmHcl2vdY1S9tBmtkedrSMEj9Z7ViD78fLLoo7/px20H+jdsk2lK5A0MwYf48wZ+lPbk5TWEURUfc2R6SAsqVANW09gLHaneFD6vTvYQ2k3afWoiledLbQlq4ejpBm3suJTFuw7lJUpY5/p8h0gZ/2bEXN1dktkLdlFYn5M2WP+vXB5g22W+uhs2ksZ7yHk4SqJyyEh5uZqs56+rAgaa/YukFewzQ7alB0SMRE3d7xUWCWtAHoxREAWDPHZPq9TrUVYLCPxjbiRJeSR/ZIQPhNsC6LRqWH2DcQhbusZVhhXa/D0OkXLUxZsQNbT+9j66RtzdEy+uAc1u2xRxDFTOI32M+WBo2ZnPxM2T2SYJ/IQC4oh7Sx7KpzEfV3iTuUeNOWp7f1LgZrfSNHommVYRVn8vq9z/EBpBvHm0empXXMWFyLmTvoFKjNDg4Vf/Uhv9ny1tOeiGDPIUpIhyXwh+4PS2SDL9pG7QsyL35PxSV/hJZKjKTYDSSX6FXWEx1RnH8NuFHUmGaVw48vGwOeg7KNtBLIEPWZQArEOV3fYz38NgaVEhdE/rccOy9cybB2bQ="
+    local_dir: codedeploy
+    region: us-east-1
+    skip_cleanup: ture
+  #- provider: codedeploy
+  #  access_key_id:
+  #  bucket:
+  #  key:
+  #  bundle type: zip
+  #application: WebApplication
+   deployement_group: WebApplication
+
+
 notifications:
   email:
     recipients:
