@@ -30,7 +30,7 @@ after_success:
   - mkdir codedeploy
   - zip -r WebApp-${TRAVIS_JOB_NUMER}.zip build/libs/ROOT.war appsec.yml
   - ls -al
-  - mv WebAppl-${TRAVIS_JOB_NUMER}.zip codedeploy/
+  - mv WebApp-${TRAVIS_JOB_NUMER}.zip codedeploy/
   - ls -al
   - pwd
   - cd codedeploy
