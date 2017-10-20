@@ -50,7 +50,7 @@ deploy:
   local_dir: codedeploy
   bucket: code-deploy.csye6225-fall2017-guptarite.me
   region: us-east-1
-  skin_cleanup: true
+  skip_cleanup: true
 
   #- provider: codedeploy
   #  access_key_id:
