@@ -35,6 +35,7 @@ after_success:
   - pwd
   - cd codedeploy
   - pwd
+  - ls -al
 
 before_deploy:
   - cd ..
