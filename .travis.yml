@@ -23,7 +23,7 @@ sudo: false
 install: true
 
 script:
-  - ./gradlew war
+  - ./gradlew build
   #- ./gradlew test --info
 
 after_success:
