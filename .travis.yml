@@ -53,7 +53,7 @@ deploy:
   #  key:
   #  bundle type: zip
   #application: WebApplication
-   deployement_group: WebApplication
+   #deployement_group: WebApplication
 
 
 notifications:
