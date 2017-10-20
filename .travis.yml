@@ -38,8 +38,8 @@ after_success:
 
 before_deploy:
   - cd ..
-  -ls -al
-  -pwd
+  - ls -al
+  - pwd
 
 deploy:
 - provider: s3
