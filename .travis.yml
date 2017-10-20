@@ -28,9 +28,9 @@ script:
 
 after_success:
   - mkdir codedeploy
-  - zip -r WebApplication-${TRAVIS_JOB_NUMER}.zip build/libs/ROOT.war appsec.yml
+  - zip -r WebApp-${TRAVIS_JOB_NUMER}.zip build/libs/ROOT.war appsec.yml
   - ls -al
-  - mv WebApplication-${TRAVIS_JOB_NUMER}.zip codedeploy/
+  - mv WebAppl-${TRAVIS_JOB_NUMER}.zip codedeploy/
   - ls -al
   - pwd
   - cd codedeploy
