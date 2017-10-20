@@ -36,7 +36,7 @@ after_success:
   - cd codedeploy
   #- pwd
 
-before_success:
+before_deploy:
   - cd ..
 
 deploy:
