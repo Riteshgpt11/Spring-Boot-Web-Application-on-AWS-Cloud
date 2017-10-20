@@ -40,13 +40,15 @@ before_success:
   - cd ..
 
 deploy:
-  - provider: s3
-    access_key_id: AKIAIX6QLOIPWLR6NSCA
-    secret_access_key:
-      secure: "lLJQBqj1GNfGFgKNqtK8JoPHHq2HDyUPRSiz+u71kBdjCgb3C3vgr0i1mQpSupnTl76AggzNDnF+RxmQYxEi+SQqPXIRju3oDxvl6CpCQLcyCa1PKWsnGtzXEADbs3PRcm3Pns6z+8KmMVddn7KMs4pkgxkGVtLIsDo/U6m9pvD8U0NEUOg+qZlJDLOhnmoQi9bHEVM/TCMTy0ph/3niyNNs1XuOHPtsiy0yFMISYTyefT8UwYaudycM5MWLtGP8FLCsVVHx2KgkkXFk85fdBDo7G6UqezJA+/NBhRL1mFWOM9/7iWROExETuavWjhATeizOfv9q+n5gGJer9iNlwhi4Z9WH/sAwvzl0MVOAYgScxXzXb/7FD2KXmdx1kGinD+WtmRSmcTY6YZvdwX2fBKwPWmsFAfRYdaaeyyM+i/hNbim07k6H4OTRMB9s4TLFHCIK0WGYrjnKKSQR2rHV36gz+GanrqkCN4exr5LSikIZ9oAtZfElVjN9ahTBtxy8D5HqKsenuUc/vHcQPJs1wMtoANATtl/gwtbbBmZE35xRDVyY7T8v2TLlUTdpvRUMDidw0OyTi/3NchrOEgekLj4495Q46RiJinelh0wGzMX63b+FPbejZEbG9pD6Ba7aVVMmK7I31q3HOjXp9KR5TI9EOX4xoo69wDrGen2Vavs="
-    local_dir: codedeploy
-    region: us-east-1
-    skip_cleanup: ture
+- provider: s3
+  access_key_id: AKIAIX6QLOIPWLR6NSCA
+  secret_access_key:
+    secure: secure: "lLJQBqj1GNfGFgKNqtK8JoPHHq2HDyUPRSiz+u71kBdjCgb3C3vgr0i1mQpSupnTl76AggzNDnF+RxmQYxEi+SQqPXIRju3oDxvl6CpCQLcyCa1PKWsnGtzXEADbs3PRcm3Pns6z+8KmMVddn7KMs4pkgxkGVtLIsDo/U6m9pvD8U0NEUOg+qZlJDLOhnmoQi9bHEVM/TCMTy0ph/3niyNNs1XuOHPtsiy0yFMISYTyefT8UwYaudycM5MWLtGP8FLCsVVHx2KgkkXFk85fdBDo7G6UqezJA+/NBhRL1mFWOM9/7iWROExETuavWjhATeizOfv9q+n5gGJer9iNlwhi4Z9WH/sAwvzl0MVOAYgScxXzXb/7FD2KXmdx1kGinD+WtmRSmcTY6YZvdwX2fBKwPWmsFAfRYdaaeyyM+i/hNbim07k6H4OTRMB9s4TLFHCIK0WGYrjnKKSQR2rHV36gz+GanrqkCN4exr5LSikIZ9oAtZfElVjN9ahTBtxy8D5HqKsenuUc/vHcQPJs1wMtoANATtl/gwtbbBmZE35xRDVyY7T8v2TLlUTdpvRUMDidw0OyTi/3NchrOEgekLj4495Q46RiJinelh0wGzMX63b+FPbejZEbG9pD6Ba7aVVMmK7I31q3HOjXp9KR5TI9EOX4xoo69wDrGen2Vavs="
+  local_dir: codedeploy
+  bucket: code-deploy.csye6225-fall2017-guptarite.me
+  region: us-east-1
+  skin_cleanup: true
+
   #- provider: codedeploy
   #  access_key_id:
   #  bucket:
