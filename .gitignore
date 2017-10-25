@@ -1,7 +1,6 @@
 .gradle
 /build/
 
-<<<<<<< HEAD
 # IntelliJ project files
  .idea
 .iml
@@ -16,7 +15,6 @@ build/reports/
 # java/
  out/test/classes/com/csye6225/demo/rest_assured/Demo.class
 # src/test/resources/
-=======
 ### STS ###
 .apt_generated
 .classpath
@@ -26,7 +24,6 @@ build/reports/
 .springBeans
 
 ### IntelliJ IDEA ###
-.idea
 *.iws
 *.iml
 *.ipr
@@ -34,7 +31,6 @@ build/reports/
 .idea/
 build/**/*
 .gradle/**/*
-/out/
 
 ### NetBeans ###
 nbproject/private/
@@ -43,4 +39,4 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
->>>>>>> master
+
