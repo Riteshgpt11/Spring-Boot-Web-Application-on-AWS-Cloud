@@ -19,7 +19,7 @@ fi
 
 
 ##Creating Stack
-aws cloudformation create-stack --stack-name "$1" --template-body file://create-ec2-stack.yml --parameters file://ec2-parameters.json --capabilities CAPABILITY_NAMED_IAM
+aws cloudformation create-stack --stack-name "$1" --template-body file://create-ec2-stack.yml --parameters file://ec2-parameters.json
 
 aws cloudformation wait stack-create-complete --stack-name $1
 
