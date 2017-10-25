@@ -6,6 +6,7 @@
  **/
 package com.csye6225.demo.controllers;
 
+import com.csye6225.demo.Service.FileArchiveService;
 import com.csye6225.demo.dao.MediaFileUploadDao;
 import com.csye6225.demo.dao.PersistTaskDao;
 import com.csye6225.demo.dao.UserDao;
@@ -40,6 +41,9 @@ HomeController {
     private PersistTaskDao taskDao;
     @Autowired
     private MediaFileUploadDao fileUploadDao;
+    @Autowired
+    private FileArchiveService fileArchiveService;
+
 
     /**
      * @return
@@ -375,6 +379,46 @@ HomeController {
         return j.toString();
     }
 
+    @RequestMapping(value = "/tasks", method = RequestMethod.GET, produces = "application/json")
+    protected @ResponseBody
+    String getUserTask(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        JsonObject j = new JsonObject();
+        try {
+            User user = authenticateUser(request);
+            if (user != null) {
+                List<Task> tasks = user.getTasks();
+                if (tasks != null && tasks.size() > 0 && !tasks.isEmpty()) {
+                    for (int i = 0; i < tasks.size(); i++) {
+                        Task task = tasks.get(i);
+                        j.addProperty("Task Id:" + task.getTaskId(), "Description: " + task.getDescription());
+                        List<MediaFile> files = task.getMediaFiles();
+                        if (files != null && files.size() > 0 && !files.isEmpty()) {
+                            for (int k = 0; k < files.size(); k++) {
+                                MediaFile file = files.get(k);
+                                j.addProperty("File Id:" + file.getFileId(), "File Name: " + file.getFileName());
+                            }
+                        } else {
+                            j.addProperty("Error", "No attachments added for this task");
+                        }
+                    }
+                    response.setStatus(HttpServletResponse.SC_OK);
+                } else {
+                    j.addProperty("Error", "No Tasks added for this user");
+                    response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                }
+            } else {
+                j.addProperty("Error", "Invalid User Credentials");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+        } catch (IllegalStateException e) {
+            j.addProperty("Exception", e.toString());
+
+        } catch (Exception e) {
+            j.addProperty("Exception", e.toString());
+        }
+        return j.toString();
+    }
 
     /**
      *
@@ -462,4 +506,114 @@ HomeController {
         }
         return null;
     }
+
+    @RequestMapping(value = "/tasks/{id}/s3attachments", method = RequestMethod.POST)
+    public @ResponseBody
+    String handleS3FileUpload(HttpServletRequest request, @PathVariable("id") long id, @RequestParam(value = "file") MultipartFile file, HttpServletResponse response) throws Exception {
+
+
+        JsonObject jObj = new JsonObject();
+        try {
+            User user = authenticateUser(request);
+            if(file!=null){
+                if (user != null) {
+                    Task task = taskDao.findByTaskId(id);
+                    if (task != null) {
+                        if (user == task.getUser()) {
+                            MediaFile mediaFile = fileArchiveService.saveFileToS3(file);
+
+
+                            /*
+                            MultipartFile fileInMemory = file;
+                            String fileName = fileInMemory.getOriginalFilename();
+                            String baseName = "/home/ritesh/Documents/";
+                            File userFile = new File(baseName + task.getUser().getEmailId());
+                            String currentTime = String.valueOf(System.currentTimeMillis());
+                            if (!userFile.exists()) {
+                                if (userFile.mkdir()) {
+                                    File eventFile = new File(userFile + "/" + currentTime);
+                                    eventFile.mkdir();
+                                    mediaFile.setFileName(eventFile.getPath());
+                                }
+                            } else {
+                                File eventFile = new File(userFile + "/" + currentTime);
+                                if (!eventFile.exists()) {
+                                    if (eventFile.mkdir()) {
+                                        mediaFile.setFileName(eventFile.getPath());
+                                    }
+                                }
+                            }
+                            File localFile = new File(baseName + task.getUser().getEmailId() + "/" + currentTime + "/", fileName);
+                            fileInMemory.transferTo(localFile);
+                            mediaFile.setFileName(localFile.getPath());
+                            */
+                            mediaFile.setTask(task);
+                            fileUploadDao.save(mediaFile);
+                            jObj.addProperty("message", "File Location Saved");
+                        } else {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            jObj.addProperty("Error", "Access Denied. Task belongs to a different user.");
+                        }
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        jObj.addProperty("Error", "Use correct ID.");
+                    }
+                } else {
+                    jObj.addProperty("Error", "Invalid User Credentials");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                }}else{
+                jObj.addProperty("Error", "File not selected");
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        } catch (IllegalStateException e) {
+            jObj.addProperty("message", e.toString());
+
+        } catch (Exception e) {
+            jObj.addProperty("message", e.toString());
+        }
+        return jObj.toString();
+    }
+
+    @RequestMapping(value = "/tasks/{id}/s3attachments/{idAttachments}", method = RequestMethod.DELETE, produces = "application/json")
+    public @ResponseBody
+    String deleteS3MediaFile(@PathVariable("idAttachments") long idAttachments, @PathVariable("id") long id, HttpServletResponse response, HttpServletRequest request) throws Exception {
+
+        JsonObject j = new JsonObject();
+        try {
+            User user = authenticateUser(request);
+            if (user != null) {
+                MediaFile mediaFile = fileUploadDao.findByFileId(idAttachments);
+                if (mediaFile != null) {
+                    Task task = taskDao.findByTaskId(id);
+                    if ((task != null) && (task == mediaFile.getTask())) {
+                        if (user == mediaFile.getTask().getUser()) {
+                            fileArchiveService.deleteFileFromS3(mediaFile);
+                            fileUploadDao.delete(mediaFile);
+                            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                            j.addProperty("message", "File deleted");
+                        } else {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            j.addProperty("Error", "Access Denied. Task belongs to a different user.");
+                        }
+                    } else {
+                        j.addProperty("Error", "Task not found Or Attachment/File does not belong to this file.");
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    }
+                } else {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    j.addProperty("Error", "Use correct File ID.");
+                }
+            } else {
+                j.addProperty("Error", "Invalid User Credentials");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+        } catch (IllegalStateException e) {
+            j.addProperty("Exception", e.toString());
+
+        } catch (Exception e) {
+            j.addProperty("Exception", e.toString());
+        }
+        return j.toString();
+    }
+
 }
