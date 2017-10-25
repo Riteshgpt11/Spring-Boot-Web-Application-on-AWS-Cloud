@@ -1,0 +1,456 @@
+#Yogita Jain, jain.yo@husky.neu.edu, 001643815
+#Rohan Magare, magare.r@husky.neu.edu, 001231457
+#Pratiksha Shetty, shetty.pr@husky.neu.edu, 001643697
+#Ritesh Gupta, gupta.rite@husky.neu.edu, 001280361
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: CloudFormation Template to create an EC2 instance
+
+Parameters:
+  KeyName:
+    Description: Key pair name
+    Type: "String"
+  InstanceType:
+    Description: Instance type to use
+    Type: "String"
+    AllowedValues:
+      - t2.micro
+      - m1.small
+      - m1.large
+    Description: Enter t2.micro, m1.small or m1.large
+  Id:
+    Description: Image id of the AMI
+    Type: AWS::EC2::Image::Id
+  SubnetId:
+    Description: Subnet id of the AMI
+    Type: "String"
+  VpcId:
+    Description: Vpc id of the AMI
+    Type: "String"
+  SecurityGroupName:
+    Description: Security Group name
+    Type: "String"
+  HostedZoneId:
+    Description: Hosted zone id
+    Type: "String"
+  DomainName:
+    Description: domain name to create in the RecordSet
+    Type: "String"
+  DeviceName:
+    Description: device name to create in the RecordSet
+    Type: "String"
+  VolumeSize:
+    Description: volume size to create in the RecordSet
+    Type: "String"
+  VolumeType:
+    Description: volume type to create in the RecordSet
+    Type: "String"
+  DBSecurityGroup:
+    Description: Security Group name
+    Type: "String"
+  DBName:
+    Description: Name of the RDS database
+    Type: "String"
+  DBAllocatedStorage:
+    Description: DBAllocatedStorage for RDS instance
+    Type: "String"
+  DBInstanceClass:
+    Description: Instance class type for the RDS database
+    Type: "String"
+  DBUser:
+    Description: database user name for RDS instance
+    Type: "String"
+  DBPassword:
+    Description: database password of the RDS database
+    Type: "String"
+  DatabaseType:
+    Description: "Type of database: MySQL, Sql"
+    Type: "String"
+  DatabaseVersion:
+    Description: Version of database engine
+    Type: "String"
+  DBStorageType:
+    Description: "Type of Storage gp2 or io1"
+    Type: "String"
+  InstanceIdentifier:
+    Description: Name of instance identifier
+    Type: "String"
+  SubnetId1:
+    Description: Subnet Id for us-east-1c
+    Type: "String"
+  SubnetId2:
+    Description: Subnet Id for us-east-1b
+    Type: "String"
+  DynamodbTableName:
+    Description: Name of the Dynamodb
+    Type: "String"
+  ReadCU:
+    Description: Read capacity units for Dynamodb
+    Type: "String"
+  WriteCU:
+    Description: Write capacity units for Dynamodb
+    Type: "String"
+  ColumnName:
+    Description: PrimaryKey Name for DB
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9]*'
+    MinLength: '1'
+    MaxLength: '2048'
+    ConstraintDescription: "only alphanumberic characters"
+  IdDataType:
+    Description: Id PrimaryKey Data Type
+    Type: String
+    Default: S
+    AllowedPattern: '[S|N]'
+    MinLength: '1'
+    MaxLength: '1'
+    ConstraintDescription: "must be either S or N"
+  WebserverPort:
+    Description: TCP server port 80 Instance
+    Type: "String"
+  HttpPort:
+    Description: Http port for EC2 Instance
+    Type: "String"
+  HttpsPort:
+    Description: Https port for EC2 Instance
+    Type: "String"
+  DBIngressPort:
+    Description: MySQL db Ingress port for RDS Instance
+    Type: "String"
+  Ec2RoleName:
+    Description: EC2 role name
+    Type: "String"
+  CodeDepolyRoleName:
+    Description: Code Deploy name
+    Type: "String"
+  PolicyDeployEC2S3Name:
+    Description: Code Deploy from EC2 S3
+    Type: "String"
+  PolicyTravisUploadS3Name:
+    Description: Travis Upload to S3
+    Type: "String"
+  PolicyTravisCodeDeployName:
+    Description: Travis-Code-Deploy-new
+    Type: "String"
+
+Resources:
+  Ec2Role:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              Service:
+                - "ec2.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+      RoleName: !Ref Ec2RoleName
+  Ec2InstanceProfile:
+    Type: "AWS::IAM::InstanceProfile"
+    Properties:
+      Path: "/"
+      Roles:
+        -
+          Ref: "Ec2Role"
+
+  CodeDeployRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              Service:
+                - "codedeploy.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      RoleName: !Ref CodeDepolyRoleName
+
+  RolePolicy1:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      Description: "Trying to create a CF policy"
+      ManagedPolicyName: !Ref PolicyDeployEC2S3Name #"CodeDeploy-EC2-S3new"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Action:
+              - "s3:Get*"
+              - "s3:List*"
+            Resource: "*"
+      Roles:
+        -
+          Ref:  "Ec2Role"
+
+  RolePolicy2:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      Description: "Trying to create a CF policy"
+      ManagedPolicyName: !Ref PolicyTravisUploadS3Name #"Travis-Upload-S3-new"
+      PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Effect: "Allow"
+                Action:
+                  - "s3:PutObject"
+                Resource: "*"
+
+  RolePolicy3:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      Description: "Trying to create a CF policy"
+      ManagedPolicyName: !Ref PolicyTravisCodeDeployName #"Travis-Code-Deploy-new"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Action:
+              - "codedeploy:RegisterApplicationRevision"
+              - "codedeploy:GetApplicationRevision"
+            Resource: "arn:aws:codedeploy:us-east-1:291255850115:application:WebApplication"
+          -
+            Effect: "Allow"
+            Action:
+              - "codedeploy:CreateDeployment"
+              - "codedeploy:GetDeployment"
+            Resource: "*"
+          -
+            Effect: "Allow"
+            Action: "codedeploy:GetDeploymentConfig"
+            Resource:
+              - "arn:aws:codedeploy:us-east-1:291255850115:deploymentconfig:CodeDeployDefault.OneAtATime"
+              - "arn:aws:codedeploy:us-east-1:291255850115:deploymentconfig:CodeDeployDefault.HalfAtATime"
+              - "arn:aws:codedeploy:us-east-1:291255850115:deploymentconfig:CodeDeployDefault.AllAtOnce"
+
+# VPC Security Group for EC2 instance
+  WebServerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName:
+        Ref: SecurityGroupName
+      GroupDescription: 'Enable HTTP access via port 80, SSH access via port 22'
+      VpcId:
+        Ref: VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '443'
+          ToPort: '443'
+          CidrIp: 0.0.0.0/0
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Metadata:
+      'AWS::CloudFormation::Init':
+        services:
+          sysvint:
+            codedeploy-agent:
+              enabled: true
+              ensureRunning: true
+        configSets:
+          default:
+            - install_base
+        install_base:
+          packages:
+            apt-get:
+              wget: []
+    Properties:
+      KeyName: !Ref KeyName
+      IamInstanceProfile: !Ref Ec2InstanceProfile
+      ImageId:
+        Ref: Id
+      InstanceType:
+        Ref: InstanceType
+      DisableApiTermination: true
+      SecurityGroupIds:
+        - !GetAtt
+          - WebServerSecurityGroup
+          - GroupId
+      SubnetId:
+        Ref: SubnetId
+      Tags:
+        -
+          Key: "name"
+          Value: "csye6255"
+      BlockDeviceMappings:
+        -
+          DeviceName:
+            Ref: DeviceName
+          Ebs:
+            VolumeType:
+              Ref: VolumeType
+            VolumeSize:
+              Ref: VolumeSize
+      UserData:                #adding user data
+        Fn::Base64: !Sub |     #adding bas64 encoding
+            #! /bin/bash -xe
+            apt-get update        
+            echo Y | apt-get install default-jre
+            echo Y | apt-get install default-jdk 
+
+            sed -i '$ a JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"' /etc/environment #source path for jdk8 installation
+            source /etc/environment
+            wait
+            sleep 3
+            groupadd tomcat                                                             #creating a tomcat group
+            useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat                       #adding a member(user) to the tomcat group
+
+            cd /opt                                                                     
+            curl -O http://apache.mirrors.tds.net/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz #downlaoding tomcat 8
+            tar -xvf apache-tomcat-8.5.23.tar.gz                                                          #extracting the given file            
+            mv apache-tomcat-8.5.23 tomcat                                                                
+
+            sleep 3
+
+            chgrp -R tomcat /opt/tomcat     #changing group ownership
+            chown -R tomcat /opt/tomcat     #changing file ownership 
+            chmod -R 755 /opt/tomcat        #changing file permissions
+
+            echo "[Unit]                         
+            Description=Apache Tomcat Web Application   
+            After=network.target
+
+            [Service]
+            Type=forking
+
+            Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+            Environment=CATALINA_HOME=/opt/tomcat
+            Environment=CATALINA_BASE=/opt/tomcat            
+            Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+            ExecStart=/opt/tomcat/bin/startup.sh
+            ExecStop=/opt/tomcat/bin/shutdown.sh
+
+            User=tomcat
+            Group=tomcat
+            UMask=0007
+            RestartSec=15
+            Restart=always
+
+            [Install]
+            WantedBy=multi-user.target" > /etc/systemd/system/tomcat.service
+
+            systemctl daemon-reload   #reloading system damemon to update it with tomcat installtion
+            sleep 2
+            systemctl start tomcat    #starting tomcat
+            sleep 2
+            systemctl enable tomcat
+            sudo ufw allow 8080       #allowing traffic on port 8080
+            sleep 10
+            wait
+
+            apt-get update
+            echo Y | apt-get install ruby      #installing ruby for codedeploy-agent 
+            apt-get install wget
+            cd /home/ubuntu
+            wget https://aws-codedeploy-us-east-2.s3.amazonaws.com/latest/install  #installing codedeploy-agent from source
+            chmod -R 777 /home/ubuntu/install  #giving the file all permissions     
+            wait
+            sleep 4
+            ./install auto
+            service codedeploy-agent start     #starting codedeploy-agent service      
+            sleep 10
+
+# VPC Security Group for RDS instance
+  RDSSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: !Ref DBSecurityGroup
+      VpcId: !Ref VpcId
+      GroupDescription: Base Security Group
+# Ingress rule for RDS instance
+  RDSIngressSecurity:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      IpProtocol: tcp
+      FromPort: !Ref DBIngressPort
+      ToPort: !Ref DBIngressPort
+      SourceSecurityGroupId: !Ref WebServerSecurityGroup
+      GroupId: !Ref RDSSecurityGroup
+# Subnet group for RDS instance
+  DBSubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupDescription: "New subnet for RDS instance"
+      SubnetIds:
+        - !Ref SubnetId1
+        - !Ref SubnetId2
+# RDS instance
+  RDSInstance:
+    Type: "AWS::RDS::DBInstance"
+    Properties:
+      DBName: !Ref DBName
+      AllocatedStorage: !Ref DBAllocatedStorage
+      DBInstanceClass: !Ref DBInstanceClass
+      Engine: !Ref DatabaseType
+      EngineVersion: !Ref DatabaseVersion
+      StorageType: !Ref DBStorageType
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      DBInstanceIdentifier: !Ref InstanceIdentifier
+      MasterUsername: !Ref DBUser
+      MasterUserPassword: !Ref DBPassword
+      PubliclyAccessible: false
+      MultiAZ: false
+      VPCSecurityGroups:
+      - Ref: RDSSecurityGroup
+      Tags:
+        -
+          Key: "Name"
+          Value: "RDS MySQL Database"
+# S3 bucket
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Join ["." , [!Ref DomainName, "csye6225.com"]]
+      AccessControl: Private
+
+# DynamoDB Table
+  DynamoDBTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      AttributeDefinitions:
+        -
+          AttributeName: !Ref ColumnName
+          AttributeType: !Ref IdDataType
+      KeySchema:
+        -
+          AttributeName: "Id"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: !Ref ReadCU
+        WriteCapacityUnits: !Ref WriteCU
+      TableName: !Ref DynamodbTableName
+
+  myDNSRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId:
+        Ref: HostedZoneId
+      Name:
+        Ref: DomainName
+      Type: A
+      TTL: 60
+      ResourceRecords:
+      - !GetAtt EC2Instance.PublicIp
+
+Outputs:
+  BucketName:
+    Value: !Ref 'S3Bucket'
+    Description: Name of the Amazon S3 bucket
