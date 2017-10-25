@@ -11,12 +11,12 @@
        },
        {
          "ParameterKey": "SubnetId",
-         "ParameterValue": "subnet-b833dcf3",
+         "ParameterValue": "subnet-bb2fd1f0",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "VpcId",
-         "ParameterValue": "vpc-a9f6ffd0",
+         "ParameterValue": "vpc-9e9374e6",
          "UsePreviousValue": true
        },
        {
@@ -31,12 +31,12 @@
        },
        {
          "ParameterKey": "HostedZoneId",
-         "ParameterValue": "ZV0SP3ADUV1M6",
+         "ParameterValue": "ZFLUDICG22F7Z",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "DomainName",
-         "ParameterValue": "ec2.csye6225-fall2017-jainyo.me",
+         "ParameterValue": "ec2.csye6225-fall2017-guptarite.me",
          "UsePreviousValue": true
        },
        {
@@ -101,12 +101,12 @@
        },
        {
          "ParameterKey": "SubnetId1",
-         "ParameterValue": "subnet-8dd7f9a1",
+         "ParameterValue": "subnet-bb2fd1f0",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "SubnetId2",
-         "ParameterValue": "subnet-b833dcf3",
+         "ParameterValue": "subnet-4da29c61",
          "UsePreviousValue": true
        },
        {
@@ -154,5 +154,4 @@
          "ParameterValue": "3306",
          "UsePreviousValue": true
        }
-
 ]

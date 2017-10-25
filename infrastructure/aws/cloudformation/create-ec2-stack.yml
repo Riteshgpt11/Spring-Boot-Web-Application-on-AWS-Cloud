@@ -78,6 +78,9 @@ Parameters:
   SubnetId2:
     Description: Subnet Id for us-east-1b
     Type: "String"
+  #UserData:
+  #  Description: User Creation
+  #  Type: "String"
   #BucketName:
   #  Description: Name of the S3 bucket
   #  Type: "String"
@@ -164,6 +167,16 @@ Resources:
               Ref: VolumeType
             VolumeSize:
               Ref: VolumeSize
+      #UserData:
+      #  Ref: User
+    #Metadata: 'AWS::CloudFormation::Init'
+    #  Config:
+    #    Packages: 
+    #      'apt-get':
+    #        - 
+    #          'JDK8'
+    #          'Tomcat8'  
+
 # VPC Security Group for RDS instance
   RDSSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
@@ -188,6 +201,8 @@ Resources:
       SubnetIds:
         - !Ref SubnetId1
         - !Ref SubnetId2
+
+
 # RDS instance
   RDSInstance:
     Type: "AWS::RDS::DBInstance"
