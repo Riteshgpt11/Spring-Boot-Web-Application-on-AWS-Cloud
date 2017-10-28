@@ -1,6 +1,6 @@
-branches:
+  branches:
   only:
-  - master
+  - assignment7
 
 language: java
 jdk:
@@ -28,9 +28,9 @@ script:
 
 after_success:
   - mkdir codedeploy
-  - zip -r WebApp.zip build/libs/ROOT.war appsec.yml
+  - zip -r WEB_APPLICATION.zip build/libs/ROOT.war appsec.yml
   - ls -al
-  - mv WebApp.zip codedeploy/
+  - mv WEB_APPLICATION.zip codedeploy/
   - ls -al
   - pwd
   - cd codedeploy
@@ -44,11 +44,11 @@ before_deploy:
 
 deploy:
 - provider: s3
-  access_key_id: AKIAIX6QLOIPWLR6NSCA
+  access_key_id: AKIAJO6XPZC7EQMR6CQA
   secret_access_key:
-    secure: "X1xI1b77p88WXbY2omYbZLoj1h3ZboIFk5FZDZWpDoFJ2kGB+QcQq8vnaaNiAYcGQWyUaOdhGKrL1Dk0mGmRFe5UtBb3pBU0w/UEZW30UALi0sLGQZE2LoyAleDGXTKK/qBvvcuczLSObRQksP9BWqFoyCzUYYbyc5C91A9YtQ+ukQT9xbycQUtb0mrIj4oeqXRoemxOQ9XHlCRxA4GqoF4qE7mQyNrnakXxwx8/fvd2dS5i3RaziEodoXa2JEdajKjo02o6MHB4e9ej/ve/QF6o2lieX3hRNh+Gl94B4ypFTJ/a3vIbEnFLGaNSdDEt/kBF9/iM2kX1pwZPbTiwl3scB4Ci13gtReH5sGaDWCx/++ywwbmUqvDlqoCgiv/5doAo5KghoOAgfrQPbz0N6jSL0OZcTX5K/TYwXJiqWES0Ba//+/A8vq5ONv1eddyVnQPUuNnILb442nI5TeNzDm/DhIAVs8F0/wQkxvamzGnXAci6gdyfLCE2iv1Q02EJ/kWDIDK1NY0y0endXGYmfvItSStRU4EgcRI8wR1hFk8DVx23EnIC+/G4aZPjtv22Q47v4CqjzHLoMEW+rV2ZJakbhslSjtTjs1j9hgmvePBI6EAMx/PtHDcyE8VstrCLXFUCwnDkXuerucNQXwaH8WEMNkvYqjE60Wpay7miRgc="
+    secure: "l6jMwFKoOPjG9UNMZE3DPa9O4CePSS2wiuZBy9YqiKHow87KzKcTHbHdlf6218r0FBn2OLLcFFQ477KDyj+JGIUv5PPIxTE2yRddCoOVb4miWS0H1qACL2GibpojM2c/t5Tt8hQs06U4LK5ndq29CY44/fJ3WqjU94SehHR14wFxbSXRnBbNK8ZMe7b4xwez0etw9m51QixICN9+chGpoN+1R1vUNY8pOcrDMoVoCltHnCBxHktMumRivC8P2F77jfc98A3RUmUaZYaz3rFecDOf6i507D7miKWk0eWGysrTKV0FmXDpcM9HM/2h3CWJ+3G/W5PHMZjYuBQ46lLL9c+Vdpmz+jdx/gHDpXaUp8644tRBZHyEGtmjTckIjy5ZAx6aiZtLm63Tr+fQHhY74nlzk7mDv0dCGShvpvQEJdY8Y4vC5vMusqvOpsLaRJxBko+GA/vTV6buX1Q8DRXdL7bws0nWEWH9TGI8U3e5x4Af22+fTkgilxWYurJOe41bBZdM0I7WTW1LR7OgQSPCRWCdT3i69ndv5EdUXjJ0eo9j0gxLYIf7AJhqrZ9BN54dAz02q5ll1GuHtX2Ft7y5kpP9BbeTg1VymjbuI2F2WU3JTTMxmOrDVmuJtVs+8zf0HaH2ekJvs5OTrwsON3IJg5vScUUc/zmmtttQwcbnr20="
   local_dir: codedeploy
-  bucket: code-deploy.csye6225-fall2017-guptarite.me
+  bucket: code-deploy.csye6225-fall2017-magarer.me
   region: us-east-1
   skip_cleanup: true
 
@@ -59,6 +59,17 @@ deploy:
   #  bundle type: zip
   #application: WebApplication
    #deployement_group: WebApplication
+- provider: codedeploy
+  access_key_id: AKIAJO6XPZC7EQMR6CQA
+  bucket: code-deploy.csye6225.com
+  key: WEB_APPLICATION.zip
+  bundle_type: zip
+  application: WEB_APPLICATION
+  deployment_group: WEB_APPLICATION
+  region: us-east-1
+  secret_access_key:
+    secure: "l6jMwFKoOPjG9UNMZE3DPa9O4CePSS2wiuZBy9YqiKHow87KzKcTHbHdlf6218r0FBn2OLLcFFQ477KDyj+JGIUv5PPIxTE2yRddCoOVb4miWS0H1qACL2GibpojM2c/t5Tt8hQs06U4LK5ndq29CY44/fJ3WqjU94SehHR14wFxbSXRnBbNK8ZMe7b4xwez0etw9m51QixICN9+chGpoN+1R1vUNY8pOcrDMoVoCltHnCBxHktMumRivC8P2F77jfc98A3RUmUaZYaz3rFecDOf6i507D7miKWk0eWGysrTKV0FmXDpcM9HM/2h3CWJ+3G/W5PHMZjYuBQ46lLL9c+Vdpmz+jdx/gHDpXaUp8644tRBZHyEGtmjTckIjy5ZAx6aiZtLm63Tr+fQHhY74nlzk7mDv0dCGShvpvQEJdY8Y4vC5vMusqvOpsLaRJxBko+GA/vTV6buX1Q8DRXdL7bws0nWEWH9TGI8U3e5x4Af22+fTkgilxWYurJOe41bBZdM0I7WTW1LR7OgQSPCRWCdT3i69ndv5EdUXjJ0eo9j0gxLYIf7AJhqrZ9BN54dAz02q5ll1GuHtX2Ft7y5kpP9BbeTg1VymjbuI2F2WU3JTTMxmOrDVmuJtVs+8zf0HaH2ekJvs5OTrwsON3IJg5vScUUc/zmmtttQwcbnr20="
+  wait-until-deployed: true
 
 
 notifications:
