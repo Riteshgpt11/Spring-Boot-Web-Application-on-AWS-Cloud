@@ -62,7 +62,7 @@ deploy:
 - provider: codedeploy
   access_key_id: AKIAIX6QLOIPWLR6NSCA
   bucket: code-deploy.csye6225.com
-  key: WebApp-${TRAVIS_JOB_NUMBER}.zip
+  key: WebApp.zip
   bundle_type: zip
   application: WebApp
   deployment_group: WebApp
