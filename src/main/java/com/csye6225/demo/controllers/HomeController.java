@@ -521,32 +521,6 @@ HomeController {
                     if (task != null) {
                         if (user == task.getUser()) {
                             MediaFile mediaFile = fileArchiveService.saveFileToS3(file);
-
-
-                            /*
-                            MultipartFile fileInMemory = file;
-                            String fileName = fileInMemory.getOriginalFilename();
-                            String baseName = "/home/ritesh/Documents/";
-                            File userFile = new File(baseName + task.getUser().getEmailId());
-                            String currentTime = String.valueOf(System.currentTimeMillis());
-                            if (!userFile.exists()) {
-                                if (userFile.mkdir()) {
-                                    File eventFile = new File(userFile + "/" + currentTime);
-                                    eventFile.mkdir();
-                                    mediaFile.setFileName(eventFile.getPath());
-                                }
-                            } else {
-                                File eventFile = new File(userFile + "/" + currentTime);
-                                if (!eventFile.exists()) {
-                                    if (eventFile.mkdir()) {
-                                        mediaFile.setFileName(eventFile.getPath());
-                                    }
-                                }
-                            }
-                            File localFile = new File(baseName + task.getUser().getEmailId() + "/" + currentTime + "/", fileName);
-                            fileInMemory.transferTo(localFile);
-                            mediaFile.setFileName(localFile.getPath());
-                            */
                             mediaFile.setTask(task);
                             fileUploadDao.save(mediaFile);
                             jObj.addProperty("message", "File Location Saved");
