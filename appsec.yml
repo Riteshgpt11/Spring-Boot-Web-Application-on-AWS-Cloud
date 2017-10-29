@@ -6,11 +6,11 @@ files:
     destination: /home/ubuntu
   - source: /home/ritesh/Downloads/apache-tomcat-8.5.20/bin/startup.sh
     destination: /home/ubuntu
-  - source: ./ROOT.war
+  - source: ./build/libs/ROOT.war
     destination: /opt/tomcat/webapps
 
 hooks:
   AfterInstall:
-   - location: ./restartTomcat.sh
+   - location: ./startup.sh
      timeout: 180
      runas: ubuntu
