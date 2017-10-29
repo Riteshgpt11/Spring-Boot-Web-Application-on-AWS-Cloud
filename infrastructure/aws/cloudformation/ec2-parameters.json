@@ -1,7 +1,7 @@
 [
     {
        "ParameterKey": "KeyName",
-       "ParameterValue": "Ec2_key1",
+       "ParameterValue": "lenovo_key",
        "UsePreviousValue": true
      },
      {
@@ -13,11 +13,6 @@
            "ParameterKey": "Id",
            "ParameterValue": "ami-cd0f5cb6",
            "UsePreviousValue": true
-       },
-       {
-         "ParameterKey": "SubnetId",
-         "ParameterValue": "subnet-b833dcf3",
-         "UsePreviousValue": true
        },
        {
          "ParameterKey": "VpcId",
@@ -106,12 +101,12 @@
        },
        {
          "ParameterKey": "SubnetId1",
-         "ParameterValue": "subnet-8dd7f9a1",
+         "ParameterValue": "subnet-b833dcf3",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "SubnetId2",
-         "ParameterValue": "subnet-b833dcf3",
+         "ParameterValue": "subnet-8dd7f9a1",
          "UsePreviousValue": true
        },
        {
@@ -160,29 +155,30 @@
          "UsePreviousValue": true
        },
        {
-         "ParameterKey": "Ec2RoleName",
-         "ParameterValue": "CodeDepolyEC2ServiceRoleNew",
+         "ParameterKey": "EC2TagName",
+         "ParameterValue": "name",
          "UsePreviousValue": true
        },
        {
-         "ParameterKey": "CodeDepolyRoleName",
-         "ParameterValue": "CodeDepolyServiceRoleNew",
+         "ParameterKey": "EC2TagValue",
+         "ParameterValue": "csye6225",
          "UsePreviousValue": true
        },
        {
-         "ParameterKey": "PolicyDeployEC2S3Name",
-         "ParameterValue": "CodeDeploy-EC2-S3new",
+         "ParameterKey": "RoleStack",
+         "ParameterValue": "rolestack02",
          "UsePreviousValue": true
        },
        {
-         "ParameterKey": "PolicyTravisUploadS3Name",
-         "ParameterValue": "Travis-Upload-S3-new",
+         "ParameterKey": "DNSRecordType",
+         "ParameterValue": "A",
          "UsePreviousValue": true
        },
        {
-         "ParameterKey": "PolicyTravisCodeDeployName",
-         "ParameterValue": "Travis-Code-Deploy-new",
+         "ParameterKey": "DNSTtl",
+         "ParameterValue": "60",
          "UsePreviousValue": true
        }
+
 
 ]

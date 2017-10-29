@@ -11,7 +11,7 @@ set -e
 if [ $# -lt 1 ]; then
   echo 1>&2 "$0: Stack name not provided"
   exit 2
-elif [ $# -gt 1 ]; then
+elif [ $# -gt 2 ]; then
   echo 1>&2 "$0: Too many Arguments"
   exit 2
 fi
@@ -24,10 +24,11 @@ aws ec2 modify-instance-attribute --instance-id "$instanceid" --no-disable-api-t
 
 ## delete stack
 aws cloudformation delete-stack --stack-name $1
-
 aws cloudformation wait stack-delete-complete --stack-name $1
-
-# replace stack name with generic name
-#sed -i "s/$1/STACK_NAME/g" ec2-parameters.json
-
 echo "Stack $1 deleted!"
+# replace stack name with generic name
+sed -i "s/$1/STACK_NAME/g" ec2-parameters.json
+
+aws cloudformation delete-stack --stack-name $2
+aws cloudformation wait stack-delete-complete --stack-name $2
+echo "Stack $2 deleted!"
