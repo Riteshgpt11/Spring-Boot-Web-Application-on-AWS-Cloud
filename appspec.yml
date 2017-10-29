@@ -4,13 +4,13 @@ os: linux
 files:
   - source: ./appspec.yml
     destination: /home/ubuntu
-  - source: ./startup.sh
+  - source: ./restartTomcat.sh
     destination: /home/ubuntu
   - source: ./build/libs/ROOT.war
     destination: /opt/tomcat/webapps
 
 hooks:
   AfterInstall:
-   - location: ./startup.sh
+   - location: ./restartTomcat.sh
      timeout: 180
      runas: ubuntu
