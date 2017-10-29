@@ -6,17 +6,13 @@
  **/
 package com.csye6225.demo.dao;
 
-import com.csye6225.demo.entity.User;
+import com.csye6225.demo.entity.MediaFile;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
 
 @Transactional
-public interface UserDao extends CrudRepository<User, Long> {
+public interface MediaFileUploadDao extends CrudRepository<MediaFile, Long> {
 
-    User findUserByEmailId(String emailId);
-
-    User findUserByEmailIdAndPassword(String emailId, String password);
-
-
+    MediaFile findByFileId(Long id);
 }

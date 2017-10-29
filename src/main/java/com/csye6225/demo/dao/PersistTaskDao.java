@@ -6,17 +6,15 @@
  **/
 package com.csye6225.demo.dao;
 
-import com.csye6225.demo.entity.User;
+
+import com.csye6225.demo.entity.Task;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
 
 @Transactional
-public interface UserDao extends CrudRepository<User, Long> {
+public interface PersistTaskDao extends CrudRepository<Task, Long> {
 
-    User findUserByEmailId(String emailId);
-
-    User findUserByEmailIdAndPassword(String emailId, String password);
-
+    Task findByTaskId(Long id);
 
 }
