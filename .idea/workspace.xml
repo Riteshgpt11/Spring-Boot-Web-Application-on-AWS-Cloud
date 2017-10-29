@@ -8,31 +8,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8579b545-2839-471f-ae2e-1c7423dd02fc" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/libs/ROOT.war" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/libs/exploded/ROOT.war/WEB-INF/classes/application-dev.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/libs/exploded/ROOT.war/WEB-INF/classes/application.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/libs/exploded/ROOT.war/WEB-INF/classes/com/csye6225/demo/controllers/HomeController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/libs/exploded/ROOT.war/WEB-INF/classes/com/csye6225/demo/entity/Task.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/libs/exploded/ROOT.war/WEB-INF/classes/com/csye6225/demo/entity/User.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/com/csye6225/demo/DemoApplication.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/com/csye6225/demo/ServletInitializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/com/csye6225/demo/controllers/HomeController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/com/csye6225/demo/dao/MediaFileUploadDao.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/classes/com/csye6225/demo/entity/MediaFile.class" afterPath="$PROJECT_DIR$/out/production/classes/com/csye6225/demo/entity/MediaFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/Gradle___ROOT_war__exploded_.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/Gradle___ROOT_war__exploded_.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/csye6225-fall2017_main.iml" afterPath="$PROJECT_DIR$/.idea/modules/csye6225-fall2017_main.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/csye6225-fall2017_test.iml" afterPath="$PROJECT_DIR$/.idea/modules/csye6225-fall2017_test.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/infrastructure/aws/cloudformation/create-ec2-stack.yml" afterPath="$PROJECT_DIR$/infrastructure/aws/cloudformation/create-ec2-stack.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/infrastructure/aws/cloudformation/ec2-parameters.json" afterPath="$PROJECT_DIR$/infrastructure/aws/cloudformation/ec2-parameters.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/infrastructure/aws/script/record.json" afterPath="$PROJECT_DIR$/infrastructure/aws/script/record.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmeter/loadtest.jmx" afterPath="$PROJECT_DIR$/jmeter/loadtest.jmx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/resources/application.properties" afterPath="$PROJECT_DIR$/out/production/resources/application.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/csye6225/demo/controllers/HomeController.java" afterPath="$PROJECT_DIR$/src/main/java/com/csye6225/demo/controllers/HomeController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/csye6225/demo/entity/MediaFile.java" afterPath="$PROJECT_DIR$/src/main/java/com/csye6225/demo/entity/MediaFile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/application.properties" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -62,26 +41,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PersistTaskDao.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/csye6225/demo/dao/PersistTaskDao.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="15" column="17" lean-forward="false" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserDao.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/csye6225/demo/dao/UserDao.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="14" column="17" lean-forward="false" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="application-aws.properties" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/application-aws.properties">
           <provider selected="true" editor-type-id="text-editor">
@@ -129,8 +88,28 @@
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-40">
-              <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+            <state relative-caret-position="666">
+              <caret line="37" column="8" lean-forward="true" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".travis.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.travis.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-540">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="appsec.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/appsec.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1026,12 +1005,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1508552302816</updated>
-      <workItem from="1508552308505" duration="33851000" />
+      <workItem from="1508552308505" duration="38810000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33851000" />
+    <option name="totallyTimeSpent" value="38810000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1855" height="954" extended-state="6" />
@@ -1091,99 +1070,91 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.travis.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-598">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/infrastructure/aws/cloudformation/create-ec2-stack.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="388">
           <caret line="171" column="41" lean-forward="false" selection-start-line="171" selection-start-column="41" selection-end-line="171" selection-end-column="41" />
           <folding>
-            <marker date="1508618038806" expanded="true" signature="303:2206" ph="Parameters: &lt;32 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="4639:4658" ph="apt-get: &lt;1 item&gt;" />
-            <marker date="1508618038806" expanded="true" signature="4639:6910" ph="Resources: &lt;9 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="4649:4658" ph="Tomcat8" />
-            <marker date="1508618038806" expanded="true" signature="4702:4877" ph="RDSSecurityGroup: &lt;2 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="4730:4755" ph="AWS::EC2:…urityGroup" />
-            <marker date="1508618038806" expanded="true" signature="4760:4877" ph="Properties: &lt;3 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="4789:4809" ph="DBSecurityGroup" />
-            <marker date="1508618038806" expanded="true" signature="4823:4833" ph="VpcId" />
-            <marker date="1508618038806" expanded="true" signature="4858:4877" ph="Base Security Group" />
-            <marker date="1508618038806" expanded="true" signature="4912:5174" ph="RDSIngressSecurity: &lt;2 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="4942:4974" ph="AWS::EC2:…oupIngress" />
-            <marker date="1508618038806" expanded="true" signature="4979:5174" ph="Properties: &lt;5 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="5009:5012" ph="tcp" />
-            <marker date="1508618038806" expanded="true" signature="5029:5047" ph="DBIngressPort" />
-            <marker date="1508618038806" expanded="true" signature="5062:5080" ph="DBIngressPort" />
-            <marker date="1508618038806" expanded="true" signature="5110:5137" ph="WebServer…urityGroup" />
-            <marker date="1508618038806" expanded="true" signature="5153:5174" ph="RDSSecurityGroup" />
-            <marker date="1508618038806" expanded="true" signature="5209:5404" ph="DBSubnetGroup: &lt;2 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="5234:5259" ph="AWS::RDS:…ubnetGroup" />
-            <marker date="1508618038806" expanded="true" signature="5264:5404" ph="Properties: &lt;2 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="5308:5337" ph="New subne…S instance" />
-            <marker date="1508618038806" expanded="true" signature="5344:5404" ph="SubnetIds: &lt;2 items&gt;" />
-            <marker date="1508618038806" expanded="true" signature="5365:5379" ph="SubnetId1" />
-            <marker date="1508618038806" expanded="true" signature="5390:5404" ph="SubnetId2" />
-            <marker date="1508618038806" expanded="true" signature="5424:6077" ph="RDSInstance: &lt;2 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="5447:5469" ph="AWS::RDS::DBInstance" />
-            <marker date="1508618038806" expanded="true" signature="5474:6077" ph="Properties: &lt;14 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="5500:5511" ph="DBName" />
-            <marker date="1508618038806" expanded="true" signature="5536:5559" ph="DBAllocatedStorage" />
-            <marker date="1508618038806" expanded="true" signature="5583:5603" ph="DBInstanceClass" />
-            <marker date="1508618038806" expanded="true" signature="5618:5635" ph="DatabaseType" />
-            <marker date="1508618038806" expanded="true" signature="5657:5677" ph="DatabaseVersion" />
-            <marker date="1508618038806" expanded="true" signature="5697:5715" ph="DBStorageType" />
-            <marker date="1508618038806" expanded="true" signature="5741:5759" ph="DBSubnetGroup" />
-            <marker date="1508618038806" expanded="true" signature="5788:5811" ph="InstanceIdentifier" />
-            <marker date="1508618038806" expanded="true" signature="5834:5845" ph="DBUser" />
-            <marker date="1508618038806" expanded="true" signature="5872:5887" ph="DBPassword" />
-            <marker date="1508618038806" expanded="true" signature="5914:5919" ph="false" />
-            <marker date="1508618038806" expanded="true" signature="5935:5940" ph="false" />
-            <marker date="1508618038806" expanded="true" signature="5947:5995" ph="VPCSecurityGroups: &lt;1 item&gt;" />
-            <marker date="1508618038806" expanded="true" signature="5979:5995" ph="RDSSecurityGroup" />
-            <marker date="1508618038806" expanded="true" signature="6002:6077" ph="Tags: &lt;1 item&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6033:6039" ph="Name" />
-            <marker date="1508618038806" expanded="true" signature="6057:6077" ph="RDS MySQL Database" />
-            <marker date="1508618038806" expanded="true" signature="6092:6238" ph="S3Bucket: &lt;2 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6112:6127" ph="AWS::S3::Bucket" />
-            <marker date="1508618038806" expanded="true" signature="6132:6238" ph="Properties: &lt;2 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6150:6209" ph="BucketName: [2 items]" />
-            <marker date="1508618038806" expanded="true" signature="6169:6172" ph="." />
-            <marker date="1508618038806" expanded="true" signature="6176:6191" ph="DomainName" />
-            <marker date="1508618038806" expanded="true" signature="6193:6207" ph="csye6225.com" />
-            <marker date="1508618038806" expanded="true" signature="6231:6238" ph="Private" />
-            <marker date="1508618038806" expanded="true" signature="6259:6674" ph="DynamoDBTable: &lt;2 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6284:6306" ph="AWS::DynamoDB::Table" />
-            <marker date="1508618038806" expanded="true" signature="6311:6674" ph="Properties: &lt;4 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6329:6442" ph="AttributeDefinitions: &lt;1 item&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6386:6401" ph="ColumnName" />
-            <marker date="1508618038806" expanded="true" signature="6427:6442" ph="IdDataType" />
-            <marker date="1508618038806" expanded="true" signature="6449:6525" ph="KeySchema: &lt;1 item&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6495:6499" ph="Id" />
-            <marker date="1508618038806" expanded="true" signature="6519:6525" ph="HASH" />
-            <marker date="1508618038806" expanded="true" signature="6532:6634" ph="Provision…Throughput: &lt;2 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6582:6593" ph="ReadCU" />
-            <marker date="1508618038806" expanded="true" signature="6622:6634" ph="WriteCU" />
-            <marker date="1508618038806" expanded="true" signature="6652:6674" ph="DynamodbTableName" />
-            <marker date="1508618038806" expanded="true" signature="6678:6910" ph="myDNSRecord: &lt;2 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6701:6724" ph="AWS::Rout…:RecordSet" />
-            <marker date="1508618038806" expanded="true" signature="6729:6910" ph="Properties: &lt;5 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6747:6786" ph="HostedZoneId: &lt;1 key&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6774:6786" ph="HostedZoneId" />
-            <marker date="1508618038806" expanded="true" signature="6793:6822" ph="Name: &lt;1 key&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6812:6822" ph="DomainName" />
-            <marker date="1508618038806" expanded="true" signature="6848:6850" ph="60" />
-            <marker date="1508618038806" expanded="true" signature="6857:6910" ph="ResourceRecords: &lt;1 item&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6882:6910" ph="EC2Instance.PublicIp" />
-            <marker date="1508618038806" expanded="true" signature="6912:7007" ph="Outputs: &lt;1 key&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6923:7007" ph="BucketName: &lt;2 keys&gt;" />
-            <marker date="1508618038806" expanded="true" signature="6946:6961" ph="S3Bucket" />
-            <marker date="1508618038806" expanded="true" signature="6979:7007" ph="Name of t… S3 bucket" />
+            <marker date="1508947606061" expanded="true" signature="303:317" ph="Parameters: &lt;32 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="4639:4658" ph="apt-get: &lt;1 item&gt;" />
+            <marker date="1508947606061" expanded="true" signature="11130:12634" ph="Resources: &lt;9 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="4649:4658" ph="Tomcat8" />
+            <marker date="1508947606061" expanded="true" signature="4702:4877" ph="RDSSecurityGroup: &lt;2 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="4730:4755" ph="AWS::EC2:…urityGroup" />
+            <marker date="1508947606061" expanded="true" signature="4760:4877" ph="Properties: &lt;3 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="4789:4809" ph="DBSecurityGroup" />
+            <marker date="1508947606061" expanded="true" signature="4823:4833" ph="VpcId" />
+            <marker date="1508947606061" expanded="true" signature="4858:4877" ph="Base Security Group" />
+            <marker date="1508947606061" expanded="true" signature="4912:5174" ph="RDSIngressSecurity: &lt;2 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="4942:4974" ph="AWS::EC2:…oupIngress" />
+            <marker date="1508947606061" expanded="true" signature="4979:5174" ph="Properties: &lt;5 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="5009:5012" ph="tcp" />
+            <marker date="1508947606061" expanded="true" signature="5029:5047" ph="DBIngressPort" />
+            <marker date="1508947606061" expanded="true" signature="5062:5080" ph="DBIngressPort" />
+            <marker date="1508947606061" expanded="true" signature="5110:5137" ph="WebServer…urityGroup" />
+            <marker date="1508947606061" expanded="true" signature="5153:5174" ph="RDSSecurityGroup" />
+            <marker date="1508947606061" expanded="true" signature="5209:5404" ph="DBSubnetGroup: &lt;2 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="5234:5259" ph="AWS::RDS:…ubnetGroup" />
+            <marker date="1508947606061" expanded="true" signature="5264:5404" ph="Properties: &lt;2 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="5308:5337" ph="New subne…S instance" />
+            <marker date="1508947606061" expanded="true" signature="5344:5404" ph="SubnetIds: &lt;2 items&gt;" />
+            <marker date="1508947606061" expanded="true" signature="5365:5379" ph="SubnetId1" />
+            <marker date="1508947606061" expanded="true" signature="5390:5404" ph="SubnetId2" />
+            <marker date="1508947606061" expanded="true" signature="11148:11801" ph="RDSInstance: &lt;2 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="11171:11193" ph="AWS::RDS::DBInstance" />
+            <marker date="1508947606061" expanded="true" signature="11198:11801" ph="Properties: &lt;14 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="11224:11235" ph="DBName" />
+            <marker date="1508947606061" expanded="true" signature="11260:11283" ph="DBAllocatedStorage" />
+            <marker date="1508947606061" expanded="true" signature="11307:11327" ph="DBInstanceClass" />
+            <marker date="1508947606061" expanded="true" signature="11342:11359" ph="DatabaseType" />
+            <marker date="1508947606061" expanded="true" signature="11381:11401" ph="DatabaseVersion" />
+            <marker date="1508947606061" expanded="true" signature="11421:11439" ph="DBStorageType" />
+            <marker date="1508947606061" expanded="true" signature="11465:11483" ph="DBSubnetGroup" />
+            <marker date="1508947606061" expanded="true" signature="11512:11535" ph="InstanceIdentifier" />
+            <marker date="1508947606061" expanded="true" signature="11558:11569" ph="DBUser" />
+            <marker date="1508947606061" expanded="true" signature="11596:11611" ph="DBPassword" />
+            <marker date="1508947606061" expanded="true" signature="11638:11643" ph="false" />
+            <marker date="1508947606061" expanded="true" signature="11659:11664" ph="false" />
+            <marker date="1508947606061" expanded="true" signature="11671:11719" ph="VPCSecurityGroups: &lt;1 item&gt;" />
+            <marker date="1508947606061" expanded="true" signature="11703:11719" ph="RDSSecurityGroup" />
+            <marker date="1508947606061" expanded="true" signature="11726:11801" ph="Tags: &lt;1 item&gt;" />
+            <marker date="1508947606061" expanded="true" signature="11757:11763" ph="Name" />
+            <marker date="1508947606061" expanded="true" signature="11781:11801" ph="RDS MySQL Database" />
+            <marker date="1508947606061" expanded="true" signature="11816:11962" ph="S3Bucket: &lt;2 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="11836:11851" ph="AWS::S3::Bucket" />
+            <marker date="1508947606061" expanded="true" signature="11856:11962" ph="Properties: &lt;2 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="11874:11933" ph="BucketName: [2 items]" />
+            <marker date="1508947606061" expanded="true" signature="11893:11896" ph="." />
+            <marker date="1508947606061" expanded="true" signature="11900:11915" ph="DomainName" />
+            <marker date="1508947606061" expanded="true" signature="11917:11931" ph="csye6225.com" />
+            <marker date="1508947606061" expanded="true" signature="11955:11962" ph="Private" />
+            <marker date="1508947606061" expanded="true" signature="11983:12398" ph="DynamoDBTable: &lt;2 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="12008:12030" ph="AWS::DynamoDB::Table" />
+            <marker date="1508947606061" expanded="true" signature="12035:12398" ph="Properties: &lt;4 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="12053:12166" ph="AttributeDefinitions: &lt;1 item&gt;" />
+            <marker date="1508947606061" expanded="true" signature="12110:12125" ph="ColumnName" />
+            <marker date="1508947606061" expanded="true" signature="12151:12166" ph="IdDataType" />
+            <marker date="1508947606061" expanded="true" signature="12173:12249" ph="KeySchema: &lt;1 item&gt;" />
+            <marker date="1508947606061" expanded="true" signature="12219:12223" ph="Id" />
+            <marker date="1508947606061" expanded="true" signature="12243:12249" ph="HASH" />
+            <marker date="1508947606061" expanded="true" signature="12256:12358" ph="Provision…Throughput: &lt;2 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="12306:12317" ph="ReadCU" />
+            <marker date="1508947606061" expanded="true" signature="12346:12358" ph="WriteCU" />
+            <marker date="1508947606061" expanded="true" signature="12376:12398" ph="DynamodbTableName" />
+            <marker date="1508947606061" expanded="true" signature="12402:12634" ph="myDNSRecord: &lt;2 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="12425:12448" ph="AWS::Rout…:RecordSet" />
+            <marker date="1508947606061" expanded="true" signature="12453:12634" ph="Properties: &lt;5 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="12471:12510" ph="HostedZoneId: &lt;1 key&gt;" />
+            <marker date="1508947606061" expanded="true" signature="12498:12510" ph="HostedZoneId" />
+            <marker date="1508947606061" expanded="true" signature="12517:12546" ph="Name: &lt;1 key&gt;" />
+            <marker date="1508947606061" expanded="true" signature="12536:12546" ph="DomainName" />
+            <marker date="1508947606061" expanded="true" signature="12572:12574" ph="60" />
+            <marker date="1508947606061" expanded="true" signature="12581:12634" ph="ResourceRecords: &lt;1 item&gt;" />
+            <marker date="1508947606061" expanded="true" signature="12606:12634" ph="EC2Instance.PublicIp" />
+            <marker date="1508947606061" expanded="true" signature="12636:12731" ph="Outputs: &lt;1 key&gt;" />
+            <marker date="1508947606061" expanded="true" signature="12647:12731" ph="BucketName: &lt;2 keys&gt;" />
+            <marker date="1508947606061" expanded="true" signature="12670:12685" ph="S3Bucket" />
+            <marker date="1508947606061" expanded="true" signature="12703:12731" ph="Name of t… S3 bucket" />
           </folding>
         </state>
       </provider>
@@ -1265,8 +1236,8 @@
         <state relative-caret-position="144">
           <caret line="8" column="1" lean-forward="false" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
           <folding>
-            <element signature="e#239#240#0" expanded="true" />
-            <element signature="e#267#268#0" expanded="true" />
+            <element signature="e#239#240#0" expanded="false" />
+            <element signature="e#267#268#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1415,6 +1386,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/appsec.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-540">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/aws-config.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
@@ -1425,8 +1412,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-40">
-          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+        <state relative-caret-position="666">
+          <caret line="37" column="8" lean-forward="true" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
           <folding />
         </state>
       </provider>

@@ -219,7 +219,7 @@ Resources:
             Action:
               - "codedeploy:RegisterApplicationRevision"
               - "codedeploy:GetApplicationRevision"
-            Resource: "arn:aws:codedeploy:us-east-1:291255850115:application:WebApplication"
+            Resource: "arn:aws:codedeploy:us-east-1:291255850115:application:Csye6225"
           -
             Effect: "Allow"
             Action:
