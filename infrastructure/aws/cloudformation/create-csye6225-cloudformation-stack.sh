@@ -9,7 +9,7 @@ set -e
 if [ $# -lt 1 ]; then
   echo 1>&2 "$0: Stack name not provided"
   exit 2
-elif [ $# -gt 1 ]; then
+elif [ $# -gt 2 ]; then
   echo 1>&2 "$0: Too many Arguments"
   exit 2
 fi
@@ -19,8 +19,14 @@ fi
 
 
 ##Creating Stack
-aws cloudformation create-stack --stack-name "$1" --template-body file://create-ec2-stack.yml --parameters file://ec2-parameters.json --capabilities CAPABILITY_NAMED_IAM
-
+aws cloudformation create-stack --stack-name "$1" --template-body file://IAM-roles-policies-profile.yml --parameters file://IAM-parameters.json --capabilities CAPABILITY_NAMED_IAM
 aws cloudformation wait stack-create-complete --stack-name $1
 
 echo "stack $1 is created"
+
+sed -i "s/STACK_NAME/$1/" ec2-parameters.json
+
+aws cloudformation create-stack --stack-name "$2" --template-body file://create-ec2-stack.yml --parameters file://ec2-parameters.json
+#--capabilities CAPABILITY_NAMED_IAM
+aws cloudformation wait stack-create-complete --stack-name $2
+echo "stack $2 is created"
