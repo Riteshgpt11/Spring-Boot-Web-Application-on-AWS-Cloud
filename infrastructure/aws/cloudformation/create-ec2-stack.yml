@@ -219,7 +219,7 @@ Resources:
             Action:
               - "codedeploy:RegisterApplicationRevision"
               - "codedeploy:GetApplicationRevision"
-            Resource: "arn:aws:codedeploy:us-east-1:291255850115:application:WebApplication"
+            Resource: "arn:aws:codedeploy:us-east-1:752801368307:application:Csye6225"
           -
             Effect: "Allow"
             Action:
@@ -230,9 +230,9 @@ Resources:
             Effect: "Allow"
             Action: "codedeploy:GetDeploymentConfig"
             Resource:
-              - "arn:aws:codedeploy:us-east-1:291255850115:deploymentconfig:CodeDeployDefault.OneAtATime"
-              - "arn:aws:codedeploy:us-east-1:291255850115:deploymentconfig:CodeDeployDefault.HalfAtATime"
-              - "arn:aws:codedeploy:us-east-1:291255850115:deploymentconfig:CodeDeployDefault.AllAtOnce"
+              - "arn:aws:codedeploy:us-east-1:752801368307:deploymentconfig:CodeDeployDefault.OneAtATime"
+              - "arn:aws:codedeploy:us-east-1:752801368307:deploymentconfig:CodeDeployDefault.HalfAtATime"
+              - "arn:aws:codedeploy:us-east-1:752801368307:deploymentconfig:CodeDeployDefault.AllAtOnce"
 
 # VPC Security Group for EC2 instance
   WebServerSecurityGroup:
@@ -288,8 +288,8 @@ Resources:
         Ref: SubnetId
       Tags:
         -
-          Key: "name"
-          Value: "csye6255"
+          Key: "course"
+          Value: "csye6225"
       BlockDeviceMappings:
         -
           DeviceName:
@@ -299,33 +299,33 @@ Resources:
               Ref: VolumeType
             VolumeSize:
               Ref: VolumeSize
-      UserData:
-        Fn::Base64: !Sub |
+      UserData:                #adding user data
+        Fn::Base64: !Sub |     #adding bas64 encoding
             #! /bin/bash -xe
-            apt-get update
+            apt-get update        
             echo Y | apt-get install default-jre
-            echo Y | apt-get install default-jdk
+            echo Y | apt-get install default-jdk 
 
-            sed -i '$ a JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"' /etc/environment
+            sed -i '$ a JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"' /etc/environment #source path for jdk8 installation
             source /etc/environment
             wait
             sleep 3
-            groupadd tomcat
-            useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+            groupadd tomcat                                                             #creating a tomcat group
+            useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat                       #adding a member(user) to the tomcat group
 
-            cd /opt
-            curl -O http://apache.mirrors.tds.net/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz
-            tar -xvf apache-tomcat-8.5.23.tar.gz
-            mv apache-tomcat-8.5.23 tomcat
+            cd /opt                                                                     
+            curl -O http://apache.mirrors.tds.net/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz #downlaoding tomcat 8
+            tar -xvf apache-tomcat-8.5.23.tar.gz                                                          #extracting the given file            
+            mv apache-tomcat-8.5.23 tomcat                                                                
 
             sleep 3
 
-            chgrp -R tomcat /opt/tomcat
-            chown -R tomcat /opt/tomcat
-            chmod -R 755 /opt/tomcat
+            chgrp -R tomcat /opt/tomcat     #changing group ownership
+            chown -R tomcat /opt/tomcat     #changing file ownership 
+            chmod -R 755 /opt/tomcat        #changing file permissions
 
-            echo "[Unit]
-            Description=Apache Tomcat Web Server
+            echo "[Unit]                         
+            Description=Apache Tomcat Web Application   
             After=network.target
 
             [Service]
@@ -333,9 +333,8 @@ Resources:
 
             Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
             Environment=CATALINA_HOME=/opt/tomcat
-            Environment=CATALINA_BASE=/opt/tomcat
+            Environment=CATALINA_BASE=/opt/tomcat            
             Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
-
             ExecStart=/opt/tomcat/bin/startup.sh
             ExecStop=/opt/tomcat/bin/shutdown.sh
 
@@ -348,26 +347,25 @@ Resources:
             [Install]
             WantedBy=multi-user.target" > /etc/systemd/system/tomcat.service
 
-            systemctl daemon-reload
+            systemctl daemon-reload   #reloading system damemon to update it with tomcat installtion
             sleep 2
-            systemctl start tomcat
+            systemctl start tomcat    #starting tomcat
             sleep 2
             systemctl enable tomcat
-            sudo ufw allow 8080
-
+            sudo ufw allow 8080       #allowing traffic on port 8080
             sleep 10
             wait
 
             apt-get update
-            echo Y | apt-get install ruby
+            echo Y | apt-get install ruby      #installing ruby for codedeploy-agent 
             apt-get install wget
             cd /home/ubuntu
-            wget https://aws-codedeploy-us-east-2.s3.amazonaws.com/latest/install
-            chmod -R 777 /home/ubuntu/install
+            wget https://aws-codedeploy-us-east-2.s3.amazonaws.com/latest/install  #installing codedeploy-agent from source
+            chmod -R 777 /home/ubuntu/install  #giving the file all permissions     
             wait
-            sleep 3
+            sleep 4
             ./install auto
-            service codedeploy-agent start
+            service codedeploy-agent start     #starting codedeploy-agent service      
             sleep 10
 
 # VPC Security Group for RDS instance
