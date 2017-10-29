@@ -6,7 +6,7 @@ files:
     destination: /home/ubuntu
   - source: /home/ritesh/Downloads/apache-tomcat-8.5.20/bin/startup.sh
     destination: /home/ubuntu
-  - source: ./build/libs/ROOT.war
+  - source: ./ROOT.war
     destination: /opt/tomcat/webapps
 
 hooks:
