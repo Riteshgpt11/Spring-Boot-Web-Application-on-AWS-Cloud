@@ -289,7 +289,7 @@ Resources:
       Tags:
         -
           Key: "course"
-          Value: "csye6255"
+          Value: "csye6225"
       BlockDeviceMappings:
         -
           DeviceName:
