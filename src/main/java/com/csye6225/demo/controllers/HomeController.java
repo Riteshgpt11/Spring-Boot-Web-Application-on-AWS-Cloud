@@ -27,7 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 public class
@@ -276,49 +278,50 @@ HomeController {
         JsonObject jObj = new JsonObject();
         try {
             User user = authenticateUser(request);
-            if(file!=null){
-            if (user != null) {
-                Task task = taskDao.findByTaskId(id);
-                if (task != null) {
-                    if (user == task.getUser()) {
-                        MediaFile mediaFile = new MediaFile();
-                        MultipartFile fileInMemory = file;
-                        String fileName = fileInMemory.getOriginalFilename();
-                        String baseName = "/home/ritesh/Documents/";
-                        File userFile = new File(baseName + task.getUser().getEmailId());
-                        String currentTime = String.valueOf(System.currentTimeMillis());
-                        if (!userFile.exists()) {
-                            if (userFile.mkdir()) {
-                                File eventFile = new File(userFile + "/" + currentTime);
-                                eventFile.mkdir();
-                                mediaFile.setFileName(eventFile.getPath());
-                            }
-                        } else {
-                            File eventFile = new File(userFile + "/" + currentTime);
-                            if (!eventFile.exists()) {
-                                if (eventFile.mkdir()) {
+            if (file != null) {
+                if (user != null) {
+                    Task task = taskDao.findByTaskId(id);
+                    if (task != null) {
+                        if (user == task.getUser()) {
+                            MediaFile mediaFile = new MediaFile();
+                            MultipartFile fileInMemory = file;
+                            String fileName = fileInMemory.getOriginalFilename();
+                            String baseName = "/home/ritesh/Documents/";
+                            File userFile = new File(baseName + task.getUser().getEmailId());
+                            String currentTime = String.valueOf(System.currentTimeMillis());
+                            if (!userFile.exists()) {
+                                if (userFile.mkdir()) {
+                                    File eventFile = new File(userFile + "/" + currentTime);
+                                    eventFile.mkdir();
                                     mediaFile.setFileName(eventFile.getPath());
                                 }
+                            } else {
+                                File eventFile = new File(userFile + "/" + currentTime);
+                                if (!eventFile.exists()) {
+                                    if (eventFile.mkdir()) {
+                                        mediaFile.setFileName(eventFile.getPath());
+                                    }
+                                }
                             }
+                            File localFile = new File(baseName + task.getUser().getEmailId() + "/" + currentTime + "/", fileName);
+                            fileInMemory.transferTo(localFile);
+                            mediaFile.setFileName(localFile.getPath());
+                            mediaFile.setTask(task);
+                            fileUploadDao.save(mediaFile);
+                            jObj.addProperty("message", "File Location Saved");
+                        } else {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            jObj.addProperty("Error", "Access Denied. Task belongs to a different user.");
                         }
-                        File localFile = new File(baseName + task.getUser().getEmailId() + "/" + currentTime + "/", fileName);
-                        fileInMemory.transferTo(localFile);
-                        mediaFile.setFileName(localFile.getPath());
-                        mediaFile.setTask(task);
-                        fileUploadDao.save(mediaFile);
-                        jObj.addProperty("message", "File Location Saved");
                     } else {
-                        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                        jObj.addProperty("Error", "Access Denied. Task belongs to a different user.");
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        jObj.addProperty("Error", "Use correct ID.");
                     }
                 } else {
-                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    jObj.addProperty("Error", "Use correct ID.");
+                    jObj.addProperty("Error", "Invalid User Credentials");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 }
             } else {
-                jObj.addProperty("Error", "Invalid User Credentials");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            }}else{
                 jObj.addProperty("Error", "File not selected");
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
@@ -421,7 +424,6 @@ HomeController {
     }
 
     /**
-     *
      * @param id
      * @param response
      * @param request
@@ -436,27 +438,127 @@ HomeController {
         try {
             User user = authenticateUser(request);
             if (user != null) {
-                    Task task = taskDao.findByTaskId(id);
-                    if ((task != null)) {
-                        if (user == task.getUser()) {
-                            List<MediaFile> files = task.getMediaFiles();
-                            if(!files.isEmpty()){
-                                for(int i = 0; i<files.size(); i++) {
-                                    j.addProperty("File ID" + files.get(i).getFileId(), files.get(i).getFileName());
-                                }
-                                response.setStatus(HttpServletResponse.SC_OK);
-                            }else{
-                                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                                j.addProperty("Error", "This task has no files attached to it.");
+                Task task = taskDao.findByTaskId(id);
+                if ((task != null)) {
+                    if (user == task.getUser()) {
+                        List<MediaFile> files = task.getMediaFiles();
+                        if (!files.isEmpty()) {
+                            for (int i = 0; i < files.size(); i++) {
+                                j.addProperty("File ID" + files.get(i).getFileId(), files.get(i).getFileName());
                             }
+                            response.setStatus(HttpServletResponse.SC_OK);
+                        } else {
+                            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                            j.addProperty("Error", "This task has no files attached to it.");
+                        }
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        j.addProperty("Error", "Access Denied. Task belongs to a different user.");
+                    }
+                } else {
+                    j.addProperty("Error", "Task not found.");
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
+            } else {
+                j.addProperty("Error", "Invalid User Credentials");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+        } catch (IllegalStateException e) {
+            j.addProperty("Exception", e.toString());
+
+        } catch (Exception e) {
+            j.addProperty("Exception", e.toString());
+        }
+        return j.toString();
+    }
+
+    /**
+     * @param request
+     * @param id
+     * @param file
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/tasks/{id}/s3attachments", method = RequestMethod.POST)
+    public @ResponseBody
+    String handleS3FileUpload(HttpServletRequest request, @PathVariable("id") long id, @RequestParam(value = "file") MultipartFile file, HttpServletResponse response) throws Exception {
+
+
+        JsonObject jObj = new JsonObject();
+        try {
+            User user = authenticateUser(request);
+            if (file != null) {
+                if (user != null) {
+                    Task task = taskDao.findByTaskId(id);
+                    if (task != null) {
+                        if (user == task.getUser()) {
+                            MediaFile mediaFile = fileArchiveService.saveFileToS3(file);
+                            mediaFile.setTask(task);
+                            fileUploadDao.save(mediaFile);
+                            jObj.addProperty("message", "File Location Saved");
+                        } else {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            jObj.addProperty("Error", "Access Denied. Task belongs to a different user.");
+                        }
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        jObj.addProperty("Error", "Use correct ID.");
+                    }
+                } else {
+                    jObj.addProperty("Error", "Invalid User Credentials");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                }
+            } else {
+                jObj.addProperty("Error", "File not selected");
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        } catch (IllegalStateException e) {
+            jObj.addProperty("message", e.toString());
+
+        } catch (Exception e) {
+            jObj.addProperty("message", e.toString());
+        }
+        return jObj.toString();
+    }
+
+    /**
+     * @param idAttachments
+     * @param id
+     * @param response
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/tasks/{id}/s3attachments/{idAttachments}", method = RequestMethod.DELETE, produces = "application/json")
+    public @ResponseBody
+    String deleteS3MediaFile(@PathVariable("idAttachments") long idAttachments, @PathVariable("id") long id, HttpServletResponse response, HttpServletRequest request) throws Exception {
+
+        JsonObject j = new JsonObject();
+        try {
+            User user = authenticateUser(request);
+            if (user != null) {
+                MediaFile mediaFile = fileUploadDao.findByFileId(idAttachments);
+                if (mediaFile != null) {
+                    Task task = taskDao.findByTaskId(id);
+                    if ((task != null) && (task == mediaFile.getTask())) {
+                        if (user == mediaFile.getTask().getUser()) {
+                            fileArchiveService.deleteFileFromS3(mediaFile);
+                            fileUploadDao.delete(mediaFile);
+                            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                            j.addProperty("message", "File deleted");
                         } else {
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                             j.addProperty("Error", "Access Denied. Task belongs to a different user.");
                         }
                     } else {
-                        j.addProperty("Error", "Task not found.");
+                        j.addProperty("Error", "Task not found Or Attachment/File does not belong to this file.");
                         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                     }
+                } else {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    j.addProperty("Error", "Use correct File ID.");
+                }
             } else {
                 j.addProperty("Error", "Invalid User Credentials");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -505,89 +607,6 @@ HomeController {
             }
         }
         return null;
-    }
-
-    @RequestMapping(value = "/tasks/{id}/s3attachments", method = RequestMethod.POST)
-    public @ResponseBody
-    String handleS3FileUpload(HttpServletRequest request, @PathVariable("id") long id, @RequestParam(value = "file") MultipartFile file, HttpServletResponse response) throws Exception {
-
-
-        JsonObject jObj = new JsonObject();
-        try {
-            User user = authenticateUser(request);
-            if(file!=null){
-                if (user != null) {
-                    Task task = taskDao.findByTaskId(id);
-                    if (task != null) {
-                        if (user == task.getUser()) {
-                            MediaFile mediaFile = fileArchiveService.saveFileToS3(file);
-                            mediaFile.setTask(task);
-                            fileUploadDao.save(mediaFile);
-                            jObj.addProperty("message", "File Location Saved");
-                        } else {
-                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                            jObj.addProperty("Error", "Access Denied. Task belongs to a different user.");
-                        }
-                    } else {
-                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                        jObj.addProperty("Error", "Use correct ID.");
-                    }
-                } else {
-                    jObj.addProperty("Error", "Invalid User Credentials");
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                }}else{
-                jObj.addProperty("Error", "File not selected");
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
-        } catch (IllegalStateException e) {
-            jObj.addProperty("message", e.toString());
-
-        } catch (Exception e) {
-            jObj.addProperty("message", e.toString());
-        }
-        return jObj.toString();
-    }
-
-    @RequestMapping(value = "/tasks/{id}/s3attachments/{idAttachments}", method = RequestMethod.DELETE, produces = "application/json")
-    public @ResponseBody
-    String deleteS3MediaFile(@PathVariable("idAttachments") long idAttachments, @PathVariable("id") long id, HttpServletResponse response, HttpServletRequest request) throws Exception {
-
-        JsonObject j = new JsonObject();
-        try {
-            User user = authenticateUser(request);
-            if (user != null) {
-                MediaFile mediaFile = fileUploadDao.findByFileId(idAttachments);
-                if (mediaFile != null) {
-                    Task task = taskDao.findByTaskId(id);
-                    if ((task != null) && (task == mediaFile.getTask())) {
-                        if (user == mediaFile.getTask().getUser()) {
-                            fileArchiveService.deleteFileFromS3(mediaFile);
-                            fileUploadDao.delete(mediaFile);
-                            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-                            j.addProperty("message", "File deleted");
-                        } else {
-                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                            j.addProperty("Error", "Access Denied. Task belongs to a different user.");
-                        }
-                    } else {
-                        j.addProperty("Error", "Task not found Or Attachment/File does not belong to this file.");
-                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                    }
-                } else {
-                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    j.addProperty("Error", "Use correct File ID.");
-                }
-            } else {
-                j.addProperty("Error", "Invalid User Credentials");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            }
-        } catch (IllegalStateException e) {
-            j.addProperty("Exception", e.toString());
-
-        } catch (Exception e) {
-            j.addProperty("Exception", e.toString());
-        }
-        return j.toString();
     }
 
 }
