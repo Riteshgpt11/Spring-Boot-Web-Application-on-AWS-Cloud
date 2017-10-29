@@ -4,6 +4,12 @@ public class FileArchiveServiceException extends RuntimeException {
 
     private static final long serialVersionUID = 2468434988680850339L;
 
+
+    /**
+     * 
+     * @param s
+     * @param ex
+     */
     public FileArchiveServiceException(String s, Throwable ex) {
         super(s, ex);
     }
