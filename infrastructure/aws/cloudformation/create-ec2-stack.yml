@@ -222,7 +222,7 @@ Resources:
       Tags:
         -
           Key: !Ref EC2TagName
-          Value: !Ref EC2TagValue #"csye6255"
+          Value: !Ref EC2TagValue
       BlockDeviceMappings:
         -
           DeviceName:
@@ -305,8 +305,8 @@ Resources:
 
             echo "
             JAVA_OPTS=$JAVA_OPTS-Dspring.datasource.url=jdbc:mysql:${RDSInstance.Endpoint.Address}//:3306/csye6225-fall2017
-            JAVA_OPTS=$JAVA_OPTS-Dspring.datasource.username='${DBUser}'
-            JAVA_OPTS=$JAVA_OPTS-Dspring.datasource.password='${DBPassword}'" >> /opt/tomcat/bin/setenv.sh
+            JAVA_OPTS=$JAVA_OPTS-Dspring.datasource.username=${DBUser}
+            JAVA_OPTS=$JAVA_OPTS-Dspring.datasource.password=${DBPassword}" >> /opt/tomcat/bin/setenv.sh
 
             sleep 3
             chmod -R 755 /opt/tomcat/bin/setenv.sh
@@ -345,8 +345,8 @@ Resources:
         Ref: HostedZoneId
       Name:
         Ref: DomainName
-      Type: !Ref DNSRecordType #A
-      TTL: !Ref DNSTtl #60
+      Type: !Ref DNSRecordType
+      TTL: !Ref DNSTtl
       ResourceRecords:
       - !GetAtt EC2Instance.PublicIp
 

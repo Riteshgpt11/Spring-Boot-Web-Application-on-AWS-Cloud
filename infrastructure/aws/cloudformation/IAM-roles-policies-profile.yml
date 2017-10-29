@@ -74,7 +74,7 @@ Resources:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
       Description: "Trying to create a CF policy"
-      ManagedPolicyName: !Ref PolicyDeployEC2S3Name #"CodeDeploy-EC2-S3new"
+      ManagedPolicyName: !Ref PolicyDeployEC2S3Name
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -92,7 +92,7 @@ Resources:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
       Description: "Trying to create a CF policy"
-      ManagedPolicyName: !Ref PolicyTravisUploadS3Name #"Travis-Upload-S3-new"
+      ManagedPolicyName: !Ref PolicyTravisUploadS3Name 
       PolicyDocument:
             Version: "2012-10-17"
             Statement:

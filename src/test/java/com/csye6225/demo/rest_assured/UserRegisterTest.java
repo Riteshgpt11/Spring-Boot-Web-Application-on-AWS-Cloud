@@ -25,7 +25,6 @@ public class UserRegisterTest {
     @Mock
     UserDao userDao;
 
-
     @Autowired
     MockMvc mockMvc;
 
@@ -33,11 +32,9 @@ public class UserRegisterTest {
     public void setup() {
 
         MockitoAnnotations.initMocks(this);
-
         User u = new User();
         u.setEmailId("Unittest");
         u.setPassword("UnitTest111");
-
         Mockito.when(userDao.findUserByEmailId("Unittest")).thenReturn(u);
     }
 
@@ -46,8 +43,5 @@ public class UserRegisterTest {
 
         User u = userDao.findUserByEmailId("Unittest");
         assertEquals(u.getEmailId(), "Unittest");
-
-
     }
-
 }

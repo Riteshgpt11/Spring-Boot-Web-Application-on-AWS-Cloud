@@ -1,6 +1,6 @@
 branches:
   only:
-  - master
+  - assignment7
 
 language: java
 jdk:
@@ -59,6 +59,17 @@ deploy:
   #  bundle type: zip
   #application: WebApplication
    #deployement_group: WebApplication
+- provider: codedeploy
+  access_key_id: AKIAIX6QLOIPWLR6NSCA
+  bucket: code-deploy.csye6225.com
+  key: WebApp.zip
+  bundle_type: zip
+  application: Csye6225
+  deployment_group: Csye6225  
+  region: us-east-1
+  secret_access_key:
+    secure: "X1xI1b77p88WXbY2omYbZLoj1h3ZboIFk5FZDZWpDoFJ2kGB+QcQq8vnaaNiAYcGQWyUaOdhGKrL1Dk0mGmRFe5UtBb3pBU0w/UEZW30UALi0sLGQZE2LoyAleDGXTKK/qBvvcuczLSObRQksP9BWqFoyCzUYYbyc5C91A9YtQ+ukQT9xbycQUtb0mrIj4oeqXRoemxOQ9XHlCRxA4GqoF4qE7mQyNrnakXxwx8/fvd2dS5i3RaziEodoXa2JEdajKjo02o6MHB4e9ej/ve/QF6o2lieX3hRNh+Gl94B4ypFTJ/a3vIbEnFLGaNSdDEt/kBF9/iM2kX1pwZPbTiwl3scB4Ci13gtReH5sGaDWCx/++ywwbmUqvDlqoCgiv/5doAo5KghoOAgfrQPbz0N6jSL0OZcTX5K/TYwXJiqWES0Ba//+/A8vq5ONv1eddyVnQPUuNnILb442nI5TeNzDm/DhIAVs8F0/wQkxvamzGnXAci6gdyfLCE2iv1Q02EJ/kWDIDK1NY0y0endXGYmfvItSStRU4EgcRI8wR1hFk8DVx23EnIC+/G4aZPjtv22Q47v4CqjzHLoMEW+rV2ZJakbhslSjtTjs1j9hgmvePBI6EAMx/PtHDcyE8VstrCLXFUCwnDkXuerucNQXwaH8WEMNkvYqjE60Wpay7miRgc="
+  wait-until-deployed: true
 
 
 notifications:
