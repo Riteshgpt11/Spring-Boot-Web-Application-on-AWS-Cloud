@@ -19,14 +19,13 @@ fi
 
 
 ##Creating Stack
-aws cloudformation create-stack --stack-name "$1" --template-body file://IAM-roles-policies-profile.yml --parameters file://IAM-parameters.json --capabilities CAPABILITY_NAMED_IAM
-aws cloudformation wait stack-create-complete --stack-name $1
+#aws cloudformation create-stack --stack-name "$1" --template-body file://IAM-roles-policies-profile.yml --parameters file://IAM-parameters.json --capabilities CAPABILITY_NAMED_IAM
+#aws cloudformation wait stack-create-complete --stack-name $1
 
 echo "stack $1 is created"
 
 sed -i "s/STACK_NAME/$1/" ec2-parameters.json
 
 aws cloudformation create-stack --stack-name "$2" --template-body file://create-ec2-stack.yml --parameters file://ec2-parameters.json
-#--capabilities CAPABILITY_NAMED_IAM
 aws cloudformation wait stack-create-complete --stack-name $2
 echo "stack $2 is created"

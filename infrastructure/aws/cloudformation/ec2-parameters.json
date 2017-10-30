@@ -1,7 +1,7 @@
 [
     {
        "ParameterKey": "KeyName",
-       "ParameterValue": "MyPublicKey",
+       "ParameterValue": "lenovo_key",
        "UsePreviousValue": true
      },
      {
@@ -16,7 +16,7 @@
        },
        {
          "ParameterKey": "VpcId",
-         "ParameterValue": "vpc-9e9374e6",
+         "ParameterValue": "vpc-a9f6ffd0",
          "UsePreviousValue": true
        },
        {
@@ -31,12 +31,12 @@
        },
        {
          "ParameterKey": "HostedZoneId",
-         "ParameterValue": "ZFLUDICG22F7Z",
+         "ParameterValue": "ZV0SP3ADUV1M6",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "DomainName",
-         "ParameterValue": "ec2.csye6225-fall2017-guptarite.me",
+         "ParameterValue": "ec2.csye6225-fall2017-jainyo.me",
          "UsePreviousValue": true
        },
        {
@@ -101,12 +101,12 @@
        },
        {
          "ParameterKey": "SubnetId1",
-         "ParameterValue": "subnet-bb2fd1f0",
+         "ParameterValue": "subnet-b833dcf3",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "SubnetId2",
-         "ParameterValue": "subnet-4da29c61",
+         "ParameterValue": "subnet-8dd7f9a1",
          "UsePreviousValue": true
        },
        {
