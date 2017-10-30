@@ -166,7 +166,7 @@
   },
   {
     "ParameterKey": "RoleStack",
-    "ParameterValue": "STACK_NAME",
+    "ParameterValue": "role1",
     "UsePreviousValue": true
   },
   {
