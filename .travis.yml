@@ -49,7 +49,7 @@ deploy:
   secret_access_key:
     secure: "VvpTCCqRPhJakXmaS5OXDr8ifFn2VywV51FB/p08LIVvSX66EUlt9ImeB/EZlPhYTzUY7QAxNTqRtgDPr/Qqkp1eH3nWKi0fp85INSO/Olv/tywhb5la0HSB1W/NU1pm9AsjqKTLKdU2GzodlgvNwB3V/8sR1uegH3k6NqyJQcW96SHHZmIhWxVM3zVZfJbVNGNgTyaLBee7/0iCen0uVcjN2jVMoR9pUJTTOMJRJ0OaU5ztTUtZXGPeH9rF2uAfo0HfdirKC+STw//qLt+Y3somjtcVWVIdu20/EnFvUXknLw6Ulf+jw8pBYidI2srWcmYdFQi6TGW41DBD++5pP+ZMntS1UwO6DsuYmenmfeXgMBXyxlqHh29OXq+RTat51Bb6xP/jwaip7C0oCKz197BPxVDt7WcJtw2IikEZsSaC8S/6dweZT2byIjjzQZN/rI5LPColhnYLmnDYYKkQx2UyVMz2/sTnZkXK3fdh8XwtuQQZ4CIn2DAGMS1H+VDo2jwdq7xBKMXVDLsZiGAobErt5cVp8o29IObhwAoyWPC6b6zwqxY5L4Ytp7pUp9lZsIzsMf+QNgskDaXvkiGHB0EGONQ8xtc4DFGSXWeQO+7SBShAAAPBqJvZX3TIO6P8GZ9UA6yzJZVToJegrYZRUHV1yAZktVO9l6wvOXjGG9o="
   local_dir: codedeploy
-  bucket: code-deploy.csye6225-fall2017-magarer.me
+  bucket: ec2.csye6225-fall2017-magarer.me.csye6225.com
   region: us-east-1
   skip_cleanup: true
 
@@ -62,7 +62,7 @@ deploy:
    #deployement_group: WebApplication
 - provider: codedeploy
   access_key_id: AKIAIX6QLOIPWLR6NSCA
-  bucket: code-deploy.csye6225-fall2017-magarer.me
+  bucket: ec2.csye6225-fall2017-magarer.me.csye6225.com
   key: WebApp.zip
   bundle_type: zip
   application: WEB_APPLICATION
