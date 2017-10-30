@@ -102,7 +102,7 @@ Resources:
                   - "s3:PutObject"
                 Resource: "*"
       Users:
-        - Travis
+        - travis
 
   RolePolicy3:
     Type: "AWS::IAM::ManagedPolicy"
@@ -132,7 +132,7 @@ Resources:
               - !Sub "arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.HalfAtATime"
               - !Sub "arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.AllAtOnce"
       Users:
-        - Travis
+        - travis
 
 Outputs:
   StackEc2InstanceRole:

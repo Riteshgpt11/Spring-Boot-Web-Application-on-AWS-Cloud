@@ -1,7 +1,7 @@
 [
     {
        "ParameterKey": "KeyName",
-       "ParameterValue": "MyPublicKey",
+       "ParameterValue": "PKey",
        "UsePreviousValue": true
      },
        {
@@ -31,7 +31,7 @@
        },
        {
          "ParameterKey": "WebApplicationName",
-         "ParameterValue": "Csye6225",
+         "ParameterValue": "csye6225",
          "UsePreviousValue": true
        }
 ]
