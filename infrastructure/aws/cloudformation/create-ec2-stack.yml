@@ -21,9 +21,6 @@ Parameters:
   Id:
     Description: Image id of the AMI
     Type: AWS::EC2::Image::Id
-  SubnetId:
-    Description: Subnet id of the AMI
-    Type: "String"
   VpcId:
     Description: Vpc id of the AMI
     Type: "String"
@@ -117,123 +114,23 @@ Parameters:
   DBIngressPort:
     Description: MySQL db Ingress port for RDS Instance
     Type: "String"
-  Ec2RoleName:
-    Description: EC2 role name
+  RoleStack:
+    Description: Name of the active stack that has roles created
     Type: "String"
-  CodeDepolyRoleName:
-    Description: Code Deploy name
+  EC2TagName:
+    Description: Name of the active stack that has roles created
     Type: "String"
-  PolicyDeployEC2S3Name:
-    Description: Code Deploy from EC2 S3
+  EC2TagValue:
+    Description: Name of the active stack that has roles created
     Type: "String"
-  PolicyTravisUploadS3Name:
-    Description: Travis Upload to S3
+  DNSRecordType:
+    Description: Name of the active stack that has roles created
     Type: "String"
-  PolicyTravisCodeDeployName:
-    Description: Travis-Code-Deploy-new
+  DNSTtl:
+    Description: Name of the active stack that has roles created
     Type: "String"
 
 Resources:
-  Ec2Role:
-    Type: "AWS::IAM::Role"
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          -
-            Effect: "Allow"
-            Principal:
-              Service:
-                - "ec2.amazonaws.com"
-            Action:
-              - "sts:AssumeRole"
-      Path: "/"
-      RoleName: !Ref Ec2RoleName
-  Ec2InstanceProfile:
-    Type: "AWS::IAM::InstanceProfile"
-    Properties:
-      Path: "/"
-      Roles:
-        -
-          Ref: "Ec2Role"
-
-  CodeDeployRole:
-    Type: "AWS::IAM::Role"
-    Properties:
-      ManagedPolicyArns:
-        - "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          -
-            Effect: "Allow"
-            Principal:
-              Service:
-                - "codedeploy.amazonaws.com"
-            Action:
-              - "sts:AssumeRole"
-      RoleName: !Ref CodeDepolyRoleName
-
-  RolePolicy1:
-    Type: "AWS::IAM::ManagedPolicy"
-    Properties:
-      Description: "Trying to create a CF policy"
-      ManagedPolicyName: !Ref PolicyDeployEC2S3Name #"CodeDeploy-EC2-S3new"
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          -
-            Effect: "Allow"
-            Action:
-              - "s3:Get*"
-              - "s3:List*"
-            Resource: "*"
-      Roles:
-        -
-          Ref:  "Ec2Role"
-
-  RolePolicy2:
-    Type: "AWS::IAM::ManagedPolicy"
-    Properties:
-      Description: "Trying to create a CF policy"
-      ManagedPolicyName: !Ref PolicyTravisUploadS3Name #"Travis-Upload-S3-new"
-      PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              -
-                Effect: "Allow"
-                Action:
-                  - "s3:PutObject"
-                Resource: "*"
-
-  RolePolicy3:
-    Type: "AWS::IAM::ManagedPolicy"
-    Properties:
-      Description: "Trying to create a CF policy"
-      ManagedPolicyName: !Ref PolicyTravisCodeDeployName #"Travis-Code-Deploy-new"
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          -
-            Effect: "Allow"
-            Action:
-              - "codedeploy:RegisterApplicationRevision"
-              - "codedeploy:GetApplicationRevision"
-            Resource: "arn:aws:codedeploy:us-east-1:752801368307:application:Csye6225"
-          -
-            Effect: "Allow"
-            Action:
-              - "codedeploy:CreateDeployment"
-              - "codedeploy:GetDeployment"
-            Resource: "*"
-          -
-            Effect: "Allow"
-            Action: "codedeploy:GetDeploymentConfig"
-            Resource:
-              - "arn:aws:codedeploy:us-east-1:752801368307:deploymentconfig:CodeDeployDefault.OneAtATime"
-              - "arn:aws:codedeploy:us-east-1:752801368307:deploymentconfig:CodeDeployDefault.HalfAtATime"
-              - "arn:aws:codedeploy:us-east-1:752801368307:deploymentconfig:CodeDeployDefault.AllAtOnce"
-
 # VPC Security Group for EC2 instance
   WebServerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
@@ -256,117 +153,6 @@ Resources:
           FromPort: '443'
           ToPort: '443'
           CidrIp: 0.0.0.0/0
-  EC2Instance:
-    Type: 'AWS::EC2::Instance'
-    Metadata:
-      'AWS::CloudFormation::Init':
-        services:
-          sysvint:
-            codedeploy-agent:
-              enabled: true
-              ensureRunning: true
-        configSets:
-          default:
-            - install_base
-        install_base:
-          packages:
-            apt-get:
-              wget: []
-    Properties:
-      KeyName: !Ref KeyName
-      IamInstanceProfile: !Ref Ec2InstanceProfile
-      ImageId:
-        Ref: Id
-      InstanceType:
-        Ref: InstanceType
-      DisableApiTermination: true
-      SecurityGroupIds:
-        - !GetAtt
-          - WebServerSecurityGroup
-          - GroupId
-      SubnetId:
-        Ref: SubnetId
-      Tags:
-        -
-          Key: "course"
-          Value: "csye6225"
-      BlockDeviceMappings:
-        -
-          DeviceName:
-            Ref: DeviceName
-          Ebs:
-            VolumeType:
-              Ref: VolumeType
-            VolumeSize:
-              Ref: VolumeSize
-      UserData:                #adding user data
-        Fn::Base64: !Sub |     #adding bas64 encoding
-            #! /bin/bash -xe
-            apt-get update        
-            echo Y | apt-get install default-jre
-            echo Y | apt-get install default-jdk 
-
-            sed -i '$ a JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"' /etc/environment #source path for jdk8 installation
-            source /etc/environment
-            wait
-            sleep 3
-            groupadd tomcat                                                             #creating a tomcat group
-            useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat                       #adding a member(user) to the tomcat group
-
-            cd /opt                                                                     
-            curl -O http://apache.mirrors.tds.net/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz #downlaoding tomcat 8
-            tar -xvf apache-tomcat-8.5.23.tar.gz                                                          #extracting the given file            
-            mv apache-tomcat-8.5.23 tomcat                                                                
-
-            sleep 3
-
-            chgrp -R tomcat /opt/tomcat     #changing group ownership
-            chown -R tomcat /opt/tomcat     #changing file ownership 
-            chmod -R 755 /opt/tomcat        #changing file permissions
-
-            echo "[Unit]                         
-            Description=Apache Tomcat Web Application   
-            After=network.target
-
-            [Service]
-            Type=forking
-
-            Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
-            Environment=CATALINA_HOME=/opt/tomcat
-            Environment=CATALINA_BASE=/opt/tomcat            
-            Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
-            ExecStart=/opt/tomcat/bin/startup.sh
-            ExecStop=/opt/tomcat/bin/shutdown.sh
-
-            User=tomcat
-            Group=tomcat
-            UMask=0007
-            RestartSec=15
-            Restart=always
-
-            [Install]
-            WantedBy=multi-user.target" > /etc/systemd/system/tomcat.service
-
-            systemctl daemon-reload   #reloading system damemon to update it with tomcat installtion
-            sleep 2
-            systemctl start tomcat    #starting tomcat
-            sleep 2
-            systemctl enable tomcat
-            sudo ufw allow 8080       #allowing traffic on port 8080
-            sleep 10
-            wait
-
-            apt-get update
-            echo Y | apt-get install ruby      #installing ruby for codedeploy-agent 
-            apt-get install wget
-            cd /home/ubuntu
-            wget https://aws-codedeploy-us-east-2.s3.amazonaws.com/latest/install  #installing codedeploy-agent from source
-            chmod -R 777 /home/ubuntu/install  #giving the file all permissions     
-            wait
-            sleep 4
-            ./install auto
-            service codedeploy-agent start     #starting codedeploy-agent service      
-            sleep 10
 
 # VPC Security Group for RDS instance
   RDSSecurityGroup:
@@ -414,6 +200,120 @@ Resources:
         -
           Key: "Name"
           Value: "RDS MySQL Database"
+
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      KeyName: !Ref KeyName
+      IamInstanceProfile:
+        Fn::ImportValue:
+          !Sub "${RoleStack}-Ec2InstanceRole"
+      ImageId:
+        Ref: Id
+      InstanceType:
+        Ref: InstanceType
+      DisableApiTermination: true
+      SecurityGroupIds:
+        - !GetAtt
+          - WebServerSecurityGroup
+          - GroupId
+      SubnetId:
+        Ref: SubnetId1
+      Tags:
+        -
+          Key: !Ref EC2TagName
+          Value: !Ref EC2TagValue
+      BlockDeviceMappings:
+        -
+          DeviceName:
+            Ref: DeviceName
+          Ebs:
+            VolumeType:
+              Ref: VolumeType
+            VolumeSize:
+              Ref: VolumeSize
+      UserData:
+        Fn::Base64: !Sub |
+            #! /bin/bash -xe
+            apt-get update
+            echo Y | apt-get install default-jre
+            echo Y | apt-get install default-jdk
+
+            sed -i '$ a JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"' /etc/environment
+            source /etc/environment
+            wait
+            sleep 3
+            groupadd tomcat
+            useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+
+            cd /opt
+            curl -O http://apache.mirrors.tds.net/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz
+            tar -xvf apache-tomcat-8.5.23.tar.gz
+            mv apache-tomcat-8.5.23 tomcat
+
+            sleep 3
+
+            chgrp -R tomcat /opt/tomcat
+            chown -R tomcat /opt/tomcat
+            chmod -R 755 /opt/tomcat
+
+            echo "[Unit]
+            Description=Apache Tomcat Web Server
+            After=network.target
+
+            [Service]
+            Type=forking
+
+            Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+            Environment=CATALINA_HOME=/opt/tomcat
+            Environment=CATALINA_BASE=/opt/tomcat
+            Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+
+            ExecStart=/opt/tomcat/bin/startup.sh
+            ExecStop=/opt/tomcat/bin/shutdown.sh
+
+            User=tomcat
+            Group=tomcat
+            UMask=0007
+            RestartSec=15
+            Restart=always
+
+            [Install]
+            WantedBy=multi-user.target" > /etc/systemd/system/tomcat.service
+
+            systemctl daemon-reload
+            sleep 2
+            systemctl start tomcat
+            sleep 2
+            systemctl enable tomcat
+            sudo ufw allow 8080
+
+            sleep 10
+            wait
+
+            apt-get update
+            echo Y | apt-get install ruby
+            apt-get install wget
+            cd /home/ubuntu
+            wget https://aws-codedeploy-us-east-2.s3.amazonaws.com/latest/install
+            chmod -R 777 /home/ubuntu/install
+            wait
+            sleep 3
+            ./install auto
+            service codedeploy-agent start
+            sleep 10
+
+            echo '#!/bin/sh' > /opt/tomcat/bin/setenv.sh
+            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.url=jdbc:mysql://${RDSInstance.Endpoint.Address}:3306/csye6225"' >> /opt/tomcat/bin/setenv.sh
+            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.username=${DBUser}"' >> /opt/tomcat/bin/setenv.sh
+            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.password=${DBPassword}"' >> /opt/tomcat/bin/setenv.sh
+
+            sleep 3
+            chmod -R 755 /opt/tomcat/bin/setenv.sh
+            chown tomcat:tomcat /opt/tomcat/bin/setenv.sh
+            source /opt/tomcat/bin/setenv.sh
+            sleep 3
+
 # S3 bucket
   S3Bucket:
     Type: AWS::S3::Bucket
@@ -445,8 +345,8 @@ Resources:
         Ref: HostedZoneId
       Name:
         Ref: DomainName
-      Type: A
-      TTL: 60
+      Type: !Ref DNSRecordType
+      TTL: !Ref DNSTtl
       ResourceRecords:
       - !GetAtt EC2Instance.PublicIp
 
