@@ -15,14 +15,6 @@
            "UsePreviousValue": true
        },
        {
-<<<<<<< HEAD
-         "ParameterKey": "SubnetId",
-         "ParameterValue": "subnet-bb2fd1f0",
-         "UsePreviousValue": true
-       },
-       {
-=======
->>>>>>> 1d5de6c9d4c1397d893197a5e6da4c5c1547ada1
          "ParameterKey": "VpcId",
          "ParameterValue": "vpc-9e9374e6",
          "UsePreviousValue": true
@@ -39,11 +31,7 @@
        },
        {
          "ParameterKey": "HostedZoneId",
-<<<<<<< HEAD
          "ParameterValue": "ZFLUDICG22F7Z",
-=======
-         "ParameterValue": " ZFLUDICG22F7Z",
->>>>>>> 1d5de6c9d4c1397d893197a5e6da4c5c1547ada1
          "UsePreviousValue": true
        },
        {
@@ -118,11 +106,7 @@
        },
        {
          "ParameterKey": "SubnetId2",
-<<<<<<< HEAD
          "ParameterValue": "subnet-4da29c61",
-=======
-         "ParameterValue": "subnet-4ab88b10",
->>>>>>> 1d5de6c9d4c1397d893197a5e6da4c5c1547ada1
          "UsePreviousValue": true
        },
        {
@@ -182,7 +166,7 @@
        },
        {
          "ParameterKey": "RoleStack",
-         "ParameterValue": "role1",
+         "ParameterValue": "STACK_NAME",
          "UsePreviousValue": true
        },
        {

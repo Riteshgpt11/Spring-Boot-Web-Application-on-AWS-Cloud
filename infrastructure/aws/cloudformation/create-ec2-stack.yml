@@ -131,109 +131,6 @@ Parameters:
     Type: "String"
 
 Resources:
-<<<<<<< HEAD
-  Ec2Role:
-    Type: "AWS::IAM::Role"
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          -
-            Effect: "Allow"
-            Principal:
-              Service:
-                - "ec2.amazonaws.com"
-            Action:
-              - "sts:AssumeRole"
-      Path: "/"
-      RoleName: !Ref Ec2RoleName
-  Ec2InstanceProfile:
-    Type: "AWS::IAM::InstanceProfile"
-    Properties:
-      Path: "/"
-      Roles:
-        -
-          Ref: "Ec2Role"
-
-  CodeDeployRole:
-    Type: "AWS::IAM::Role"
-    Properties:
-      ManagedPolicyArns:
-        - "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          -
-            Effect: "Allow"
-            Principal:
-              Service:
-                - "codedeploy.amazonaws.com"
-            Action:
-              - "sts:AssumeRole"
-      RoleName: !Ref CodeDepolyRoleName
-
-  RolePolicy1:
-    Type: "AWS::IAM::ManagedPolicy"
-    Properties:
-      Description: "Trying to create a CF policy"
-      ManagedPolicyName: !Ref PolicyDeployEC2S3Name #"CodeDeploy-EC2-S3new"
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          -
-            Effect: "Allow"
-            Action:
-              - "s3:Get*"
-              - "s3:List*"
-            Resource: "*"
-      Roles:
-        -
-          Ref:  "Ec2Role"
-
-  RolePolicy2:
-    Type: "AWS::IAM::ManagedPolicy"
-    Properties:
-      Description: "Trying to create a CF policy"
-      ManagedPolicyName: !Ref PolicyTravisUploadS3Name #"Travis-Upload-S3-new"
-      PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              -
-                Effect: "Allow"
-                Action:
-                  - "s3:PutObject"
-                Resource: "*"
-
-  RolePolicy3:
-    Type: "AWS::IAM::ManagedPolicy"
-    Properties:
-      Description: "Trying to create a CF policy"
-      ManagedPolicyName: !Ref PolicyTravisCodeDeployName #"Travis-Code-Deploy-new"
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          -
-            Effect: "Allow"
-            Action:
-              - "codedeploy:RegisterApplicationRevision"
-              - "codedeploy:GetApplicationRevision"
-            Resource: "arn:aws:codedeploy:us-east-1:291255850115:application:Csye6225"
-          -
-            Effect: "Allow"
-            Action:
-              - "codedeploy:CreateDeployment"
-              - "codedeploy:GetDeployment"
-            Resource: "*"
-          -
-            Effect: "Allow"
-            Action: "codedeploy:GetDeploymentConfig"
-            Resource:
-              - "arn:aws:codedeploy:us-east-1:291255850115:deploymentconfig:CodeDeployDefault.OneAtATime"
-              - "arn:aws:codedeploy:us-east-1:291255850115:deploymentconfig:CodeDeployDefault.HalfAtATime"
-              - "arn:aws:codedeploy:us-east-1:291255850115:deploymentconfig:CodeDeployDefault.AllAtOnce"
-
-=======
->>>>>>> 1d5de6c9d4c1397d893197a5e6da4c5c1547ada1
 # VPC Security Group for EC2 instance
   WebServerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
@@ -290,6 +187,7 @@ Resources:
       DBInstanceClass: !Ref DBInstanceClass
       Engine: !Ref DatabaseType
       EngineVersion: !Ref DatabaseVersion
+      PubliclyAccessible: true
       StorageType: !Ref DBStorageType
       PubliclyAccessible: true
       DBSubnetGroupName: !Ref DBSubnetGroup
@@ -407,10 +305,11 @@ Resources:
             service codedeploy-agent start
             sleep 10
 
-            echo "
-            JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.url=jdbc:mysql://${RDSInstance.Endpoint.Address}:3306/csye6225"
-            JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.username=${DBUser}"
-            JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.password=${DBPassword}"" >> /opt/tomcat/bin/setenv.sh
+            echo '#!/bin/sh' > /opt/tomcat/bin/setenv.sh
+            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.url=jdbc:mysql://${RDSInstance.Endpoint.Address}:3306/csye6225"' >> /opt/tomcat/bin/setenv.sh
+            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.username=${DBUser}"' >> /opt/tomcat/bin/setenv.sh
+            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.password=${DBPassword}"' >> /opt/tomcat/bin/setenv.sh
+
 
             sleep 3
             chmod -R 755 /opt/tomcat/bin/setenv.sh
