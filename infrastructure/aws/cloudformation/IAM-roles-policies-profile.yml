@@ -45,6 +45,17 @@ Resources:
               - "sts:AssumeRole"
       Path: "/"
       RoleName: !Ref Ec2RoleName
+      Policies:
+        -
+          PolicyName: !Ref PolicyDeployEC2S3Name
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Action:
+                  - 's3:Get*'
+                  - 's3:List*'
+                Effect: Allow
+                Resource: '*'
   Ec2InstanceProfile:
     Type: "AWS::IAM::InstanceProfile"
     Properties:
@@ -70,69 +81,52 @@ Resources:
               - "sts:AssumeRole"
       RoleName: !Ref CodeDepolyRoleName
 
-  RolePolicy1:
+  RolePolicyUploadToS3:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
-      Description: "Trying to create a CF policy"
-      ManagedPolicyName: !Ref PolicyDeployEC2S3Name
+      Description: "new CF policy"
+      ManagedPolicyName: !Ref PolicyTravisUploadS3Name
       PolicyDocument:
-        Version: "2012-10-17"
+        Version: 2012-10-17
         Statement:
-          -
-            Effect: "Allow"
+          - Effect: Allow
             Action:
-              - "s3:Get*"
-              - "s3:List*"
-            Resource: "*"
-      Roles:
-        -
-          Ref:  "Ec2Role"
-
-  RolePolicy2:
-    Type: "AWS::IAM::ManagedPolicy"
-    Properties:
-      Description: "Trying to create a CF policy"
-      ManagedPolicyName: !Ref PolicyTravisUploadS3Name 
-      PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              -
-                Effect: "Allow"
-                Action:
-                  - "s3:PutObject"
-                Resource: "*"
+              - 's3:PutObject'
+            Resource:
+              - '*'
       Users:
         - travis_ci
 
-  RolePolicy3:
+  travisCiPolicy1:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
       Description: "Trying to create a CF policy"
       ManagedPolicyName: !Ref PolicyTravisCodeDeployName
       PolicyDocument:
-        Version: "2012-10-17"
+        Version: 2012-10-17
         Statement:
-          -
-            Effect: "Allow"
+          - Effect: Allow
             Action:
-              - "codedeploy:RegisterApplicationRevision"
-              - "codedeploy:GetApplicationRevision"
-            Resource: !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:${WebApplicationName}'
-          -
-            Effect: "Allow"
-            Action:
-              - "codedeploy:CreateDeployment"
-              - "codedeploy:GetDeployment"
-            Resource: "*"
-          -
-            Effect: "Allow"
-            Action: "codedeploy:GetDeploymentConfig"
+              - 'codedeploy:RegisterApplicationRevision'
+              - 'codedeploy:GetApplicationRevision'
             Resource:
-              - !Sub "arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.OneAtATime"
-              - !Sub "arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.HalfAtATime"
-              - !Sub "arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.AllAtOnce"
+              - !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:application:${WebApplicationName}'
+          - Effect: Allow
+            Action:
+              - 'codedeploy:CreateDeployment'
+              - 'codedeploy:GetDeployment'
+            Resource:
+              - '*'
+          - Effect: Allow
+            Action:
+              - 'codedeploy:GetDeploymentConfig'
+            Resource:
+              - !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.OneAtATime'
+              - !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.HalfAtATime'
+              - !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.AllAtOnce'
       Users:
         - travis_ci
+
 
 Outputs:
   StackEc2InstanceRole:
