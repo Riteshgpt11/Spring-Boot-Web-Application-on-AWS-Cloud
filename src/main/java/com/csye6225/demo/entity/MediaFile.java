@@ -19,12 +19,25 @@ public class MediaFile implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "fileId", unique = true, nullable = false)
     private Long fileId;
-    @Column(name = "fileName", nullable = false)
-    @NotNull
+    @Column(name = "fileName")
     private String fileName;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "taskId")
     private Task task;
+    @Column(name = "s3_key", nullable = false, length = 200)
+    @NotNull
+    private String key;
+    @Column(name = "url", nullable = false, length = 1000)
+    @NotNull
+    private String url;
+    public MediaFile() {
+
+    }
+    public MediaFile(String key, String url, String fileName) {
+        this.key = key;
+        this.url = url;
+        this.fileName = fileName;
+    }
 
     public Task getTask() {
         return task;
@@ -48,5 +61,21 @@ public class MediaFile implements Serializable {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

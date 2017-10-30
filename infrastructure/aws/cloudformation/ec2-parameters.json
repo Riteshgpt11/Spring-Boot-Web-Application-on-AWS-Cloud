@@ -1,4 +1,9 @@
 [
+    {
+       "ParameterKey": "KeyName",
+       "ParameterValue": "MyPublicKey",
+       "UsePreviousValue": true
+     },
      {
           "ParameterKey": "InstanceType",
           "ParameterValue": "t2.micro",
@@ -10,13 +15,8 @@
            "UsePreviousValue": true
        },
        {
-         "ParameterKey": "SubnetId",
-         "ParameterValue": "subnet-b833dcf3",
-         "UsePreviousValue": true
-       },
-       {
          "ParameterKey": "VpcId",
-         "ParameterValue": "vpc-a9f6ffd0",
+         "ParameterValue": "vpc-9e9374e6",
          "UsePreviousValue": true
        },
        {
@@ -31,12 +31,12 @@
        },
        {
          "ParameterKey": "HostedZoneId",
-         "ParameterValue": "ZV0SP3ADUV1M6",
+         "ParameterValue": " ZFLUDICG22F7Z",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "DomainName",
-         "ParameterValue": "ec2.csye6225-fall2017-jainyo.me",
+         "ParameterValue": "ec2.csye6225-fall2017-guptarite.me",
          "UsePreviousValue": true
        },
        {
@@ -101,12 +101,12 @@
        },
        {
          "ParameterKey": "SubnetId1",
-         "ParameterValue": "subnet-8dd7f9a1",
+         "ParameterValue": "subnet-bb2fd1f0",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "SubnetId2",
-         "ParameterValue": "subnet-b833dcf3",
+         "ParameterValue": "subnet-4ab88b10",
          "UsePreviousValue": true
        },
        {
@@ -153,6 +153,32 @@
          "ParameterKey": "DBIngressPort",
          "ParameterValue": "3306",
          "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "EC2TagName",
+         "ParameterValue": "course",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "EC2TagValue",
+         "ParameterValue": "csye6225",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "RoleStack",
+         "ParameterValue": "roles",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "DNSRecordType",
+         "ParameterValue": "A",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "DNSTtl",
+         "ParameterValue": "60",
+         "UsePreviousValue": true
        }
+
 
 ]

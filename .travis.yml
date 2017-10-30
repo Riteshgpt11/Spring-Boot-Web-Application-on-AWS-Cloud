@@ -28,7 +28,7 @@ script:
 
 after_success:
   - mkdir codedeploy
-  - zip -r WebApp.zip build/libs/ROOT.war appsec.yml
+  - zip -r WebApp.zip build/libs/ROOT.war appspec.yml restartTomcat.sh
   - ls -al
   - mv WebApp.zip codedeploy/
   - ls -al
@@ -46,9 +46,9 @@ deploy:
 - provider: s3
   access_key_id: AKIAIX6QLOIPWLR6NSCA
   secret_access_key:
-    secure: "X1xI1b77p88WXbY2omYbZLoj1h3ZboIFk5FZDZWpDoFJ2kGB+QcQq8vnaaNiAYcGQWyUaOdhGKrL1Dk0mGmRFe5UtBb3pBU0w/UEZW30UALi0sLGQZE2LoyAleDGXTKK/qBvvcuczLSObRQksP9BWqFoyCzUYYbyc5C91A9YtQ+ukQT9xbycQUtb0mrIj4oeqXRoemxOQ9XHlCRxA4GqoF4qE7mQyNrnakXxwx8/fvd2dS5i3RaziEodoXa2JEdajKjo02o6MHB4e9ej/ve/QF6o2lieX3hRNh+Gl94B4ypFTJ/a3vIbEnFLGaNSdDEt/kBF9/iM2kX1pwZPbTiwl3scB4Ci13gtReH5sGaDWCx/++ywwbmUqvDlqoCgiv/5doAo5KghoOAgfrQPbz0N6jSL0OZcTX5K/TYwXJiqWES0Ba//+/A8vq5ONv1eddyVnQPUuNnILb442nI5TeNzDm/DhIAVs8F0/wQkxvamzGnXAci6gdyfLCE2iv1Q02EJ/kWDIDK1NY0y0endXGYmfvItSStRU4EgcRI8wR1hFk8DVx23EnIC+/G4aZPjtv22Q47v4CqjzHLoMEW+rV2ZJakbhslSjtTjs1j9hgmvePBI6EAMx/PtHDcyE8VstrCLXFUCwnDkXuerucNQXwaH8WEMNkvYqjE60Wpay7miRgc="
+    secure: "SlfDgQEw0hx96vtqY+RrsXIOCoPdF6IRVjvatpGApHachG7QUXTh4nqEga3oCphVyNn2EcRb+pDutEqDJ37b35+dfw3xryALZpkPe4Vg4TQa/VJe2YsaCjeGDUEKlHbXVBfOHhJe9iIMWjO5LE8Al6M5J/d94L3WNLAb4DCMlqz4MJLOzhH7oSBh2YU8ARHMDd0zWzHE+EhZK71kea7RBfx3+k8j7p3+j0ZNRvjsIuqGFHTpvzaRMwtKL+rqq+4oZ1osUnPsYXbEiG1yHgMkWGGplreUo0iOb3Pqx3RIHucri0WIqtaUY1E0eFuJhGtg05MGDD0NsLU2pdyfF2ov3R31ouCGJmBEzSJXYnk6Yn+TiBsOU5KAWgIyyWwelSTqymsLftxhKpVPSJseMmry93k6yFeYxRuJmvIufT8rGtt47PqVe8TW/C/WF15rpqxEZto26bnVgurXI03Wg2dTppUHGFXAau6ELZcqYSgAcvNNxWgIYpCou5AzysGeAcJhOzXNbOb38ByWTs6OyvT065dbW3w5iznkNjuyGU3y9Pa71jBEPmPrNKOOhI6ChcdMuGtF+CsRHuloSB9Qh/NYCVlOoBuCvZx81GxAUfHqpeE4XcpMifzHCtcJEI6qhoVD1VyhuB9SlqjOsDO+donj8FoNviYQsvwTITxeAohEJRg="
   local_dir: codedeploy
-  bucket: code-deploy.csye6225-fall2017-guptarite.me
+  bucket: ec2.csye6225-fall2017-guptarite.me.csye6225.com
   region: us-east-1
   skip_cleanup: true
 
@@ -59,6 +59,17 @@ deploy:
   #  bundle type: zip
   #application: WebApplication
    #deployement_group: WebApplication
+- provider: codedeploy
+  access_key_id: AKIAIX6QLOIPWLR6NSCA
+  bucket: ec2.csye6225-fall2017-guptarite.me.csye6225.com
+  key: WebApp.zip
+  bundle_type: zip
+  application: Csye6225
+  deployment_group: Csye6225  
+  region: us-east-1
+  secret_access_key:
+    secure: "SlfDgQEw0hx96vtqY+RrsXIOCoPdF6IRVjvatpGApHachG7QUXTh4nqEga3oCphVyNn2EcRb+pDutEqDJ37b35+dfw3xryALZpkPe4Vg4TQa/VJe2YsaCjeGDUEKlHbXVBfOHhJe9iIMWjO5LE8Al6M5J/d94L3WNLAb4DCMlqz4MJLOzhH7oSBh2YU8ARHMDd0zWzHE+EhZK71kea7RBfx3+k8j7p3+j0ZNRvjsIuqGFHTpvzaRMwtKL+rqq+4oZ1osUnPsYXbEiG1yHgMkWGGplreUo0iOb3Pqx3RIHucri0WIqtaUY1E0eFuJhGtg05MGDD0NsLU2pdyfF2ov3R31ouCGJmBEzSJXYnk6Yn+TiBsOU5KAWgIyyWwelSTqymsLftxhKpVPSJseMmry93k6yFeYxRuJmvIufT8rGtt47PqVe8TW/C/WF15rpqxEZto26bnVgurXI03Wg2dTppUHGFXAau6ELZcqYSgAcvNNxWgIYpCou5AzysGeAcJhOzXNbOb38ByWTs6OyvT065dbW3w5iznkNjuyGU3y9Pa71jBEPmPrNKOOhI6ChcdMuGtF+CsRHuloSB9Qh/NYCVlOoBuCvZx81GxAUfHqpeE4XcpMifzHCtcJEI6qhoVD1VyhuB9SlqjOsDO+donj8FoNviYQsvwTITxeAohEJRg="
+  wait-until-deployed: true
 
 
 notifications:
