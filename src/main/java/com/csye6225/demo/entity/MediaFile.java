@@ -33,9 +33,10 @@ public class MediaFile implements Serializable {
     public MediaFile() {
 
     }
-    public MediaFile(String key, String url) {
+    public MediaFile(String key, String url, String fileName) {
         this.key = key;
         this.url = url;
+        this.fileName = fileName;
     }
 
     public Task getTask() {

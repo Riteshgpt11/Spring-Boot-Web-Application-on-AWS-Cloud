@@ -15,11 +15,14 @@
            "UsePreviousValue": true
        },
        {
+<<<<<<< HEAD
          "ParameterKey": "SubnetId",
          "ParameterValue": "subnet-bb2fd1f0",
          "UsePreviousValue": true
        },
        {
+=======
+>>>>>>> 1d5de6c9d4c1397d893197a5e6da4c5c1547ada1
          "ParameterKey": "VpcId",
          "ParameterValue": "vpc-9e9374e6",
          "UsePreviousValue": true
@@ -36,7 +39,11 @@
        },
        {
          "ParameterKey": "HostedZoneId",
+<<<<<<< HEAD
          "ParameterValue": "ZFLUDICG22F7Z",
+=======
+         "ParameterValue": " ZFLUDICG22F7Z",
+>>>>>>> 1d5de6c9d4c1397d893197a5e6da4c5c1547ada1
          "UsePreviousValue": true
        },
        {
@@ -111,7 +118,11 @@
        },
        {
          "ParameterKey": "SubnetId2",
+<<<<<<< HEAD
          "ParameterValue": "subnet-4da29c61",
+=======
+         "ParameterValue": "subnet-4ab88b10",
+>>>>>>> 1d5de6c9d4c1397d893197a5e6da4c5c1547ada1
          "UsePreviousValue": true
        },
        {
@@ -160,29 +171,30 @@
          "UsePreviousValue": true
        },
        {
-         "ParameterKey": "Ec2RoleName",
-         "ParameterValue": "CodeDepolyEC2ServiceRoleNew",
+         "ParameterKey": "EC2TagName",
+         "ParameterValue": "course",
          "UsePreviousValue": true
        },
        {
-         "ParameterKey": "CodeDepolyRoleName",
-         "ParameterValue": "CodeDepolyServiceRoleNew",
+         "ParameterKey": "EC2TagValue",
+         "ParameterValue": "csye6225",
          "UsePreviousValue": true
        },
        {
-         "ParameterKey": "PolicyDeployEC2S3Name",
-         "ParameterValue": "CodeDeploy-EC2-S3new",
+         "ParameterKey": "RoleStack",
+         "ParameterValue": "role1",
          "UsePreviousValue": true
        },
        {
-         "ParameterKey": "PolicyTravisUploadS3Name",
-         "ParameterValue": "Travis-Upload-S3-new",
+         "ParameterKey": "DNSRecordType",
+         "ParameterValue": "A",
          "UsePreviousValue": true
        },
        {
-         "ParameterKey": "PolicyTravisCodeDeployName",
-         "ParameterValue": "Travis-Code-Deploy-new",
+         "ParameterKey": "DNSTtl",
+         "ParameterValue": "60",
          "UsePreviousValue": true
        }
+
 
 ]
