@@ -303,10 +303,10 @@ Resources:
             service codedeploy-agent start
             sleep 10
 
-            echo "
-            JAVA_OPTS=$JAVA_OPTS-Dspring.datasource.url=jdbc:mysql:${RDSInstance.Endpoint.Address}//:3306/csye6225
-            JAVA_OPTS=$JAVA_OPTS-Dspring.datasource.username=${DBUser}
-            JAVA_OPTS=$JAVA_OPTS-Dspring.datasource.password=${DBPassword}" >> /opt/tomcat/bin/setenv.sh
+            echo '#!/bin/sh' > /opt/tomcat/bin/setenv.sh
+            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.url=jdbc:mysql://${RDSInstance.Endpoint.Address}:3306/csye6225"' >> /opt/tomcat/bin/setenv.sh
+            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.username=${DBUser}"' >> /opt/tomcat/bin/setenv.sh
+            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.password=${DBPassword}"' >> /opt/tomcat/bin/setenv.sh
 
             sleep 3
             chmod -R 755 /opt/tomcat/bin/setenv.sh
