@@ -44,7 +44,7 @@ before_deploy:
 
 deploy:
   local_dir: codedeploy
-  bucket: ec2.csye6225-fall2017-guptarite.me.csye6225.com
+  bucket: ec2.csye6225-fall2017-shettypr.me.csye6225.com
 - provider: s3
   access_key_id: AKIAIXX72ODDFLYICJEA
   secret_access_key:
@@ -61,11 +61,11 @@ deploy:
    #deployement_group: WebApplication
 - provider: codedeploy
   access_key_id: AKIAIXX72ODDFLYICJEA
-  bucket: ec2.csye6225-fall2017-guptarite.me.csye6225.com
+  bucket: ec2.csye6225-fall2017-shettypr.me.csye6225.com
   key: WebApp.zip
   bundle_type: zip
-  application: Csye6225
-  deployment_group: Csye6225  
+  application: csye6225
+  deployment_group: csye6225
   region: us-east-1
   secret_access_key:
     secure: "ZgSYWj06GKqsaaxcQUO9fYb80Pn7llW/CgXQqhKlECN8/tnF6KzAhyVHsrP5TTo++0aWc5wdb0j72RzqunuaS2l2Y9NEgM1c/cJDym+D7OFFsJgmdhR2uZvkQZZm4Z2l8uqlx3KfqoARcuQ4npAGVzj29uILg3PHGKMDD+v+5sE5uVGvEq4EyV5IggRlpY1193iHV0BdlGrlyX/Q1VVL22fh44A3ouYUbo3OukHedhtGjfVA9fxqCB+i8ed5IW5fg2PoRZUf6MMXaGyweRxpBxQNmW9vS7QGdULY2Yze8qvvP5oOMBnLzhu1AtcN3AxcODxPQO9npnH4uScDbXsAUKj9fZz//FPtT7C/SEZ1bnqZmO5M7nXEoPAllGnhrAVl76KT7DT3++AFjznrrbGxI0CBeQCF6YZIHjEUTdlD3ShWYqrE2uaHHzeJDxLGNJVl42SJdNacBT+EFf1WJSdxRR0ZN2ctREsyXVs61KRV8R1YUg6pjY6dwi/HpHsaWak8P4XR4BbJS9Coe6NDkq6XlV10YfO+3mNI9ks6gZyVZYw8Epub5o0r2NoNp0LaMtwkhK30nfDgQo9oIMMjyiAZ7yf+t5vpUmWrPMRFRxXf8jV1G1x368XZ19gclf/XwV73UiO80HGh1z1MRwhYsFZxiVay5FP7bsi5pPqWcrD5WBk="
