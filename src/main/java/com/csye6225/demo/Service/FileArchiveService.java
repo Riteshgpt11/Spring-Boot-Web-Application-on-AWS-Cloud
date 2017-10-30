@@ -29,6 +29,7 @@ import java.time.Instant;
 public class FileArchiveService {
 
     private static final String S3_BUCKET_NAME = "ec2.csye6225-fall2017-magarer.me.csye6225.com";
+    
     @Autowired
     private AmazonS3 s3Client;
     @Value("${jsa.aws.access_key_id}")
