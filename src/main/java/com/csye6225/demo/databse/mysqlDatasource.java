@@ -8,7 +8,7 @@ public class mysqlDatasource {
 
     public static Connection getRemotedConnection(){
         String hostname1 = System.getenv("spring.datasource.url");
-        System.out.println(hostname1);
+        System.out.println("hostname: " + hostname1);
         if (hostname1 != null) {
             try {
                 Class.forName("org.mysql.Driver");
