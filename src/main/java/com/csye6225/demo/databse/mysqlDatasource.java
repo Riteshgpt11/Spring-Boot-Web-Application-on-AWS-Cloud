@@ -7,15 +7,15 @@ import java.sql.SQLException;
 public class mysqlDatasource {
 
     public static Connection getRemotedConnection(){
-        String hostname1 = System.getenv("$URL");
+        String hostname1 = System.getProperty("spring.datasource.url");
         System.out.println(hostname1);
-        if (System.getenv("URL") != null) {
+        if (hostname1 != null) {
             try {
                 Class.forName("org.mysql.Driver");
-                String dbName = "DBNAME";
-                String userName = System.getenv("USERNAME");
-                String password = System.getenv("PASSWORD");
-                String hostname = System.getenv("URL");
+                String dbName = "csye6225";
+                String userName = System.getProperty("spring.datasource.username");
+                String password = System.getProperty("spring.datasource.password");
+                String hostname = System.getProperty("spring.datasource.url");
                 String port = "PORT";
                 //String jdbcUrl = "jdbc:mysql://" + hostname + ":" + port + "/" + dbName + "?user=" + userName + "&password=" + password;
                 String jdbcUrl = hostname + "?user=" + userName + "&password=" + password;
