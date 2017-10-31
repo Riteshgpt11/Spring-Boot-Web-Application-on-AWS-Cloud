@@ -19,8 +19,8 @@ fi
 
 
 ##Creating Stack
-#aws cloudformation create-stack --stack-name "$1" --template-body file://IAM-roles-policies-profile.yml --parameters file://IAM-parameters.json --capabilities CAPABILITY_NAMED_IAM
-#aws cloudformation wait stack-create-complete --stack-name $1
+aws cloudformation create-stack --stack-name "$1" --template-body file://IAM-roles-policies-profile.yml --parameters file://IAM-parameters.json --capabilities CAPABILITY_NAMED_IAM
+aws cloudformation wait stack-create-complete --stack-name $1
 
 echo "stack $1 is created"
 
