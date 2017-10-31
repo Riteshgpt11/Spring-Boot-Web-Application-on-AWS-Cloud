@@ -189,12 +189,10 @@ Resources:
       EngineVersion: !Ref DatabaseVersion
       PubliclyAccessible: true
       StorageType: !Ref DBStorageType
-      PubliclyAccessible: true
       DBSubnetGroupName: !Ref DBSubnetGroup
       DBInstanceIdentifier: !Ref InstanceIdentifier
       MasterUsername: !Ref DBUser
       MasterUserPassword: !Ref DBPassword
-      PubliclyAccessible: false
       MultiAZ: false
       VPCSecurityGroups:
       - Ref: RDSSecurityGroup
