@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sudo service tomcat stop
-cd /opt/tomcat/webapps
+sudo service tomcat8 stop
+cd /var/lib/tomcat8/webapps
 sudo rm -rf ROOT
-sudo service tomcat start
+sudo service tomcat8 start
