@@ -11,6 +11,7 @@ public class mysqlDatasource {
         System.out.println("hostname: " + hostname1);
         if (hostname1 != null) {
             try {
+                System.out.println("inside datasource");
                 Class.forName("org.mysql.Driver");
                 String dbName = "csye6225";
                 String userName = System.getenv("spring.datasource.username");
