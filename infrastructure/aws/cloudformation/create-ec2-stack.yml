@@ -235,61 +235,10 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
             #! /bin/bash -xe
-            apt-get update
-            echo Y | apt-get install default-jre
-            echo Y | apt-get install default-jdk
+            export DEBIAN_FRONTEND=noninteractive
+            apt-get update && apt-get upgrade -y
+            apt-get -y install tomcat8
 
-            sed -i '$ a JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"' /etc/environment
-            source /etc/environment
-            wait
-            sleep 3
-            groupadd tomcat
-            useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
-
-            cd /opt
-            curl -O http://apache.mirrors.tds.net/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz
-            tar -xvf apache-tomcat-8.5.23.tar.gz
-            mv apache-tomcat-8.5.23 tomcat
-
-            sleep 3
-
-            chgrp -R tomcat /opt/tomcat
-            chown -R tomcat /opt/tomcat
-            chmod -R 755 /opt/tomcat
-
-            echo "[Unit]
-            Description=Apache Tomcat Web Server
-            After=network.target
-
-            [Service]
-            Type=forking
-
-            Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
-            Environment=CATALINA_HOME=/opt/tomcat
-            Environment=CATALINA_BASE=/opt/tomcat
-            Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
-
-            ExecStart=/opt/tomcat/bin/startup.sh
-            ExecStop=/opt/tomcat/bin/shutdown.sh
-
-            User=tomcat
-            Group=tomcat
-            UMask=0007
-            RestartSec=15
-            Restart=always
-
-            [Install]
-            WantedBy=multi-user.target" > /etc/systemd/system/tomcat.service
-
-            systemctl daemon-reload
-            sleep 2
-            systemctl start tomcat
-            sleep 2
-            systemctl enable tomcat
-            sudo ufw allow 8080
-
-            sleep 10
-            wait
 
             apt-get update
             echo Y | apt-get install ruby
@@ -303,15 +252,15 @@ Resources:
             service codedeploy-agent start
             sleep 10
 
-            echo '#!/bin/sh' > /opt/tomcat/bin/setenv.sh
-            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.url=jdbc:mysql://${RDSInstance.Endpoint.Address}:3306/csye6225"' >> /opt/tomcat/bin/setenv.sh
-            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.username=${DBUser}"' >> /opt/tomcat/bin/setenv.sh
-            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.password=${DBPassword}"' >> /opt/tomcat/bin/setenv.sh
+            echo '#!/bin/sh' > /usr/share/tomcat8/bin/setenv.sh
+            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.url=jdbc:mysql://${RDSInstance.Endpoint.Address}:3306/csye6225"' >> /usr/share/tomcat8/bin/setenv.sh
+            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.username=${DBUser}"' >> /usr/share/tomcat8/bin/setenv.sh
+            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.password=${DBPassword}"' >> /usr/share/tomcat8/bin/setenv.sh
 
             sleep 3
-            chmod -R 755 /opt/tomcat/bin/setenv.sh
-            chown tomcat:tomcat /opt/tomcat/bin/setenv.sh
-            source /opt/tomcat/bin/setenv.sh
+            chmod -R 755 /usr/share/tomcat8/bin/setenv.sh
+            chown tomcat:tomcat /usr/share/tomcat8/bin/setenv.sh
+            source /usr/share/tomcat8/bin/setenv.sh
             sleep 3
 
 # S3 bucket
