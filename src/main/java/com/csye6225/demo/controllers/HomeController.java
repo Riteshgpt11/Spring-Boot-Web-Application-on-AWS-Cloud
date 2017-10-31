@@ -56,7 +56,7 @@ HomeController {
     @ResponseBody()
     public String home() throws Exception {
 
-        mysqlDatasource.getRemotedConnection();
+//        mysqlDatasource.getRemotedConnection();
         JsonObject jsonO = new JsonObject();
         jsonO.addProperty("message", "Home Page. Use /login.htm for login & /register.htm for register");
         return jsonO.toString();

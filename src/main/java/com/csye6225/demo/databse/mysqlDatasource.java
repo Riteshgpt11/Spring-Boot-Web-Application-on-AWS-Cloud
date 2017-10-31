@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class mysqlDatasource {
 
     public static Connection getRemotedConnection(){
-        String hostname1 = System.getenv("-Dspring.datasource.url");
+        /*String hostname1 = System.getenv("-Dspring.datasource.url");
         System.out.println("hostname: " + hostname1);
         if (hostname1 != null) {
             try {
@@ -27,7 +27,7 @@ public class mysqlDatasource {
             }
             catch (ClassNotFoundException e) { System.out.println(e.toString());}
             catch (SQLException e) { System.out.println(e.toString());}
-        }
+        }*/
         return null;
     }
 
