@@ -42,13 +42,14 @@ before_deploy:
   - ls -al
   - pwd
 
+
 deploy:
 - provider: s3
-  access_key_id: AKIAIX6QLOIPWLR6NSCA
+  access_key_id: AKIAJO6XPZC7EQMR6CQA
   secret_access_key:
-    secure: "SlfDgQEw0hx96vtqY+RrsXIOCoPdF6IRVjvatpGApHachG7QUXTh4nqEga3oCphVyNn2EcRb+pDutEqDJ37b35+dfw3xryALZpkPe4Vg4TQa/VJe2YsaCjeGDUEKlHbXVBfOHhJe9iIMWjO5LE8Al6M5J/d94L3WNLAb4DCMlqz4MJLOzhH7oSBh2YU8ARHMDd0zWzHE+EhZK71kea7RBfx3+k8j7p3+j0ZNRvjsIuqGFHTpvzaRMwtKL+rqq+4oZ1osUnPsYXbEiG1yHgMkWGGplreUo0iOb3Pqx3RIHucri0WIqtaUY1E0eFuJhGtg05MGDD0NsLU2pdyfF2ov3R31ouCGJmBEzSJXYnk6Yn+TiBsOU5KAWgIyyWwelSTqymsLftxhKpVPSJseMmry93k6yFeYxRuJmvIufT8rGtt47PqVe8TW/C/WF15rpqxEZto26bnVgurXI03Wg2dTppUHGFXAau6ELZcqYSgAcvNNxWgIYpCou5AzysGeAcJhOzXNbOb38ByWTs6OyvT065dbW3w5iznkNjuyGU3y9Pa71jBEPmPrNKOOhI6ChcdMuGtF+CsRHuloSB9Qh/NYCVlOoBuCvZx81GxAUfHqpeE4XcpMifzHCtcJEI6qhoVD1VyhuB9SlqjOsDO+donj8FoNviYQsvwTITxeAohEJRg="
+    secure: "ZAxqlbbXTuN4EwEF2/CZSOU8pNGh27mzH3wwROVzoIvnrdGGE7b8wNKXS5fcgiJCmlA207nnSv0erjHXnvMooaatTeMz7MKd/w4eL1dVTCxnn/Oser0DSDB4J0tHyZctyIEIglib6+A7MZ7r4INqgFo/11yfxjV4l47Pl/BBrKIr9OUY+YY9yB9rgkS8qHRwkAuKDy2py4LeJ9fpNn4Re8BRmJtF29aRMf2b3iSjBEtgLqI+qs4F3khBb3j3WFnXBIrIm/BLIhKqJ5l/pxhEV/ex27l9IqDMiOj/t4S0qlhoP0hQslsOqJqr0qHyJLrP8EyGyi+pQ9hVRa2uvl7uhdtxBb7CMlzDuTS/cZNqfSsGQ+Uy/v66zZT9U+XBfDsS6zxg+fvvZMjSaF+pbSj6z4mjtDleNYxfkS7sYaB5ox8X7PfzbV6+YnAzJv3FjOjDoUNZdnW2qOwwOHxFMolf3NxZM4FkD1pfV5DbV5/yVheDJAxN1ZOxISByt5iz5X2uWrmPG0u/vhRVYm18rqwcR1q9hhMQHoiGoUJoZjl+AdsULMoaDrSkU3hF4Qoj+i+jBjIwtgywmKccHKAG8NvcHbAp//Ykmpkd5jtD+/9Xk3out9Xz04spTBU4SETuLiavRFVzcB0PQdJF3AeF8MaxmjbBcTLzE7BSg92jW+azJY4="
   local_dir: codedeploy
-  bucket: ec2.csye6225-fall2017-guptarite.me.csye6225.com
+  bucket: ec2.csye6225-fall2017-magarer.me.csye6225.com
   region: us-east-1
   skip_cleanup: true
 
@@ -60,15 +61,15 @@ deploy:
   #application: WebApplication
    #deployement_group: WebApplication
 - provider: codedeploy
-  access_key_id: AKIAIX6QLOIPWLR6NSCA
-  bucket: ec2.csye6225-fall2017-guptarite.me.csye6225.com
+  access_key_id: AKIAJO6XPZC7EQMR6CQA
+  bucket: ec2.csye6225-fall2017-magarer.me.csye6225.com
   key: WebApp.zip
   bundle_type: zip
-  application: Csye6225
-  deployment_group: Csye6225  
+  application: WEB_APPLICATION
+  deployment_group: WEB_APPLICATION
   region: us-east-1
   secret_access_key:
-    secure: "SlfDgQEw0hx96vtqY+RrsXIOCoPdF6IRVjvatpGApHachG7QUXTh4nqEga3oCphVyNn2EcRb+pDutEqDJ37b35+dfw3xryALZpkPe4Vg4TQa/VJe2YsaCjeGDUEKlHbXVBfOHhJe9iIMWjO5LE8Al6M5J/d94L3WNLAb4DCMlqz4MJLOzhH7oSBh2YU8ARHMDd0zWzHE+EhZK71kea7RBfx3+k8j7p3+j0ZNRvjsIuqGFHTpvzaRMwtKL+rqq+4oZ1osUnPsYXbEiG1yHgMkWGGplreUo0iOb3Pqx3RIHucri0WIqtaUY1E0eFuJhGtg05MGDD0NsLU2pdyfF2ov3R31ouCGJmBEzSJXYnk6Yn+TiBsOU5KAWgIyyWwelSTqymsLftxhKpVPSJseMmry93k6yFeYxRuJmvIufT8rGtt47PqVe8TW/C/WF15rpqxEZto26bnVgurXI03Wg2dTppUHGFXAau6ELZcqYSgAcvNNxWgIYpCou5AzysGeAcJhOzXNbOb38ByWTs6OyvT065dbW3w5iznkNjuyGU3y9Pa71jBEPmPrNKOOhI6ChcdMuGtF+CsRHuloSB9Qh/NYCVlOoBuCvZx81GxAUfHqpeE4XcpMifzHCtcJEI6qhoVD1VyhuB9SlqjOsDO+donj8FoNviYQsvwTITxeAohEJRg="
+    secure: "ZAxqlbbXTuN4EwEF2/CZSOU8pNGh27mzH3wwROVzoIvnrdGGE7b8wNKXS5fcgiJCmlA207nnSv0erjHXnvMooaatTeMz7MKd/w4eL1dVTCxnn/Oser0DSDB4J0tHyZctyIEIglib6+A7MZ7r4INqgFo/11yfxjV4l47Pl/BBrKIr9OUY+YY9yB9rgkS8qHRwkAuKDy2py4LeJ9fpNn4Re8BRmJtF29aRMf2b3iSjBEtgLqI+qs4F3khBb3j3WFnXBIrIm/BLIhKqJ5l/pxhEV/ex27l9IqDMiOj/t4S0qlhoP0hQslsOqJqr0qHyJLrP8EyGyi+pQ9hVRa2uvl7uhdtxBb7CMlzDuTS/cZNqfSsGQ+Uy/v66zZT9U+XBfDsS6zxg+fvvZMjSaF+pbSj6z4mjtDleNYxfkS7sYaB5ox8X7PfzbV6+YnAzJv3FjOjDoUNZdnW2qOwwOHxFMolf3NxZM4FkD1pfV5DbV5/yVheDJAxN1ZOxISByt5iz5X2uWrmPG0u/vhRVYm18rqwcR1q9hhMQHoiGoUJoZjl+AdsULMoaDrSkU3hF4Qoj+i+jBjIwtgywmKccHKAG8NvcHbAp//Ykmpkd5jtD+/9Xk3out9Xz04spTBU4SETuLiavRFVzcB0PQdJF3AeF8MaxmjbBcTLzE7BSg92jW+azJY4="
   wait-until-deployed: true
 
 

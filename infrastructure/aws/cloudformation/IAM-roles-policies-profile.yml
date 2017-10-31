@@ -101,7 +101,7 @@ Resources:
             Resource:
               - '*'
       Users:
-        - Travis
+        - TravisCI
 
   travisCiPolicy1:
     Type: "AWS::IAM::ManagedPolicy"
@@ -131,7 +131,7 @@ Resources:
               - !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.HalfAtATime'
               - !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.AllAtOnce'
       Users:
-        - Travis
+        - TravisCI
 
 
 Outputs:
