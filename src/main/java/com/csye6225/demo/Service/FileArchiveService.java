@@ -38,10 +38,10 @@ public class FileArchiveService {
     private AmazonS3 s3Client;
 
     //@Value("$AWS_ACCESS_KEY_ID")
-    private String awsId = System.getenv("$AWS_ACCESS_KEY_ID");
+    private String awsId = System.getProperty("$AWS_ACCESS_KEY_ID");
 
     //@Value("$AWS_SECRET_ACCESS_KEY")
-    private String awsKey= System.getenv("$AWS_SECRET_ACCESS_KEY");
+    private String awsKey= System.getProperty("$AWS_SECRET_ACCESS_KEY");
 
     //@Value("$spring.datasource.region")
     private String region="us-east-1";
