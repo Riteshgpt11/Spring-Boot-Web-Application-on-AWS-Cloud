@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.amazonaws:aws-java-sdk-directconnect:1.11.221">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-directconnect/1.11.221/5d127c3a4da5273983ded0e8e9874bafde8b83b8/aws-java-sdk-directconnect-1.11.221.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-directconnect/1.11.221/620cd405c5d7f0c3af094b39ef6c5d0beffe6c7/aws-java-sdk-directconnect-1.11.221-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-directconnect/1.11.221/e9e09868d73af1e63c3ffd7bb71998b68df672c0/aws-java-sdk-directconnect-1.11.221-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

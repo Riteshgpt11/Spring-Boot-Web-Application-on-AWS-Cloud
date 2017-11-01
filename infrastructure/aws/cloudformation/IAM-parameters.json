@@ -1,0 +1,37 @@
+[
+    {
+       "ParameterKey": "KeyName",
+       "ParameterValue": "MyPublicKey",
+       "UsePreviousValue": true
+     },
+       {
+         "ParameterKey": "Ec2RoleName",
+         "ParameterValue": "CodeDepolyEC2ServiceRoleNew",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "CodeDepolyRoleName",
+         "ParameterValue": "CodeDepolyServiceRoleNew",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "PolicyDeployEC2S3Name",
+         "ParameterValue": "CodeDeploy-EC2-S3new",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "PolicyTravisUploadS3Name",
+         "ParameterValue": "Travis-Upload-S3-new",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "PolicyTravisCodeDeployName",
+         "ParameterValue": "Travis-Code-Deploy-new",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "WebApplicationName",
+         "ParameterValue": "Csye6225",
+         "UsePreviousValue": true
+       }
+]
