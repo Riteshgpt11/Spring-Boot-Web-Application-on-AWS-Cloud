@@ -153,6 +153,11 @@ Resources:
           FromPort: '443'
           ToPort: '443'
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '8080'
+          ToPort: '8080'
+          CidrIp: 0.0.0.0/0
+
 
 # VPC Security Group for RDS instance
   RDSSecurityGroup:
@@ -187,7 +192,7 @@ Resources:
       DBInstanceClass: !Ref DBInstanceClass
       Engine: !Ref DatabaseType
       EngineVersion: !Ref DatabaseVersion
-      PubliclyAccessible: true
+      PubliclyAccessible: false
       StorageType: !Ref DBStorageType
       DBSubnetGroupName: !Ref DBSubnetGroup
       DBInstanceIdentifier: !Ref InstanceIdentifier
@@ -304,16 +309,18 @@ Resources:
             sleep 10
 
             echo '#!/bin/sh' > /opt/tomcat/bin/setenv.sh
-            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.url=jdbc:mysql://${RDSInstance.Endpoint.Address}:3306/csye6225"' >> /opt/tomcat/bin/setenv.sh
-            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.username=${DBUser}"' >> /opt/tomcat/bin/setenv.sh
-            echo 'JAVA_OPTS="$JAVA_OPTS-Dspring.datasource.password=${DBPassword}"' >> /opt/tomcat/bin/setenv.sh
-
+            echo 'export JAVA_OPTS="$JAVA_OPTS -Dsping.profiles.active=aws"'
+            echo 'export JAVA_OPTS="$JAVA_OPTS -Dspring.datasource.url=jdbc:mysql://${RDSInstance.Endpoint.Address}:3306/csye6225"' >> /opt/tomcat/bin/setenv.sh
+            echo 'export JAVA_OPTS="$JAVA_OPTS -Dspring.datasource.username=${DBUser}"' >> /opt/tomcat/bin/setenv.sh
+            echo 'export JAVA_OPTS="$JAVA_OPTS -Dspring.datasource.password=${DBPassword}"' >> /opt/tomcat/bin/setenv.sh
 
             sleep 3
             chmod -R 755 /opt/tomcat/bin/setenv.sh
             chown tomcat:tomcat /opt/tomcat/bin/setenv.sh
             source /opt/tomcat/bin/setenv.sh
-            sleep 3
+            sleep 10
+            systemctl restart tomcat
+
 
 # S3 bucket
   S3Bucket:
