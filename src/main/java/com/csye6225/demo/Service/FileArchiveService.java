@@ -47,8 +47,8 @@ public class FileArchiveService {
     @Value("$spring.datasource.secret_access_key")
     private String awsKey;
 
-    @Value("$spring.datasource.region")
-    private String region;
+    //@Value("$spring.datasource.region")
+    private String region="us-east-1";
 
 
     /**
