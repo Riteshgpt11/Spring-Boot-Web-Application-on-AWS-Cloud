@@ -178,6 +178,16 @@
          "ParameterKey": "DNSTtl",
          "ParameterValue": "60",
          "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "IAMAccessKey",
+         "ParameterValue": "",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "IAMSecretKey",
+         "ParameterValue": "",
+         "UsePreviousValue": true
        }
 
 
