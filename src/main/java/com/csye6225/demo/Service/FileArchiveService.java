@@ -107,6 +107,11 @@ public class FileArchiveService {
                 .build();*/
 
        //s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
+        BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
+        s3Client = AmazonS3ClientBuilder.standard()               //.withRegion(region)
+                .withRegion(Regions.fromName(region))
+                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                .build();
 
         s3Client.deleteObject(new DeleteObjectRequest(S3_BUCKET_NAME, mediaFile.getKey()));
     }
