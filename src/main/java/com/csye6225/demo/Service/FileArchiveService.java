@@ -33,8 +33,8 @@ import java.time.Instant;
 @Service
 public class FileArchiveService {
 
-    private static final String S3_BUCKET_NAME = "ec2.csye6225-fall2017-guptarite.me.csye6225.com";
-
+    @Value("${aws.S3_BUCKET_NAME}")
+    private static String S3_BUCKET_NAME;
 
     private AmazonS3 s3Client;
 
@@ -44,8 +44,8 @@ public class FileArchiveService {
     @Value("${aws.AWS_SECRET_ACCESS_KEY}")
     private String awsKey;
 
-    //@Value("$spring.datasource.region")
-    private String region="us-east-1";
+    @Value("${aws.AWS_REGION}")
+    private String region;
 
 
     /**

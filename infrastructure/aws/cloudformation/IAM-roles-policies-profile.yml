@@ -28,6 +28,9 @@ Parameters:
   WebApplicationName:
     Description: Name of the code deploy application
     Type: "String"
+  TravisUserName:
+    Description: Travis user name
+    Type: "String"
 
 Resources:
   Ec2Role:
@@ -101,7 +104,7 @@ Resources:
             Resource:
               - '*'
       Users:
-        - Travis
+        - !Ref TravisUserName
 
   travisCiPolicy1:
     Type: "AWS::IAM::ManagedPolicy"
@@ -131,7 +134,7 @@ Resources:
               - !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.HalfAtATime'
               - !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.AllAtOnce'
       Users:
-        - Travis
+        - !Ref TravisUserName
 
 
 Outputs:
