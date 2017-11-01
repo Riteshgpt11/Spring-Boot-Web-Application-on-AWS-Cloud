@@ -166,7 +166,7 @@
        },
        {
          "ParameterKey": "RoleStack",
-         "ParameterValue": "role1",
+         "ParameterValue": "role",
          "UsePreviousValue": true
        },
        {
@@ -177,6 +177,16 @@
        {
          "ParameterKey": "DNSTtl",
          "ParameterValue": "60",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "IAMAccessKey",
+         "ParameterValue": "",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "IAMSecretKey",
+         "ParameterValue": "",
          "UsePreviousValue": true
        }
 
