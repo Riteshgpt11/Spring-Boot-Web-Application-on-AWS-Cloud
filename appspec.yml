@@ -4,7 +4,7 @@ os: linux
 files:
   - source: ./appspec.yml
     destination: /home/ubuntu
-  - source: /home/ritesh/Downloads/apache-tomcat-8.5.20/bin/startup.sh
+  - source: ./restartTomcat.sh
     destination: /home/ubuntu
   - source: ./build/libs/ROOT.war
     destination: /opt/tomcat/webapps

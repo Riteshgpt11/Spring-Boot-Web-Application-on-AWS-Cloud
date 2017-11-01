@@ -10,6 +10,7 @@ import com.csye6225.demo.Service.FileArchiveService;
 import com.csye6225.demo.dao.MediaFileUploadDao;
 import com.csye6225.demo.dao.PersistTaskDao;
 import com.csye6225.demo.dao.UserDao;
+import com.csye6225.demo.databse.mysqlDatasource;
 import com.csye6225.demo.entity.MediaFile;
 import com.csye6225.demo.entity.Task;
 import com.csye6225.demo.entity.User;
@@ -55,6 +56,7 @@ HomeController {
     @ResponseBody()
     public String home() throws Exception {
 
+        mysqlDatasource.getRemotedConnection();
         JsonObject jsonO = new JsonObject();
         jsonO.addProperty("message", "Home Page. Use /login.htm for login & /register.htm for register");
         return jsonO.toString();

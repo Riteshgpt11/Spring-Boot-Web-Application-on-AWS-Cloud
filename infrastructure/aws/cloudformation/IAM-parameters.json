@@ -36,7 +36,7 @@
        },
        {
          "ParameterKey": "TravisUserName",
-         "ParameterValue": "travis_ci",
+         "ParameterValue": "Travis",
          "UsePreviousValue": true
        }
 ]
