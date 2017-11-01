@@ -33,5 +33,10 @@
          "ParameterKey": "WebApplicationName",
          "ParameterValue": "Csye6225",
          "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "TravisUserName",
+         "ParameterValue": "travis_ci",
+         "UsePreviousValue": true
        }
 ]
