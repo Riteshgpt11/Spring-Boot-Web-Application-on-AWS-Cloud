@@ -6,14 +6,19 @@
  **/
 package com.csye6225.demo.Service;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.*;
+//import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+//import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+//import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
 import com.csye6225.demo.entity.MediaFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,17 +33,20 @@ import java.time.Instant;
 @Service
 public class FileArchiveService {
 
-    private static final String S3_BUCKET_NAME = "ec2.csye6225-fall2017-shettypr.me.csye6225.com";
-    @Autowired
+    @Value("${aws.S3_BUCKET_NAME}")
+    private static String S3_BUCKET_NAME;
+
     private AmazonS3 s3Client;
-    @Value("${jsa.aws.access_key_id}")
+
+    @Value("${aws.AWS_ACCESS_KEY_ID}")
     private String awsId;
 
-    @Value("${jsa.aws.secret_access_key}")
+    @Value("${aws.AWS_SECRET_ACCESS_KEY}")
     private String awsKey;
 
-    @Value("${jsa.s3.region}")
+    @Value("${aws.AWS_REGION}")
     private String region;
+
 
     /**
      * Save image to S3 and return MediaFile containing key and public URL
@@ -48,18 +56,35 @@ public class FileArchiveService {
      * @throws IOException
      */
     public MediaFile saveFileToS3(MultipartFile multipartFile) throws FileArchiveServiceException, IOException {
-
+        //s3Client = AmazonS3ClientBuilder.defaultClient();
+        //s3Client = new AmazonS3Client(EnvironmentVariableCredentialsProvider().getCredentials());
         try {
+
+            //s3Client = new AmazonS3Client(new ProfileCredentialsProvider().getCredentials());
+            //s3Client = AmazonS3ClientBuilder.standard()
+             //       .withCredentials(new (ProfileCredentialsProvider()))
+               //     .build();
+
             BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
-            s3Client = AmazonS3ClientBuilder.standard()
+            s3Client = AmazonS3ClientBuilder.standard()               //.withRegion(region)
                     .withRegion(Regions.fromName(region))
                     .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-                    .build();
+                   .build();
+
             InputStream is = multipartFile.getInputStream();
             String key = Instant.now().getEpochSecond() + "_" + multipartFile.getName();
             String fileName = multipartFile.getOriginalFilename();
-            /* save file */
             s3Client.putObject(new PutObjectRequest(S3_BUCKET_NAME, key, is, new ObjectMetadata()));
+
+
+                    //.standard()
+                    //.withCredentials(new InstanceProfileCredentialsProvider(false))
+                    //.build();
+           // s3Client = new AmazonS3Client(DefaultAWSCredentialsProviderChain.getInstance());
+            //s3Client = new AmazonS3Client(new ProfileCredentialsProvider(DefaultAWSCredentialsProviderChain.getInstance()));
+
+            /* save file */
+            //s3Client.putObject(new PutObjectRequest(S3_BUCKET_NAME, key, is, new ObjectMetadata()));
             URL signedUrl = s3Client.getUrl(S3_BUCKET_NAME, key);
             return new MediaFile(key, signedUrl.toString(), fileName.toString());
         } catch (FileArchiveServiceException ex) {
@@ -75,8 +100,15 @@ public class FileArchiveService {
      */
     public void deleteFileFromS3(MediaFile mediaFile) {
 
-        BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
+       /* BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
         s3Client = AmazonS3ClientBuilder.standard()
+                .withRegion(Regions.fromName(region))
+                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                .build();*/
+
+       //s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
+        BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
+        s3Client = AmazonS3ClientBuilder.standard()               //.withRegion(region)
                 .withRegion(Regions.fromName(region))
                 .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .build();
