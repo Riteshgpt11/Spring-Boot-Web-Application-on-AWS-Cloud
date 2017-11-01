@@ -1,9 +1,9 @@
 [
-    {
-       "ParameterKey": "KeyName",
-       "ParameterValue": "PKey",
-       "UsePreviousValue": true
-     },
+       {
+         "ParameterKey": "KeyName",
+         "ParameterValue": "PKey",
+         "UsePreviousValue": true
+       },
        {
          "ParameterKey": "Ec2RoleName",
          "ParameterValue": "CodeDepolyEC2ServiceRoleNew",
@@ -32,6 +32,11 @@
        {
          "ParameterKey": "WebApplicationName",
          "ParameterValue": "csye6225",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "TravisUserName",
+         "ParameterValue": "travis",
          "UsePreviousValue": true
        }
 ]
