@@ -37,10 +37,10 @@ public class FileArchiveService {
 
     private AmazonS3 s3Client;
 
-    @Value("$ACCESS_KEY_ID")
+    @Value("$AWS_ACCESS_KEY_ID")
     private String awsId;
 
-    @Value("$SECRET_ACCESS_KEY")
+    @Value("$AWS_SECRET_ACCESS_KEY")
     private String awsKey;
 
     //@Value("$spring.datasource.region")
