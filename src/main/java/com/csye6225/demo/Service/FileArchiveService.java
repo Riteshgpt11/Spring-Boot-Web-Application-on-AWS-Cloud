@@ -41,7 +41,7 @@ public class FileArchiveService {
     @Autowired
     private AmazonS3 s3Client;
 
-    @Value("${jsa.aws.access_key_id}")
+    @Value("$jsa.aws.access_key_id")
     private String awsId;
 
     @Value("${jsa.aws.secret_access_key}")
