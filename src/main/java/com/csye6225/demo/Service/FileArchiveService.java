@@ -47,7 +47,7 @@ public class FileArchiveService {
     private String awsKey;
 
     //@Value("$spring.datasource.region")
-    private String region="us-east-1    ";
+    private String region="us-east-1";
 
 
     /**
@@ -62,8 +62,8 @@ public class FileArchiveService {
 
         try {
             BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
-            s3Client = AmazonS3ClientBuilder.standard().withRegion(region)
-                    //.withRegion(Regions.fromName(region))
+            s3Client = AmazonS3ClientBuilder.standard()               //.withRegion(region)
+                    .withRegion(Regions.fromName(region))
                     .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                     .build();
             InputStream is = multipartFile.getInputStream();
