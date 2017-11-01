@@ -22,10 +22,6 @@ echo "$instanceid"
 ## Disbale instance terminatio protection
 aws ec2 modify-instance-attribute --instance-id "$instanceid" --no-disable-api-termination
 
-## delete stack
-aws cloudformation delete-stack --stack-name $1
-aws cloudformation wait stack-delete-complete --stack-name $1
-echo "Stack $1 deleted!"
 # replace stack name with generic name
 sed -i "s/$2/STACK_NAME/g" ec2-parameters.json
 
