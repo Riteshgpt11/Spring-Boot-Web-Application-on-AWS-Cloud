@@ -41,14 +41,14 @@ public class FileArchiveService {
     @Autowired
     private AmazonS3 s3Client;
 
-    @Value("${access_key}")
+    @Value("${jsa.aws.access_key_id}")
     private String awsId;
 
-    @Value("${secret_key}")
+    @Value("${jsa.aws.secret_access_key}")
     private String awsKey;
 
-    @Value("${region}")
-   private String region;
+    @Value("${jsa.aws.region}")
+    private String region;
 
 
     /**
