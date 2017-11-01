@@ -10,6 +10,7 @@ import com.amazonaws.auth.*;
 //import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 //import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 //import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -38,7 +39,7 @@ public class FileArchiveService {
     private AmazonS3 s3Client;
 
     //@Value("$AWS_ACCESS_KEY_ID")
-    private String awsId = System.getProperty("$AWS_ACCESS_KEY_ID");
+    private String awsId = System.getenv("$AWS_ACCESS_KEY_ID");
 
     //@Value("$AWS_SECRET_ACCESS_KEY")
     private String awsKey= System.getenv("$AWS_SECRET_ACCESS_KEY");
@@ -59,10 +60,10 @@ public class FileArchiveService {
         //s3Client = new AmazonS3Client(EnvironmentVariableCredentialsProvider().getCredentials());
         try {
 
-            //s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
-            s3Client = AmazonS3ClientBuilder.standard()
-                    .withCredentials(new EnvironmentVariableCredentialsProvider())
-                    .build();
+            s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
+            //s3Client = AmazonS3ClientBuilder.standard()
+             //       .withCredentials(new (ProfileCredentialsProvider()))
+               //     .build();
 
             //BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
             //s3Client = AmazonS3ClientBuilder.standard()               //.withRegion(region)
