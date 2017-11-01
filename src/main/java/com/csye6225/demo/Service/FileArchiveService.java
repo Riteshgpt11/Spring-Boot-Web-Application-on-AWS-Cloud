@@ -44,10 +44,10 @@ public class FileArchiveService {
     @Value("$jsa.aws.access_key_id")
     private String awsId;
 
-    @Value("${jsa.aws.secret_access_key}")
+    @Value("$jsa.aws.secret_access_key")
     private String awsKey;
 
-    @Value("${jsa.aws.region}")
+    @Value("$jsa.aws.region")
     private String region;
 
 
