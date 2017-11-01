@@ -9,7 +9,7 @@ package com.csye6225.demo.Service;
 import com.amazonaws.auth.*;
 //import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 //import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+//import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -56,19 +56,19 @@ public class FileArchiveService {
      */
     public MediaFile saveFileToS3(MultipartFile multipartFile) throws FileArchiveServiceException, IOException {
         //s3Client = AmazonS3ClientBuilder.defaultClient();
-
+        //s3Client = new AmazonS3Client(EnvironmentVariableCredentialsProvider().getCredentials());
         try {
 
             //s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
-            //s3Client = AmazonS3ClientBuilder.standard()
-            //        .withCredentials(new EnvironmentVariableCredentialsProvider())
-            //        .build();
+            s3Client = AmazonS3ClientBuilder.standard()
+                    .withCredentials(new EnvironmentVariableCredentialsProvider())
+                    .build();
 
-            BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
-            s3Client = AmazonS3ClientBuilder.standard()               //.withRegion(region)
-                    .withRegion(Regions.fromName(region))
-                    .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-                   .build();
+            //BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
+            //s3Client = AmazonS3ClientBuilder.standard()               //.withRegion(region)
+            //        .withRegion(Regions.fromName(region))
+            //        .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+            //       .build();
 
             InputStream is = multipartFile.getInputStream();
             String key = Instant.now().getEpochSecond() + "_" + multipartFile.getName();
@@ -105,7 +105,7 @@ public class FileArchiveService {
                 .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .build();*/
 
-       s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
+       //s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
 
         s3Client.deleteObject(new DeleteObjectRequest(S3_BUCKET_NAME, mediaFile.getKey()));
     }
