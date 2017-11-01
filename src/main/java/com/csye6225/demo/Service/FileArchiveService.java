@@ -41,13 +41,13 @@ public class FileArchiveService {
     @Autowired
     private AmazonS3 s3Client;
 
-    @Value("${spring.datasource.access_key}")
+    @Value("${access_key}")
     private String awsId;
 
-    @Value("${spring.datasource.secret_key}")
+    @Value("${secret_key}")
     private String awsKey;
 
-    @Value("${spring.datasource.region}")
+    @Value("${region}")
    private String region;
 
 
