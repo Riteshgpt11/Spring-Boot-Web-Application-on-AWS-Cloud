@@ -38,7 +38,6 @@ public class FileArchiveService {
     private static final String S3_BUCKET_NAME = "ec2.csye6225-fall2017-guptarite.me.csye6225.com";
 
 
-    @Autowired
     private AmazonS3 s3Client;
 
     @Value("spring.datasource.access_key_id")
@@ -63,7 +62,7 @@ public class FileArchiveService {
 
         try {
             BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
-            s3Client = AmazonS3ClientBuilder.standard()
+            s3Client = AmazonS3ClientBuilder.standard().withRegion(region)
                     //.withRegion(Regions.fromName(region))
                     .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                     .build();
