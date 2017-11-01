@@ -11,6 +11,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 //import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 //import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
@@ -63,7 +64,10 @@ public class FileArchiveService {
 //                    .withRegion(Regions.fromName(region))
 //                    //.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
 //                    .build();
-            s3Client = new AmazonS3Client();
+            s3Client = AmazonS3ClientBuilder.standard()
+                    .withCredentials(new InstanceProfileCredentialsProvider(false))
+                    .build();
+           // s3Client = new AmazonS3Client(DefaultAWSCredentialsProviderChain.getInstance());
             //s3Client = new AmazonS3Client(new ProfileCredentialsProvider(DefaultAWSCredentialsProviderChain.getInstance()));
             InputStream is = multipartFile.getInputStream();
             String key = Instant.now().getEpochSecond() + "_" + multipartFile.getName();
