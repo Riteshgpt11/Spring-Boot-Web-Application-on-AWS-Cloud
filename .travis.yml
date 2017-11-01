@@ -1,22 +1,21 @@
 branches:
   only:
-  - assignment3
-  - master
+  - assignment7
+
 language: java
 jdk:
   - oraclejdk8
 services:
   - mysql
-  
+
 ##test:
   ##adapter: mysql2
   #database: user_database
   #username: travis
   #encoding: utf8
-  
+
 #before_install:
  # - mysql -e 'CREATE DATABASE IF NOT EXISTS user_database;'
-
 env:
   CATALINA_BASE=/home/travis
 
@@ -24,8 +23,54 @@ sudo: false
 install: true
 
 script:
-  - ./gradlew war
-  - ./gradlew test --info
+  - ./gradlew build
+  #- ./gradlew test --info
+
+after_success:
+  - mkdir codedeploy
+  - zip -r WebApp.zip build/libs/ROOT.war appsec.yml
+  - ls -al
+  - mv WebApp.zip codedeploy/
+  - ls -al
+  - pwd
+  - cd codedeploy
+  - pwd
+  - ls -al
+
+before_deploy:
+  - cd ..
+  - ls -al
+  - pwd
+
+deploy:
+- provider: s3
+  access_key_id: AKIAIXX72ODDFLYICJEA
+  secret_access_key:
+    secure: "MbsVdI8VYGA8pvamVAirWd4HhTUUakVkjWR7gCiUsvQx02RzZR3jq0cTe0oW94s4qMWHzJYb/K1Z8s7rQEryvLWhgGdeNoCVzU5vNU4YH50QFTX4DquPS7xBU2FkMhVCk0pSTpF1kt9JAluHP8sUJLSmvzJ4XJ2X0Sq3g+AFgNPdeCB3V8MOGCPwoKR8ZKWzHnPJ8IAjgIxNd8cjWb51UVCKk+QP4kLOrLvn0IH28D51nwOScV4A35+CNb/uUjb25vy9NWUtIUl3qjzjsokhWqJ5pQUFGpOHPbohW0wM2y7mgwuE7NMI62LornV5MZVho+odbq5cWSnlzqOFN1fq6cyHA3V7Ehm37hotLJGBBcC+sjTYJHKK5h9AKmRW/w4tJXlGYol5JOkyWXZOALopO8W+66NoWXn5cx12uMq6Se0I1Gog5iRK98Dma7xRzO2hjXsBMheKC2La/EjxLHWlkhrSs5GDAyfZBGZ1Gd7wijXgpBt9dLoYmZfjULt10qIKsIc3lpaqLBQn0QfO8+N38oDMr5f+Ip3An9aF2LZkb5STHdP5ce09ziJl9IfiuA3HIQhw4ttxJc0xV9oW7+mAG0mRxgBrIViy5amGizMqTohrGzeuTjG7WtQxzCjtsmJ7JtAIV2oeJR6EhVl4KXozJ+acNOCb8LtAhkp9XpUaOys="
+  local_dir: codedeploy
+  bucket: code-deploy.csye6225-fall2017-shettypr.me
+  region: us-east-1
+  skip_cleanup: true
+
+  #- provider: codedeploy
+  #  access_key_id:
+  #  bucket:
+  #  key:
+  #  bundle type: zip
+  #application: WebApplication
+   #deployement_group: WebApplication
+- provider: codedeploy
+  access_key_id: AKIAIXX72ODDFLYICJEA
+  bucket: code-deploy.csye6225.com
+  key: WebApp.zip
+  bundle_type: zip
+  application: Csye6225
+  deployment_group: Csye6225  
+  region: us-east-1
+  secret_access_key:
+    secure: "MbsVdI8VYGA8pvamVAirWd4HhTUUakVkjWR7gCiUsvQx02RzZR3jq0cTe0oW94s4qMWHzJYb/K1Z8s7rQEryvLWhgGdeNoCVzU5vNU4YH50QFTX4DquPS7xBU2FkMhVCk0pSTpF1kt9JAluHP8sUJLSmvzJ4XJ2X0Sq3g+AFgNPdeCB3V8MOGCPwoKR8ZKWzHnPJ8IAjgIxNd8cjWb51UVCKk+QP4kLOrLvn0IH28D51nwOScV4A35+CNb/uUjb25vy9NWUtIUl3qjzjsokhWqJ5pQUFGpOHPbohW0wM2y7mgwuE7NMI62LornV5MZVho+odbq5cWSnlzqOFN1fq6cyHA3V7Ehm37hotLJGBBcC+sjTYJHKK5h9AKmRW/w4tJXlGYol5JOkyWXZOALopO8W+66NoWXn5cx12uMq6Se0I1Gog5iRK98Dma7xRzO2hjXsBMheKC2La/EjxLHWlkhrSs5GDAyfZBGZ1Gd7wijXgpBt9dLoYmZfjULt10qIKsIc3lpaqLBQn0QfO8+N38oDMr5f+Ip3An9aF2LZkb5STHdP5ce09ziJl9IfiuA3HIQhw4ttxJc0xV9oW7+mAG0mRxgBrIViy5amGizMqTohrGzeuTjG7WtQxzCjtsmJ7JtAIV2oeJR6EhVl4KXozJ+acNOCb8LtAhkp9XpUaOys="
+  wait-until-deployed: true
+
 
 notifications:
   email:
