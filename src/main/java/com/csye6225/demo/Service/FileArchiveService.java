@@ -40,10 +40,10 @@ public class FileArchiveService {
 
     private AmazonS3 s3Client;
 
-    @Value("spring.datasource.access_key_id")
+    @Value("$AWS_ACCESS_KEY_ID")
     private String awsId;
 
-    @Value("spring.datasource.secret_access_key")
+    @Value("$AWS_SECRET_KEY")
     private String awsKey;
 
     //@Value("$spring.datasource.region")
@@ -61,11 +61,11 @@ public class FileArchiveService {
         //s3Client = AmazonS3ClientBuilder.defaultClient();
 
         try {
-            //BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
+            BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
             s3Client = AmazonS3ClientBuilder.standard()               //.withRegion(region)
                     .withRegion(Regions.fromName(region))
-              //      .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-                    .build();
+                    .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                   .build();
             InputStream is = multipartFile.getInputStream();
             String key = Instant.now().getEpochSecond() + "_" + multipartFile.getName();
             String fileName = multipartFile.getOriginalFilename();
