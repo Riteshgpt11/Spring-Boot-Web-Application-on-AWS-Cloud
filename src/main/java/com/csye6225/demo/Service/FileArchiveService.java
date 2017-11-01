@@ -61,10 +61,10 @@ public class FileArchiveService {
         //s3Client = AmazonS3ClientBuilder.defaultClient();
 
         try {
-            BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
+            //BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
             s3Client = AmazonS3ClientBuilder.standard()               //.withRegion(region)
                     .withRegion(Regions.fromName(region))
-                    .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+              //      .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                     .build();
             InputStream is = multipartFile.getInputStream();
             String key = Instant.now().getEpochSecond() + "_" + multipartFile.getName();
