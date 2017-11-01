@@ -1,6 +1,6 @@
 branches:
   only:
-  - master
+  - assignment7
 
 language: java
 jdk:
@@ -28,7 +28,7 @@ script:
 
 after_success:
   - mkdir codedeploy
-  - zip -r WebApp.zip build/libs/ROOT.war appspec.yml restartTomcat.sh
+  - zip -r WebApp.zip build/libs/ROOT.war appsec.yml
   - ls -al
   - mv WebApp.zip codedeploy/
   - ls -al
@@ -46,9 +46,9 @@ deploy:
 - provider: s3
   access_key_id: AKIAIXX72ODDFLYICJEA
   secret_access_key:
-    secure: "hBfo7MwCNDWKADNtjsYWFmLQes1mD/YDBGJ/ah3KtjlbgyXwlHmU9fk4ZG61SA4iLmWfPhXJgOw8+tdF6+/BazGvizovChaIYAKYF/XS9ZJ4vo6zVA1GfF64vteJbwNI986gJeBFzU2RjzKjjKNtSY41kkijerSBGQL93K7GRwSl0RZPtxeQbq+/Boc/P+UAUOrmnuoL9KgrR9R3/He//9gEnzmgn21qcwCNYxsHKxC6enQtRb37S4cMkeXTYTJ9NHU/I3xLe8bz/UAaulMXb1mP04HUrKOmeX6ncU/PbhU+82izSwi7TKpfDMSnDZpRnUNJX6F2B+EUFvNkRC07JnVdh03nzjf1lgMomUzPMtrr7IdWUkG39Z3UJ80rd4x6YQarEgKL5PQnr4NYAn2tx1z69Mo+eG4FjxkBHiSPAJY39EU3ofbR7DwvkzaPM5eifZHxwzup5CEJLJaMxeBB3JF4LGd7Ad53WPWHnkoeqnEpg1pFZlpr9W6OI7E+MFF36V744gJgeXS4YO9Me5wf185iMiOA07lO+5cyPFw+R6AnYB8QmIZkh0E6PMimR+D1CpNCT8+b3kqEmfILdFBPs0DJNzKObiTCpfZySy2wHsHBI/8h90XUPh7TLytGs4lMNlqxTIzehx3Caoaqr1OWwkBfXNXa+rb9VXN+EjQqu4U="
+    secure: "MbsVdI8VYGA8pvamVAirWd4HhTUUakVkjWR7gCiUsvQx02RzZR3jq0cTe0oW94s4qMWHzJYb/K1Z8s7rQEryvLWhgGdeNoCVzU5vNU4YH50QFTX4DquPS7xBU2FkMhVCk0pSTpF1kt9JAluHP8sUJLSmvzJ4XJ2X0Sq3g+AFgNPdeCB3V8MOGCPwoKR8ZKWzHnPJ8IAjgIxNd8cjWb51UVCKk+QP4kLOrLvn0IH28D51nwOScV4A35+CNb/uUjb25vy9NWUtIUl3qjzjsokhWqJ5pQUFGpOHPbohW0wM2y7mgwuE7NMI62LornV5MZVho+odbq5cWSnlzqOFN1fq6cyHA3V7Ehm37hotLJGBBcC+sjTYJHKK5h9AKmRW/w4tJXlGYol5JOkyWXZOALopO8W+66NoWXn5cx12uMq6Se0I1Gog5iRK98Dma7xRzO2hjXsBMheKC2La/EjxLHWlkhrSs5GDAyfZBGZ1Gd7wijXgpBt9dLoYmZfjULt10qIKsIc3lpaqLBQn0QfO8+N38oDMr5f+Ip3An9aF2LZkb5STHdP5ce09ziJl9IfiuA3HIQhw4ttxJc0xV9oW7+mAG0mRxgBrIViy5amGizMqTohrGzeuTjG7WtQxzCjtsmJ7JtAIV2oeJR6EhVl4KXozJ+acNOCb8LtAhkp9XpUaOys="
   local_dir: codedeploy
-  bucket: ec2.csye6225-fall2017-shettypr.me.csye6225.com
+  bucket: code-deploy.csye6225-fall2017-shettypr.me
   region: us-east-1
   skip_cleanup: true
 
@@ -61,14 +61,14 @@ deploy:
    #deployement_group: WebApplication
 - provider: codedeploy
   access_key_id: AKIAIXX72ODDFLYICJEA
-  bucket: ec2.csye6225-fall2017-shettypr.me.csye6225.com
+  bucket: code-deploy.csye6225.com
   key: WebApp.zip
   bundle_type: zip
-  application: csye6225
-  deployment_group: csye6225
+  application: Csye6225
+  deployment_group: Csye6225  
   region: us-east-1
   secret_access_key:
-    secure: "hBfo7MwCNDWKADNtjsYWFmLQes1mD/YDBGJ/ah3KtjlbgyXwlHmU9fk4ZG61SA4iLmWfPhXJgOw8+tdF6+/BazGvizovChaIYAKYF/XS9ZJ4vo6zVA1GfF64vteJbwNI986gJeBFzU2RjzKjjKNtSY41kkijerSBGQL93K7GRwSl0RZPtxeQbq+/Boc/P+UAUOrmnuoL9KgrR9R3/He//9gEnzmgn21qcwCNYxsHKxC6enQtRb37S4cMkeXTYTJ9NHU/I3xLe8bz/UAaulMXb1mP04HUrKOmeX6ncU/PbhU+82izSwi7TKpfDMSnDZpRnUNJX6F2B+EUFvNkRC07JnVdh03nzjf1lgMomUzPMtrr7IdWUkG39Z3UJ80rd4x6YQarEgKL5PQnr4NYAn2tx1z69Mo+eG4FjxkBHiSPAJY39EU3ofbR7DwvkzaPM5eifZHxwzup5CEJLJaMxeBB3JF4LGd7Ad53WPWHnkoeqnEpg1pFZlpr9W6OI7E+MFF36V744gJgeXS4YO9Me5wf185iMiOA07lO+5cyPFw+R6AnYB8QmIZkh0E6PMimR+D1CpNCT8+b3kqEmfILdFBPs0DJNzKObiTCpfZySy2wHsHBI/8h90XUPh7TLytGs4lMNlqxTIzehx3Caoaqr1OWwkBfXNXa+rb9VXN+EjQqu4U="
+    secure: "MbsVdI8VYGA8pvamVAirWd4HhTUUakVkjWR7gCiUsvQx02RzZR3jq0cTe0oW94s4qMWHzJYb/K1Z8s7rQEryvLWhgGdeNoCVzU5vNU4YH50QFTX4DquPS7xBU2FkMhVCk0pSTpF1kt9JAluHP8sUJLSmvzJ4XJ2X0Sq3g+AFgNPdeCB3V8MOGCPwoKR8ZKWzHnPJ8IAjgIxNd8cjWb51UVCKk+QP4kLOrLvn0IH28D51nwOScV4A35+CNb/uUjb25vy9NWUtIUl3qjzjsokhWqJ5pQUFGpOHPbohW0wM2y7mgwuE7NMI62LornV5MZVho+odbq5cWSnlzqOFN1fq6cyHA3V7Ehm37hotLJGBBcC+sjTYJHKK5h9AKmRW/w4tJXlGYol5JOkyWXZOALopO8W+66NoWXn5cx12uMq6Se0I1Gog5iRK98Dma7xRzO2hjXsBMheKC2La/EjxLHWlkhrSs5GDAyfZBGZ1Gd7wijXgpBt9dLoYmZfjULt10qIKsIc3lpaqLBQn0QfO8+N38oDMr5f+Ip3An9aF2LZkb5STHdP5ce09ziJl9IfiuA3HIQhw4ttxJc0xV9oW7+mAG0mRxgBrIViy5amGizMqTohrGzeuTjG7WtQxzCjtsmJ7JtAIV2oeJR6EhVl4KXozJ+acNOCb8LtAhkp9XpUaOys="
   wait-until-deployed: true
 
 
