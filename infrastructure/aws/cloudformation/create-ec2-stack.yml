@@ -245,74 +245,75 @@ Resources:
               Ref: VolumeSize
       UserData:
         Fn::Base64: !Sub |
-            #! /bin/bash -xe
-            apt-get update
-            echo Y | apt-get install default-jre
-            echo Y | apt-get install default-jdk
+                    #! /bin/bash -xe
+                    export DEBIAN_FRONTEND=noninteractive
+                    apt-get update
+                    echo Y | apt-get install default-jre
+                    echo Y | apt-get install default-jdk
 
-            sed -i '$ a JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"' /etc/environment
-            source /etc/environment
-            wait
-            sleep 3
-            groupadd tomcat
-            useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+                    sed -i '$ a JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"' /etc/environment
+                    source /etc/environment
+                    wait
+                    sleep 3
+                    groupadd tomcat
+                    useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
 
-            cd /opt
-            curl -O http://apache.mirrors.tds.net/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz
-            tar -xvf apache-tomcat-8.5.23.tar.gz
-            mv apache-tomcat-8.5.23 tomcat
+                    cd /opt
+                    curl -O http://apache.mirrors.tds.net/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz
+                    tar -xvf apache-tomcat-8.5.23.tar.gz
+                    mv apache-tomcat-8.5.23 tomcat
 
-            sleep 3
+                    sleep 3
 
-            chgrp -R tomcat /opt/tomcat
-            chown -R tomcat /opt/tomcat
-            chmod -R 755 /opt/tomcat
+                    chgrp -R tomcat /opt/tomcat
+                    chown -R tomcat /opt/tomcat
+                    chmod -R 755 /opt/tomcat
 
-            echo "[Unit]
-            Description=Apache Tomcat Web Server
-            After=network.target
+                    echo "[Unit]
+                    Description=Apache Tomcat Web Server
+                    After=network.target
 
-            [Service]
-            Type=forking
+                    [Service]
+                    Type=forking
 
-            Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
-            Environment=CATALINA_HOME=/opt/tomcat
-            Environment=CATALINA_BASE=/opt/tomcat
-            Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+                    Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+                    Environment=CATALINA_HOME=/opt/tomcat
+                    Environment=CATALINA_BASE=/opt/tomcat
+                    Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
 
-            ExecStart=/opt/tomcat/bin/startup.sh
-            ExecStop=/opt/tomcat/bin/shutdown.sh
+                    ExecStart=/opt/tomcat/bin/startup.sh
+                    ExecStop=/opt/tomcat/bin/shutdown.sh
 
-            User=tomcat
-            Group=tomcat
-            UMask=0007
-            RestartSec=15
-            Restart=always
+                    User=tomcat
+                    Group=tomcat
+                    UMask=0007
+                    RestartSec=15
+                    Restart=always
 
-            [Install]
-            WantedBy=multi-user.target" > /etc/systemd/system/tomcat.service
+                    [Install]
+                    WantedBy=multi-user.target" > /etc/systemd/system/tomcat.service
 
-            systemctl daemon-reload
-            sleep 2
-            systemctl start tomcat
-            sleep 2
-            systemctl enable tomcat
-            sudo ufw allow 8080
+                    systemctl daemon-reload
+                    sleep 2
+                    systemctl start tomcat
+                    sleep 2
+                    systemctl enable tomcat
+                    sudo ufw allow 8080
 
-            sleep 10
-            wait
+                    sleep 10
+                    wait
 
-            apt-get update
-            echo Y | apt-get install ruby
-            apt-get install wget
-            cd /home/ubuntu
-            wget https://aws-codedeploy-us-east-2.s3.amazonaws.com/latest/install
-            chmod -R 777 /home/ubuntu/install
-            wait
-            sleep 3
-            ./install auto
-            service codedeploy-agent start
-            sleep 10
+                    apt-get update
+                    echo Y | apt-get install ruby
+                    apt-get install wget
+                    cd /home/ubuntu
+                    wget https://aws-codedeploy-us-east-2.s3.amazonaws.com/latest/install
+                    chmod -R 777 /home/ubuntu/install
+                    wait
+                    sleep 3
+                    ./install auto
+                    service codedeploy-agent start
+                    sleep 10
 
             echo '#!/bin/sh' > /opt/tomcat/bin/setenv.sh
             echo 'export JAVA_OPTS="$JAVA_OPTS -Dsping.profiles.active=aws"'
@@ -323,16 +324,24 @@ Resources:
             echo 'export JAVA_OPTS="$JAVA_OPTS -Daws.AWS_SERECT_ACCESS_KEY=${IAMSecretKey}"' >> /opt/tomcat/bin/setenv.sh
             echo 'export JAVA_OPTS="$JAVA_OPTS -Daws.S3_BUCKET_NAME=${DomainName}.csye6225.com"' >> /opt/tomcat/bin/setenv.sh
             echo 'export JAVA_OPTS="$JAVA_OPTS -Daws.AWS_REGION=${AWS::Region}"' >> /opt/tomcat/bin/setenv.sh
-            
-
-
             sleep 3
             chmod -R 755 /opt/tomcat/bin/setenv.sh
             chown tomcat:tomcat /opt/tomcat/bin/setenv.sh
             source /opt/tomcat/bin/setenv.sh
-            sleep 10
+            sleep 3
             systemctl restart tomcat
 
+        # S3 bucket
+          S3Bucket:
+            Type: AWS::S3::Bucket
+            Properties:
+              BucketName: !Join ["." , [!Ref DomainName, "csye6225.com"]]
+              AccessControl: Private
+
+        # DynamoDB Table
+          DynamoDBTable:
+            Type: "AWS::DynamoDB::Table"
+           
 
 # S3 bucket
   S3Bucket:
