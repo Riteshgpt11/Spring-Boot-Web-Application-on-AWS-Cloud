@@ -166,15 +166,15 @@ Resources:
 
 
 # VPC Security Group for RDS instance
-  RDSSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
+  RDSSecurityGroup:                
+    Type: 'AWS::EC2::SecurityGroup'                    #Creating RDS Security Group
     Properties:
       GroupName: !Ref DBSecurityGroup
       VpcId: !Ref VpcId
       GroupDescription: Base Security Group
 # Ingress rule for RDS instance
   RDSIngressSecurity:
-    Type: 'AWS::EC2::SecurityGroupIngress'
+    Type: 'AWS::EC2::SecurityGroupIngress'             #Creating Security Group With Ingress Rule 
     Properties:
       IpProtocol: tcp
       FromPort: !Ref DBIngressPort
@@ -183,7 +183,7 @@ Resources:
       GroupId: !Ref RDSSecurityGroup
 # Subnet group for RDS instance
   DBSubnetGroup:
-    Type: "AWS::RDS::DBSubnetGroup"
+    Type: "AWS::RDS::DBSubnetGroup"                    #Creating Subnet Group
     Properties:
       DBSubnetGroupDescription: "New subnet for RDS instance"
       SubnetIds:
@@ -191,7 +191,7 @@ Resources:
         - !Ref SubnetId2
 # RDS instance
   RDSInstance:
-    Type: "AWS::RDS::DBInstance"
+    Type: "AWS::RDS::DBInstance"                       #Creating RDS Instance 
     Properties:
       DBName: !Ref DBName
       AllocatedStorage: !Ref DBAllocatedStorage
