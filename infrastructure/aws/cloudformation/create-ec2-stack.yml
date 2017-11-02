@@ -167,7 +167,7 @@ Resources:
 
 # VPC Security Group for RDS instance
   RDSSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
+    Type: 'AWS::EC2::SecurityGroup'    #Create RDS Security group
     Properties:
       GroupName: !Ref DBSecurityGroup
       VpcId: !Ref VpcId
