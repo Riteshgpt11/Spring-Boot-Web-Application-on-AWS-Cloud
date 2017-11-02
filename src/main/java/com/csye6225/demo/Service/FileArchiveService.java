@@ -65,9 +65,6 @@ public class FileArchiveService {
             String key = Instant.now().getEpochSecond() + "_" + multipartFile.getName();
             String fileName = multipartFile.getOriginalFilename();
             s3Client.putObject(new PutObjectRequest(S3_BUCKET_NAME, key, is, new ObjectMetadata()));
-
-
-
             URL signedUrl = s3Client.getUrl(S3_BUCKET_NAME, key);
             return new MediaFile(key, signedUrl.toString(), fileName.toString());
         } catch (FileArchiveServiceException ex) {
