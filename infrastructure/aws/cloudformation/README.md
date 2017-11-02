@@ -28,22 +28,25 @@
   and other mentioned parameters in the `ec2-parameters.json` and `IAM-parameters.json` files.
 
 ### Instruction to create a stack
-  * Navigate to cloudformation directory and run the below command
+  * Navigate to cloudformation directory and run the below command in the given order:
+    Path: `cd infrastructure/aws/cloudformation/`
+    
+    Execution example: `./create-csye6225-IAM-cloudformation-stack.sh roleName`
+    
+    Path: `cd infrastructure/aws/cloudformation/`
 
-    `cd infrastructure/aws/cloudformation/`
+    Execution example: `./create-csye6225-cloudformation-stack.sh ec2stack`
 
-    `./create-csye6225-cloudformation-stack.sh rolestack ec2stack`
-
-   The above command creates two separate stacks, one for IAM roles, policies and profiles and another stack to creates other AWS resources. `The instance profile created in rolestack which will be imported in ec2stack`
+   The above command creates two separate stacks, the first creates IAM roles, policies and profiles and the other cerates a  stack with AWS resources. The instance profile created in rolestack will be imported in ec2stack.
 
 
 ### Instruction to delete a stack
    * Navigate to cloudformation directory and run the below command
 
-        `cd infrastructure/aws/cloudformation/`
+    Path:  `cd infrastructure/aws/cloudformation/`
 
-        `./delete-csye6225-cloudformation-stack.sh ec2stack rolestack`
+    Execution example:  `./delete-csye6225-cloudformation-stack.sh ec2stack`
 
-        `NOTE: since ec2stack contains a value that is imported from rolestack template, first ec2stack template should be deleted and then the rolestack template`
+*NOTE: since ec2stack contains a value that is imported from rolestack template, first ec2stack template will be deleted and then the rolestack template.
 
-        The script will `disable` termination protection on `EC2 instance` and then delete the stack along with the resources
+The script will `disable` termination protection on `EC2 instance`, as it was previously 'enabled' in the creation stack and then delete the stack along with the other resources(security groups, hosted zones etc).
