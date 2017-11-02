@@ -1,5 +1,5 @@
 
-* ROHAN MAGARE, 001231457, magare.r@husky.neu.edu    
+* ROHAN MAGARE, 001231457, magare.r@husky.neu.edu     
 * RITESH GUPTA, 001280361, gupta.rite@husky.neu.edu
 * PRATIKSHA S SHETTY, 001643697, shetty.pr@husky.neu.edu
 * YOGITA JAIN, 001643815, jain.yo@husky.neu.edu
