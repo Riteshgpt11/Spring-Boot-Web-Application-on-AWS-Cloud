@@ -22,7 +22,7 @@ echo "$instanceid"
 ## Disbale instance terminatio protection
 aws ec2 modify-instance-attribute --instance-id "$instanceid" --no-disable-api-termination
 
-# replace stack name with generic name
+# replace role name with generic name
 #sed -i "s/$2/STACK_NAME/g" ec2-parameters.json
 
 aws cloudformation delete-stack --stack-name $1
