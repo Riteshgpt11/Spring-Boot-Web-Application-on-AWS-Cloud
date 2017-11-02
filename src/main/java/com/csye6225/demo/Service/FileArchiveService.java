@@ -7,9 +7,6 @@
 package com.csye6225.demo.Service;
 
 import com.amazonaws.auth.*;
-//import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-//import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-//import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
@@ -56,15 +53,8 @@ public class FileArchiveService {
      * @throws IOException
      */
     public MediaFile saveFileToS3(MultipartFile multipartFile) throws FileArchiveServiceException, IOException {
-        //s3Client = AmazonS3ClientBuilder.defaultClient();
-        //s3Client = new AmazonS3Client(EnvironmentVariableCredentialsProvider().getCredentials());
+        
         try {
-
-            //s3Client = new AmazonS3Client(new ProfileCredentialsProvider().getCredentials());
-            //s3Client = AmazonS3ClientBuilder.standard()
-             //       .withCredentials(new (ProfileCredentialsProvider()))
-               //     .build();
-
             BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
             s3Client = AmazonS3ClientBuilder.standard()               //.withRegion(region)
                     .withRegion(Regions.fromName(region))
