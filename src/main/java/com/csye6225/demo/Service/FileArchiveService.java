@@ -33,8 +33,8 @@ import java.time.Instant;
 @Service
 public class FileArchiveService {
 
-    @Value("${aws.S3_BUCKET_NAME}")
-    private static String S3_BUCKET_NAME;
+    private static final String S3_BUCKET_NAME = "ec2.csye6225-fall2017-guptarite.me.csye6225.com";
+
 
     private AmazonS3 s3Client;
 
@@ -44,8 +44,8 @@ public class FileArchiveService {
     @Value("${aws.AWS_SECRET_ACCESS_KEY}")
     private String awsKey;
 
-    @Value("${aws.AWS_REGION}")
-    private String region;
+    //@Value("$spring.datasource.region")
+    private String region="us-east-1";
 
 
     /**
@@ -107,11 +107,6 @@ public class FileArchiveService {
                 .build();*/
 
        //s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
-        BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
-        s3Client = AmazonS3ClientBuilder.standard()               //.withRegion(region)
-                .withRegion(Regions.fromName(region))
-                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-                .build();
 
         s3Client.deleteObject(new DeleteObjectRequest(S3_BUCKET_NAME, mediaFile.getKey()));
     }
