@@ -67,11 +67,6 @@ public class FileArchiveService {
             s3Client.putObject(new PutObjectRequest(S3_BUCKET_NAME, key, is, new ObjectMetadata()));
 
 
-                    //.standard()
-                    //.withCredentials(new InstanceProfileCredentialsProvider(false))
-                    //.build();
-           // s3Client = new AmazonS3Client(DefaultAWSCredentialsProviderChain.getInstance());
-            //s3Client = new AmazonS3Client(new ProfileCredentialsProvider(DefaultAWSCredentialsProviderChain.getInstance()));
 
             URL signedUrl = s3Client.getUrl(S3_BUCKET_NAME, key);
             return new MediaFile(key, signedUrl.toString(), fileName.toString());
