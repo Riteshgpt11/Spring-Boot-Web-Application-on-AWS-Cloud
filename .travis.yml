@@ -61,7 +61,7 @@ deploy:
    #deployement_group: WebApplication
 - provider: codedeploy
   access_key_id: AKIAIXX72ODDFLYICJEA
-  bucket: code-deploy.csye6225.com
+  bucket: code-deploy.csye6225-fall2017-shettypr.me
   key: WebApp.zip
   bundle_type: zip
   application: Csye6225
