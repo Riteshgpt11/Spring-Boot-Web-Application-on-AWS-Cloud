@@ -34,7 +34,7 @@ Parameters:
 
 Resources:
   Ec2Role:
-    Type: "AWS::IAM::Role"                       #Createing EC2 Role
+    Type: "AWS::IAM::Role"                       #Createing EC2 Role 
     Properties:
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
