@@ -213,7 +213,7 @@ Resources:
           Value: "RDS MySQL Database"
 
   EC2Instance:
-    Type: 'AWS::EC2::Instance'
+    Type: 'AWS::EC2::Instance'                        #Creating EC2 instance
     Properties:
       KeyName: !Ref KeyName
       IamInstanceProfile:
@@ -244,7 +244,7 @@ Resources:
             VolumeSize:
               Ref: VolumeSize
       UserData:
-        Fn::Base64: !Sub |
+        Fn::Base64: !Sub |                 #Adding base64 Encoding
             #! /bin/bash -xe
             apt-get update
             echo Y | apt-get install default-jre
