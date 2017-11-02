@@ -11,8 +11,10 @@ import com.amazonaws.auth.*;
 //import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 //import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -30,8 +32,8 @@ import java.time.Instant;
 
 @Service
 public class FileArchiveService {
-  
-    private static final String S3_BUCKET_NAME = "ec2.csye6225-fall2017-magarer.me.csye6225.com";
+
+    private static final String S3_BUCKET_NAME = "ec2.csye6225-fall2017-guptarite.me.csye6225.com";
 
 
     private AmazonS3 s3Client;
