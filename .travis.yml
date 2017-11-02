@@ -28,7 +28,7 @@ script:
 
 after_success:
   - mkdir codedeploy
-  - zip -r WebApp.zip build/libs/ROOT.war appsec.yml
+  - zip -r WebApp.zip build/libs/ROOT.war appspec.yml
   - ls -al
   - mv WebApp.zip codedeploy/
   - ls -al
