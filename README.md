@@ -35,4 +35,4 @@ For running the JMeter test: Change the property spring.profiles.active in appli
 
 The load test creates 100 random users and tests the GET, POST, PUT, and DELETE performance of the application.
 
-link to travisci: https://travis-ci.com/Riteshgpt11/csye6225-fall2017
+link to travisci: https://travis-ci.com/Riteshgpt11/csye6225-fall2017 
