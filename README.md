@@ -20,7 +20,7 @@
 3) Includes:
    * .jmx for Jmeter testing
    * .yml for travis-ci testing
-   * JUnits for unit testing
+   * JUnits for unit testing 
 
 For running the application locally
 Change the property `spring.profiles.active` in application properties to dev
