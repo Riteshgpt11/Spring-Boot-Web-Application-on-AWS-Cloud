@@ -323,6 +323,9 @@ Resources:
             echo 'export JAVA_OPTS="$JAVA_OPTS -Daws.AWS_SERECT_ACCESS_KEY=${IAMSecretKey}"' >> /opt/tomcat/bin/setenv.sh
             echo 'export JAVA_OPTS="$JAVA_OPTS -Daws.S3_BUCKET_NAME=${DomainName}.csye6225.com"' >> /opt/tomcat/bin/setenv.sh
             echo 'export JAVA_OPTS="$JAVA_OPTS -Daws.AWS_REGION=${AWS::Region}"' >> /opt/tomcat/bin/setenv.sh
+            
+
+
             sleep 3
             chmod -R 755 /opt/tomcat/bin/setenv.sh
             chown tomcat:tomcat /opt/tomcat/bin/setenv.sh

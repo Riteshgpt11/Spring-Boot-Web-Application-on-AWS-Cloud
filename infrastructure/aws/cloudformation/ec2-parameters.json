@@ -1,7 +1,7 @@
 [
     {
        "ParameterKey": "KeyName",
-       "ParameterValue": "lenovo_key",
+       "ParameterValue": "MyPublicKey",
        "UsePreviousValue": true
      },
      {
@@ -16,7 +16,7 @@
        },
        {
          "ParameterKey": "VpcId",
-         "ParameterValue": "vpc-a9f6ffd0",
+         "ParameterValue": "vpc-9e9374e6",
          "UsePreviousValue": true
        },
        {
@@ -36,7 +36,7 @@
        },
        {
          "ParameterKey": "DomainName",
-         "ParameterValue": "ec2.csye6225-fall2017-jainyo.me",
+         "ParameterValue": "ec2.csye6225-fall2017-guptarite.me",
          "UsePreviousValue": true
        },
        {
@@ -101,12 +101,12 @@
        },
        {
          "ParameterKey": "SubnetId1",
-         "ParameterValue": "subnet-b833dcf3",
+         "ParameterValue": "subnet-bb2fd1f0",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "SubnetId2",
-         "ParameterValue": "subnet-8dd7f9a1",
+         "ParameterValue": "subnet-4ab88b10",
          "UsePreviousValue": true
        },
        {
@@ -166,7 +166,7 @@
        },
        {
          "ParameterKey": "RoleStack",
-         "ParameterValue": "STACK_NAME",
+         "ParameterValue": "role",
          "UsePreviousValue": true
        },
        {
