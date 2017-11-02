@@ -6,18 +6,15 @@
  **/
 package com.csye6225.demo.Service;
 
-import com.amazonaws.auth.*;
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
 import com.csye6225.demo.entity.MediaFile;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,13 +50,13 @@ public class FileArchiveService {
      * @throws IOException
      */
     public MediaFile saveFileToS3(MultipartFile multipartFile) throws FileArchiveServiceException, IOException {
-        
+
         try {
             BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
-            s3Client = AmazonS3ClientBuilder.standard()               //.withRegion(region)
+            s3Client = AmazonS3ClientBuilder.standard()               
                     .withRegion(Regions.fromName(region))
                     .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-                   .build();
+                    .build();
 
             InputStream is = multipartFile.getInputStream();
             String key = Instant.now().getEpochSecond() + "_" + multipartFile.getName();
@@ -81,7 +78,7 @@ public class FileArchiveService {
     public void deleteFileFromS3(MediaFile mediaFile) {
 
         BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
-        s3Client = AmazonS3ClientBuilder.standard()               //.withRegion(region)
+        s3Client = AmazonS3ClientBuilder.standard()
                 .withRegion(Regions.fromName(region))
                 .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .build();
