@@ -53,7 +53,7 @@ public class FileArchiveService {
 
         try {
             BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsId, awsKey);
-            s3Client = AmazonS3ClientBuilder.standard()               
+            s3Client = AmazonS3ClientBuilder.standard()
                     .withRegion(Regions.fromName(region))
                     .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                     .build();
