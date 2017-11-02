@@ -1,7 +1,7 @@
 [
     {
        "ParameterKey": "KeyName",
-       "ParameterValue": "MyPublicKey",
+       "ParameterValue": "lenovo_key",
        "UsePreviousValue": true
      },
        {
@@ -31,12 +31,12 @@
        },
        {
          "ParameterKey": "WebApplicationName",
-         "ParameterValue": "Csye6225",
+         "ParameterValue": "WebApplication",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "TravisUserName",
-         "ParameterValue": "Travis",
+         "ParameterValue": "travis_ci",
          "UsePreviousValue": true
        }
 ]
