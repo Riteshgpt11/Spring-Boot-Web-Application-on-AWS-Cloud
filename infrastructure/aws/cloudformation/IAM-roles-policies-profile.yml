@@ -77,7 +77,7 @@ Resources:
     Type: "AWS::IAM::Role"                      #Creating CodeDeploy Role  
     Properties:
       ManagedPolicyArns:
-        - "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
+        - "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole" 
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
