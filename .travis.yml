@@ -28,7 +28,7 @@ script:
 
 after_success:
   - mkdir codedeploy
-  - zip -r WebApp.zip build/libs/ROOT.war appspec.yml
+  - zip -r WebApp.zip build/libs/ROOT.war appspec.yml restartTomcat.sh
   - ls -al
   - mv WebApp.zip codedeploy/
   - ls -al
