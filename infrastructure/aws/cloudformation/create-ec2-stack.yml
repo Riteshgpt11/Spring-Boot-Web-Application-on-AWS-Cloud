@@ -7,6 +7,9 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: CloudFormation Template to create an EC2 instance
 
 Parameters:
+  KeyName:
+    Description: Key pair name
+    Type: "String"
   InstanceType:
     Description: Instance type to use
     Type: "String"
@@ -18,9 +21,6 @@ Parameters:
   Id:
     Description: Image id of the AMI
     Type: AWS::EC2::Image::Id
-  SubnetId:
-    Description: Subnet id of the AMI
-    Type: "String"
   VpcId:
     Description: Vpc id of the AMI
     Type: "String"
@@ -78,9 +78,6 @@ Parameters:
   SubnetId2:
     Description: Subnet Id for us-east-1b
     Type: "String"
-  #BucketName:
-  #  Description: Name of the S3 bucket
-  #  Type: "String"
   DynamodbTableName:
     Description: Name of the Dynamodb
     Type: "String"
@@ -117,6 +114,27 @@ Parameters:
   DBIngressPort:
     Description: MySQL db Ingress port for RDS Instance
     Type: "String"
+  RoleStack:
+    Description: Name of the active stack that has roles created
+    Type: "String"
+  EC2TagName:
+    Description: Name of the active stack that has roles created
+    Type: "String"
+  EC2TagValue:
+    Description: Name of the active stack that has roles created
+    Type: "String"
+  DNSRecordType:
+    Description: Name of the active stack that has roles created
+    Type: "String"
+  DNSTtl:
+    Description: Name of the active stack that has roles created
+    Type: "String"
+  IAMAccessKey:
+    Description: Name of the active stack that has roles created
+    Type: "String"
+  IAMSecretKey:
+    Description: Name of the active stack that has roles created
+    Type: "String"
 
 Resources:
 # VPC Security Group for EC2 instance
@@ -141,29 +159,12 @@ Resources:
           FromPort: '443'
           ToPort: '443'
           CidrIp: 0.0.0.0/0
-  EC2Instance:
-    Type: 'AWS::EC2::Instance'
-    Properties:
-      ImageId:
-        Ref: Id
-      InstanceType:
-        Ref: InstanceType
-      DisableApiTermination: true
-      SecurityGroupIds:
-        - !GetAtt
-          - WebServerSecurityGroup
-          - GroupId
-      SubnetId:
-        Ref: SubnetId
-      BlockDeviceMappings:
-        -
-          DeviceName:
-            Ref: DeviceName
-          Ebs:
-            VolumeType:
-              Ref: VolumeType
-            VolumeSize:
-              Ref: VolumeSize
+        - IpProtocol: tcp
+          FromPort: '8080'
+          ToPort: '8080'
+          CidrIp: 0.0.0.0/0
+
+
 # VPC Security Group for RDS instance
   RDSSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
@@ -197,12 +198,12 @@ Resources:
       DBInstanceClass: !Ref DBInstanceClass
       Engine: !Ref DatabaseType
       EngineVersion: !Ref DatabaseVersion
+      PubliclyAccessible: false
       StorageType: !Ref DBStorageType
       DBSubnetGroupName: !Ref DBSubnetGroup
       DBInstanceIdentifier: !Ref InstanceIdentifier
       MasterUsername: !Ref DBUser
       MasterUserPassword: !Ref DBPassword
-      PubliclyAccessible: false
       MultiAZ: false
       VPCSecurityGroups:
       - Ref: RDSSecurityGroup
@@ -210,6 +211,129 @@ Resources:
         -
           Key: "Name"
           Value: "RDS MySQL Database"
+
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      KeyName: !Ref KeyName
+      IamInstanceProfile:
+        Fn::ImportValue:
+          !Sub "${RoleStack}-Ec2InstanceRole"
+      ImageId:
+        Ref: Id
+      InstanceType:
+        Ref: InstanceType
+      DisableApiTermination: true
+      SecurityGroupIds:
+        - !GetAtt
+          - WebServerSecurityGroup
+          - GroupId
+      SubnetId:
+        Ref: SubnetId1
+      Tags:
+        -
+          Key: !Ref EC2TagName
+          Value: !Ref EC2TagValue
+      BlockDeviceMappings:
+        -
+          DeviceName:
+            Ref: DeviceName
+          Ebs:
+            VolumeType:
+              Ref: VolumeType
+            VolumeSize:
+              Ref: VolumeSize
+      UserData:
+        Fn::Base64: !Sub |
+            #! /bin/bash -xe
+            apt-get update
+            echo Y | apt-get install default-jre
+            echo Y | apt-get install default-jdk
+
+            sed -i '$ a JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"' /etc/environment
+            source /etc/environment
+            wait
+            sleep 3
+            groupadd tomcat
+            useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+
+            cd /opt
+            curl -O http://apache.mirrors.tds.net/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz
+            tar -xvf apache-tomcat-8.5.23.tar.gz
+            mv apache-tomcat-8.5.23 tomcat
+
+            sleep 3
+
+            chgrp -R tomcat /opt/tomcat
+            chown -R tomcat /opt/tomcat
+            chmod -R 755 /opt/tomcat
+
+            echo "[Unit]
+            Description=Apache Tomcat Web Server
+            After=network.target
+
+            [Service]
+            Type=forking
+
+            Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+            Environment=CATALINA_HOME=/opt/tomcat
+            Environment=CATALINA_BASE=/opt/tomcat
+            Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+
+            ExecStart=/opt/tomcat/bin/startup.sh
+            ExecStop=/opt/tomcat/bin/shutdown.sh
+
+            User=tomcat
+            Group=tomcat
+            UMask=0007
+            RestartSec=15
+            Restart=always
+
+            [Install]
+            WantedBy=multi-user.target" > /etc/systemd/system/tomcat.service
+
+            systemctl daemon-reload
+            sleep 2
+            systemctl start tomcat
+            sleep 2
+            systemctl enable tomcat
+            sudo ufw allow 8080
+
+            sleep 10
+            wait
+
+            apt-get update
+            echo Y | apt-get install ruby
+            apt-get install wget
+            cd /home/ubuntu
+            wget https://aws-codedeploy-us-east-2.s3.amazonaws.com/latest/install
+            chmod -R 777 /home/ubuntu/install
+            wait
+            sleep 3
+            ./install auto
+            service codedeploy-agent start
+            sleep 10
+
+            echo '#!/bin/sh' > /opt/tomcat/bin/setenv.sh
+            echo 'export JAVA_OPTS="$JAVA_OPTS -Dsping.profiles.active=aws"'
+            echo 'export JAVA_OPTS="$JAVA_OPTS -Dspring.datasource.url=jdbc:mysql://${RDSInstance.Endpoint.Address}:3306/csye6225"' >> /opt/tomcat/bin/setenv.sh
+            echo 'export JAVA_OPTS="$JAVA_OPTS -Dspring.datasource.username=${DBUser}"' >> /opt/tomcat/bin/setenv.sh
+            echo 'export JAVA_OPTS="$JAVA_OPTS -Dspring.datasource.password=${DBPassword}"' >> /opt/tomcat/bin/setenv.sh
+            echo 'export JAVA_OPTS="$JAVA_OPTS -Daws.AWS_ACCESS_KEY_ID=${IAMAccessKey}"' >> /opt/tomcat/bin/setenv.sh
+            echo 'export JAVA_OPTS="$JAVA_OPTS -Daws.AWS_SERECT_ACCESS_KEY=${IAMSecretKey}"' >> /opt/tomcat/bin/setenv.sh
+            echo 'export JAVA_OPTS="$JAVA_OPTS -Daws.S3_BUCKET_NAME=${DomainName}.csye6225.com"' >> /opt/tomcat/bin/setenv.sh
+            echo 'export JAVA_OPTS="$JAVA_OPTS -Daws.AWS_REGION=${AWS::Region}"' >> /opt/tomcat/bin/setenv.sh
+            
+
+
+            sleep 3
+            chmod -R 755 /opt/tomcat/bin/setenv.sh
+            chown tomcat:tomcat /opt/tomcat/bin/setenv.sh
+            source /opt/tomcat/bin/setenv.sh
+            sleep 10
+            systemctl restart tomcat
+
+
 # S3 bucket
   S3Bucket:
     Type: AWS::S3::Bucket
@@ -241,8 +365,8 @@ Resources:
         Ref: HostedZoneId
       Name:
         Ref: DomainName
-      Type: A
-      TTL: 60
+      Type: !Ref DNSRecordType
+      TTL: !Ref DNSTtl
       ResourceRecords:
       - !GetAtt EC2Instance.PublicIp
 

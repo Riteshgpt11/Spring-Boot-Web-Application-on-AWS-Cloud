@@ -4,12 +4,12 @@
         {
             "Action": "UPSERT",
             "ResourceRecordSet": {
-                "Name": "ec2.csye6225-fall2017-guptarite.me.",
+                "Name": "csye6225-fall2017-guptarite.me.",
                 "Type": "A",
                 "TTL": 60,
                 "ResourceRecords": [
                     {
-                            "Value": ""
+                            "Value": "52.91.13.47"
                     }
                 ]
             }
