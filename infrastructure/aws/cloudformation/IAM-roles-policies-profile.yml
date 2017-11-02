@@ -66,7 +66,7 @@ Resources:
           Ref: "Ec2Role"
 
   Ec2InstanceProfile:
-    Type: "AWS::IAM::InstanceProfile"           #Creating Profile Instance
+    Type: "AWS::IAM::InstanceProfile"           #Creating Profile Instance  
     Properties:
       Path: "/"
       Roles:
@@ -74,7 +74,7 @@ Resources:
           Ref: "Ec2Role"
 
   CodeDeployRole:
-    Type: "AWS::IAM::Role"                      #Creating CodeDeploy Role
+    Type: "AWS::IAM::Role"                      #Creating CodeDeploy Role  
     Properties:
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
@@ -91,7 +91,7 @@ Resources:
       RoleName: !Ref CodeDepolyRoleName
 
   RolePolicyUploadToS3:
-    Type: "AWS::IAM::ManagedPolicy"            #Creating Policy To Upload to S3
+    Type: "AWS::IAM::ManagedPolicy"            #Creating Policy To Upload to S3  
     Properties:
       Description: "new CF policy"
       ManagedPolicyName: !Ref PolicyTravisUploadS3Name
