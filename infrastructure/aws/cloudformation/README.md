@@ -5,7 +5,7 @@
 * Pratiksha Shetty shetty.pr@husky.neu.edu 001643697
 * Ritesh Gupta gupta.rite@husky.neu.edu 001280361
 
-## Instructions to create an EC2 instance, RDS instance, DNS record, DynamobDB, S3 bucket, Roles, Policies, Security groups using cloud formation stack
+### Instructions to create an EC2 instance, RDS instance, DNS record, DynamobDB, S3 bucket, Roles, Policies, Security groups using cloud formation stack
 
 ### Files
   * Parameters files: ec2-parameters.json and IAM-parameters.json

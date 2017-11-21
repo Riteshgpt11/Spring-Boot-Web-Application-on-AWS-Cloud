@@ -1,7 +1,7 @@
 [
     {
        "ParameterKey": "KeyName",
-       "ParameterValue": "lenovo_key",
+       "ParameterValue": "MyKeyPair",
        "UsePreviousValue": true
      },
      {
@@ -166,7 +166,7 @@
        },
        {
          "ParameterKey": "RoleStack",
-         "ParameterValue": "roles",
+         "ParameterValue": "role",
          "UsePreviousValue": true
        },
        {
@@ -181,12 +181,14 @@
        },
        {
          "ParameterKey": "IAMAccessKey",
-         "ParameterValue": "",
+         "ParameterValue": "AKIAJG2LPYVCZ7VM2PHA",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "IAMSecretKey",
-         "ParameterValue": "",
+         "ParameterValue": "IsIZLprV2J2uGqw9GMCWth7DcMy0OY4AisyHyOlj",
          "UsePreviousValue": true
        }
+
+
 ]

@@ -5,7 +5,7 @@
 * YOGITA JAIN, 001643815, jain.yo@husky.neu.edu
 
 ## Project Title: Web Application Development using Spring boot and Gradle
-#a
+
 * The objective of the project is to develop a simple web application wherein a user can be registered and logged in.
 
 1) Prerequisites: 
@@ -19,7 +19,7 @@
 
 3) Includes:
    * .jmx for Jmeter testing
-   * .yml for travis-ci testing
+   * travis.yml for travis-ci testing
    * JUnits for unit testing
 
 For running the application locally
@@ -35,4 +35,4 @@ For running the JMeter test: Change the property spring.profiles.active in appli
 
 The load test creates 100 random users and tests the GET, POST, PUT, and DELETE performance of the application.
 
-link to travisci: https://travis-ci.com/Riteshgpt11/csye6225-fall2017
+link to TravisCI: https://travis-ci.com/PratikshaShetty/csye6225-fall2017-lambda

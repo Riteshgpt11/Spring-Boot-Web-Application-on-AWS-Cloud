@@ -31,11 +31,17 @@ Parameters:
   TravisUserName:
     Description: Travis user name
     Type: "String"
+  CloudWatch:
+    Description: Travis user name
+    Type: "String"
+
 
 Resources:
   Ec2Role:
     Type: "AWS::IAM::Role"
     Properties:
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -47,6 +53,21 @@ Resources:
             Action:
               - "sts:AssumeRole"
       Path: "/"
+      Policies:
+        -
+          PolicyName: !Ref CloudWatch
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              -
+                Effect: "Allow"
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                  - 'logs:DescribeLogStreams'
+                Resource:
+                  - 'arn:aws:logs:*:*:*'
       RoleName: !Ref Ec2RoleName
 
   CodeDepolyEc2S3Policies:
@@ -135,6 +156,25 @@ Resources:
               - !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.AllAtOnce'
       Users:
         - !Ref TravisUserName
+
+  CloudWatchPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      ManagedPolicyName: !Ref CloudWatch
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - "logs:CreateLogGroup"
+              - "logs:CreateLogStream"
+              - "logs:PutLogEvents"
+              - "logs:DescribeLogStreams"
+            Effect: Allow
+            Resource:
+              - "arn:aws:logs:*:*:*"
+      Roles:
+        -
+          Ref: "Ec2Role"
 
 
 Outputs:

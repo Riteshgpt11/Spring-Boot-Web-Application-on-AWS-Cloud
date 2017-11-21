@@ -8,14 +8,6 @@ jdk:
 services:
   - mysql
 
-##test:
-  ##adapter: mysql2
-  #database: user_database
-  #username: travis
-  #encoding: utf8
-
-#before_install:
- # - mysql -e 'CREATE DATABASE IF NOT EXISTS user_database;'
 env:
   CATALINA_BASE=/home/travis
 
@@ -24,13 +16,12 @@ install: true
 
 script:
   - ./gradlew build
-  #- ./gradlew test --info
 
 after_success:
   - mkdir codedeploy
-  - zip -r WebApp.zip build/libs/ROOT.war appspec.yml restartTomcat.sh
+  - zip -r WebApp1.zip build/libs/ROOT.war appspec.yml restartTomcat.sh infrastructure/aws/cloudwatch/awslogs.conf startCloudWatch.sh
   - ls -al
-  - mv WebApp.zip codedeploy/
+  - mv WebApp1.zip codedeploy/
   - ls -al
   - pwd
   - cd codedeploy
@@ -44,38 +35,30 @@ before_deploy:
 
 deploy:
 - provider: s3
-  access_key_id: AKIAIX6QLOIPWLR6NSCA
+  access_key_id: AKIAJJURQ7HUKCJBHXIA
   secret_access_key:
-    secure: "SlfDgQEw0hx96vtqY+RrsXIOCoPdF6IRVjvatpGApHachG7QUXTh4nqEga3oCphVyNn2EcRb+pDutEqDJ37b35+dfw3xryALZpkPe4Vg4TQa/VJe2YsaCjeGDUEKlHbXVBfOHhJe9iIMWjO5LE8Al6M5J/d94L3WNLAb4DCMlqz4MJLOzhH7oSBh2YU8ARHMDd0zWzHE+EhZK71kea7RBfx3+k8j7p3+j0ZNRvjsIuqGFHTpvzaRMwtKL+rqq+4oZ1osUnPsYXbEiG1yHgMkWGGplreUo0iOb3Pqx3RIHucri0WIqtaUY1E0eFuJhGtg05MGDD0NsLU2pdyfF2ov3R31ouCGJmBEzSJXYnk6Yn+TiBsOU5KAWgIyyWwelSTqymsLftxhKpVPSJseMmry93k6yFeYxRuJmvIufT8rGtt47PqVe8TW/C/WF15rpqxEZto26bnVgurXI03Wg2dTppUHGFXAau6ELZcqYSgAcvNNxWgIYpCou5AzysGeAcJhOzXNbOb38ByWTs6OyvT065dbW3w5iznkNjuyGU3y9Pa71jBEPmPrNKOOhI6ChcdMuGtF+CsRHuloSB9Qh/NYCVlOoBuCvZx81GxAUfHqpeE4XcpMifzHCtcJEI6qhoVD1VyhuB9SlqjOsDO+donj8FoNviYQsvwTITxeAohEJRg="
+    secure: "pXk6T4/9Kf8GKZbx/umbgsUrY9ds+MQLo3xCbnVlxukO2DL5J7qWfX7LRndn6HkzWpSFJdo/TfAF+mAAW9jBRom4Bx7dvue9gaeNfxmy7ESpBzPIq9UTfExUFPkD8be3s7NwXTVXThxdWNFcn+ITS8lRQLIlmvpLXthbJ0jjAYE9Saw0MGK8EjcN2SXHa4K5a/YsUER5lRBkaCDM4aOkzCvl1e4gDmY55RkjidzgXkGM/8qAda9rVHD5Xs+OcBng/3UCaYW+LGI8WYw9XJvaDeaApuHtMuxRr8UTuMwE0QSkNOswYeZnOuutYDnH2Zdpzj5cEFvP9um9YflUmp/bvixzh6thwviwxWSyLFpmp1wyvKiXxGt87m+8S3IfMYFwT2LJySxcMDU3r39sE+xS3Uxt3yNolfMbnOQU//Wf+4wsM1ICffT7Av7Y9KAoSY9lFuqZs7kXJCs1/eczpPYCDQ8CBHY/wyxigq+VoYrYSpAivHWDf+y1K0CQR5DmrbnxsLnXvQxRv+u/kwW7cXkLPJj8CLFdtczXXJhOk4qku03369kPVwDifCITbkGazI2Jg2f9AElkOYUQRKf78oWWyNjQyR7UtnNZ3rCidV4RA645U1mKqU7GrRS8H+ZyFuryk/8z3SiECvwH/rypfCp2kyHXWPr2uIVTHhapt8Hdb0E="
   local_dir: codedeploy
-  bucket: ec2.csye6225-fall2017-guptarite.me.csye6225.com
+  bucket: ec2.csye6225-fall2017-jainyo.me.csye6225.com
   region: us-east-1
   skip_cleanup: true
 
-  #- provider: codedeploy
-  #  access_key_id:
-  #  bucket:
-  #  key:
-  #  bundle type: zip
-  #application: WebApplication
-   #deployement_group: WebApplication
 - provider: codedeploy
-  access_key_id: AKIAIX6QLOIPWLR6NSCA
-  bucket: ec2.csye6225-fall2017-guptarite.me.csye6225.com
-  key: WebApp.zip
+  access_key_id: AKIAJJURQ7HUKCJBHXIA
+  bucket: ec2.csye6225-fall2017-jainyo.me.csye6225.com
+  key: WebApp1.zip
   bundle_type: zip
-  application: Csye6225
-  deployment_group: Csye6225  
+  application: WebApplication
+  deployment_group: WebApplication
   region: us-east-1
   secret_access_key:
-    secure: "SlfDgQEw0hx96vtqY+RrsXIOCoPdF6IRVjvatpGApHachG7QUXTh4nqEga3oCphVyNn2EcRb+pDutEqDJ37b35+dfw3xryALZpkPe4Vg4TQa/VJe2YsaCjeGDUEKlHbXVBfOHhJe9iIMWjO5LE8Al6M5J/d94L3WNLAb4DCMlqz4MJLOzhH7oSBh2YU8ARHMDd0zWzHE+EhZK71kea7RBfx3+k8j7p3+j0ZNRvjsIuqGFHTpvzaRMwtKL+rqq+4oZ1osUnPsYXbEiG1yHgMkWGGplreUo0iOb3Pqx3RIHucri0WIqtaUY1E0eFuJhGtg05MGDD0NsLU2pdyfF2ov3R31ouCGJmBEzSJXYnk6Yn+TiBsOU5KAWgIyyWwelSTqymsLftxhKpVPSJseMmry93k6yFeYxRuJmvIufT8rGtt47PqVe8TW/C/WF15rpqxEZto26bnVgurXI03Wg2dTppUHGFXAau6ELZcqYSgAcvNNxWgIYpCou5AzysGeAcJhOzXNbOb38ByWTs6OyvT065dbW3w5iznkNjuyGU3y9Pa71jBEPmPrNKOOhI6ChcdMuGtF+CsRHuloSB9Qh/NYCVlOoBuCvZx81GxAUfHqpeE4XcpMifzHCtcJEI6qhoVD1VyhuB9SlqjOsDO+donj8FoNviYQsvwTITxeAohEJRg="
+    secure: "pXk6T4/9Kf8GKZbx/umbgsUrY9ds+MQLo3xCbnVlxukO2DL5J7qWfX7LRndn6HkzWpSFJdo/TfAF+mAAW9jBRom4Bx7dvue9gaeNfxmy7ESpBzPIq9UTfExUFPkD8be3s7NwXTVXThxdWNFcn+ITS8lRQLIlmvpLXthbJ0jjAYE9Saw0MGK8EjcN2SXHa4K5a/YsUER5lRBkaCDM4aOkzCvl1e4gDmY55RkjidzgXkGM/8qAda9rVHD5Xs+OcBng/3UCaYW+LGI8WYw9XJvaDeaApuHtMuxRr8UTuMwE0QSkNOswYeZnOuutYDnH2Zdpzj5cEFvP9um9YflUmp/bvixzh6thwviwxWSyLFpmp1wyvKiXxGt87m+8S3IfMYFwT2LJySxcMDU3r39sE+xS3Uxt3yNolfMbnOQU//Wf+4wsM1ICffT7Av7Y9KAoSY9lFuqZs7kXJCs1/eczpPYCDQ8CBHY/wyxigq+VoYrYSpAivHWDf+y1K0CQR5DmrbnxsLnXvQxRv+u/kwW7cXkLPJj8CLFdtczXXJhOk4qku03369kPVwDifCITbkGazI2Jg2f9AElkOYUQRKf78oWWyNjQyR7UtnNZ3rCidV4RA645U1mKqU7GrRS8H+ZyFuryk/8z3SiECvwH/rypfCp2kyHXWPr2uIVTHhapt8Hdb0E="
   wait-until-deployed: true
-
 
 notifications:
   email:
     recipients:
       - jain.yo@husky.neu.edu
-      - magare.r@husky.neu.edu
-      - shetty.pr@husky.neu.edu
-      - gupta.rite@husky.neu.edu
+    #  - magare.r@husky.neu.edu
+    #  - shetty.pr@husky.neu.edu
+    #  - gupta.rite@husky.neu.edu
