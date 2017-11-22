@@ -59,6 +59,6 @@ notifications:
   email:
     recipients:
       - jain.yo@husky.neu.edu
-    #  - magare.r@husky.neu.edu
-    #  - shetty.pr@husky.neu.edu
-    #  - gupta.rite@husky.neu.edu
+      - magare.r@husky.neu.edu
+      - shetty.pr@husky.neu.edu
+      - gupta.rite@husky.neu.edu
