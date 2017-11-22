@@ -32,6 +32,7 @@ before_deploy:
   - cd ..
   - ls -al
   - pwd
+  - gem update --system
 
 deploy:
 - provider: s3
