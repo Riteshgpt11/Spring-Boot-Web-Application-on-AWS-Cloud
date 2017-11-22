@@ -1,6 +1,6 @@
 branches:
   only:
-  - master
+  - assignment9
 
 language: java
 jdk:
