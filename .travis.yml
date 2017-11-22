@@ -37,7 +37,7 @@ deploy:
 - provider: s3
   access_key_id: AKIAJJURQ7HUKCJBHXIA
   secret_access_key:
-    secure: "pXk6T4/9Kf8GKZbx/umbgsUrY9ds+MQLo3xCbnVlxukO2DL5J7qWfX7LRndn6HkzWpSFJdo/TfAF+mAAW9jBRom4Bx7dvue9gaeNfxmy7ESpBzPIq9UTfExUFPkD8be3s7NwXTVXThxdWNFcn+ITS8lRQLIlmvpLXthbJ0jjAYE9Saw0MGK8EjcN2SXHa4K5a/YsUER5lRBkaCDM4aOkzCvl1e4gDmY55RkjidzgXkGM/8qAda9rVHD5Xs+OcBng/3UCaYW+LGI8WYw9XJvaDeaApuHtMuxRr8UTuMwE0QSkNOswYeZnOuutYDnH2Zdpzj5cEFvP9um9YflUmp/bvixzh6thwviwxWSyLFpmp1wyvKiXxGt87m+8S3IfMYFwT2LJySxcMDU3r39sE+xS3Uxt3yNolfMbnOQU//Wf+4wsM1ICffT7Av7Y9KAoSY9lFuqZs7kXJCs1/eczpPYCDQ8CBHY/wyxigq+VoYrYSpAivHWDf+y1K0CQR5DmrbnxsLnXvQxRv+u/kwW7cXkLPJj8CLFdtczXXJhOk4qku03369kPVwDifCITbkGazI2Jg2f9AElkOYUQRKf78oWWyNjQyR7UtnNZ3rCidV4RA645U1mKqU7GrRS8H+ZyFuryk/8z3SiECvwH/rypfCp2kyHXWPr2uIVTHhapt8Hdb0E="
+    secure: "ILCwDHVQtpxma902QYiyfbdCmBz1p3drjArwREMX/n9SDySfJB/b84cG5sm28LovZIYcHktjpkaTDNfqJF4e9skITbMdRRie58rUTwk5y0e0aic3TuTMCC96Cy1M6M7FT7HeMEIntWoNBc4CPZLgSlMzJQsK6XG/ejjwts2gRV/xIXdHfuZL/Vdk7RWvVOH3bliKxL122iO3wA+VQUBLXKrRVTBquRHcLVVpL3iwrW6qlIRpWU095RKWJ+yUb2gB4rmUR+Ma4VA3JOgRV72F8jO4+eMzHa0mIdCXfm1pnn5QVKXXyS9ICIjXmtGd6+QlokcIn0/whH/zDMWYrR1a0CSdLbEQ/LqQIfIBe45i85tRKlQxDSY4tcAnaMsoUdDEaGmqBqhYCsJfzdNqjgnA3FIyYet9+bglpi4K7gBmCDeTA/wLasxlnNZpedt9T97eQ4DwVn2vpvTdQghM/u/+prmmpZIKo9V4uG9+tjyq9iN4YT8Uv8fd7WMIjuRvOVbhXl/vbnD7EtHCQd8r1qmvhmA5nOs7xR3w8r1Ib2F7bhAVAUhl3QoS1YmjFDVs77v/Zu1IAhc8uxbjWoG2VbwPNUVQawBEnQMYN8RdmRLvFj5pkZBYSGaZUIAjnMMPgVVx4QNGc3iZIVvkXmFkbgwvYgeHZ1Cl7Hr39UdT3HOULEQ="
   local_dir: codedeploy
   bucket: ec2.csye6225-fall2017-jainyo.me.csye6225.com
   region: us-east-1
@@ -52,13 +52,13 @@ deploy:
   deployment_group: WebApplication
   region: us-east-1
   secret_access_key:
-    secure: "pXk6T4/9Kf8GKZbx/umbgsUrY9ds+MQLo3xCbnVlxukO2DL5J7qWfX7LRndn6HkzWpSFJdo/TfAF+mAAW9jBRom4Bx7dvue9gaeNfxmy7ESpBzPIq9UTfExUFPkD8be3s7NwXTVXThxdWNFcn+ITS8lRQLIlmvpLXthbJ0jjAYE9Saw0MGK8EjcN2SXHa4K5a/YsUER5lRBkaCDM4aOkzCvl1e4gDmY55RkjidzgXkGM/8qAda9rVHD5Xs+OcBng/3UCaYW+LGI8WYw9XJvaDeaApuHtMuxRr8UTuMwE0QSkNOswYeZnOuutYDnH2Zdpzj5cEFvP9um9YflUmp/bvixzh6thwviwxWSyLFpmp1wyvKiXxGt87m+8S3IfMYFwT2LJySxcMDU3r39sE+xS3Uxt3yNolfMbnOQU//Wf+4wsM1ICffT7Av7Y9KAoSY9lFuqZs7kXJCs1/eczpPYCDQ8CBHY/wyxigq+VoYrYSpAivHWDf+y1K0CQR5DmrbnxsLnXvQxRv+u/kwW7cXkLPJj8CLFdtczXXJhOk4qku03369kPVwDifCITbkGazI2Jg2f9AElkOYUQRKf78oWWyNjQyR7UtnNZ3rCidV4RA645U1mKqU7GrRS8H+ZyFuryk/8z3SiECvwH/rypfCp2kyHXWPr2uIVTHhapt8Hdb0E="
+    secure: "ILCwDHVQtpxma902QYiyfbdCmBz1p3drjArwREMX/n9SDySfJB/b84cG5sm28LovZIYcHktjpkaTDNfqJF4e9skITbMdRRie58rUTwk5y0e0aic3TuTMCC96Cy1M6M7FT7HeMEIntWoNBc4CPZLgSlMzJQsK6XG/ejjwts2gRV/xIXdHfuZL/Vdk7RWvVOH3bliKxL122iO3wA+VQUBLXKrRVTBquRHcLVVpL3iwrW6qlIRpWU095RKWJ+yUb2gB4rmUR+Ma4VA3JOgRV72F8jO4+eMzHa0mIdCXfm1pnn5QVKXXyS9ICIjXmtGd6+QlokcIn0/whH/zDMWYrR1a0CSdLbEQ/LqQIfIBe45i85tRKlQxDSY4tcAnaMsoUdDEaGmqBqhYCsJfzdNqjgnA3FIyYet9+bglpi4K7gBmCDeTA/wLasxlnNZpedt9T97eQ4DwVn2vpvTdQghM/u/+prmmpZIKo9V4uG9+tjyq9iN4YT8Uv8fd7WMIjuRvOVbhXl/vbnD7EtHCQd8r1qmvhmA5nOs7xR3w8r1Ib2F7bhAVAUhl3QoS1YmjFDVs77v/Zu1IAhc8uxbjWoG2VbwPNUVQawBEnQMYN8RdmRLvFj5pkZBYSGaZUIAjnMMPgVVx4QNGc3iZIVvkXmFkbgwvYgeHZ1Cl7Hr39UdT3HOULEQ="
   wait-until-deployed: true
 
 notifications:
   email:
     recipients:
       - jain.yo@husky.neu.edu
-      - magare.r@husky.neu.edu
-      - shetty.pr@husky.neu.edu
-      - gupta.rite@husky.neu.edu
+      #- magare.r@husky.neu.edu
+      #- shetty.pr@husky.neu.edu
+      #- gupta.rite@husky.neu.edu
