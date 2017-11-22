@@ -1,7 +1,7 @@
 
-* ROHAN MAGARE, 001231457, magare.r@husky.neu.edu    
+* ROHAN MAGARE, 001231457, magare.r@husky.neu.edu     
 * RITESH GUPTA, 001280361, gupta.rite@husky.neu.edu
-* PRATIKSHA S SHETTY, 001643697, shetty.pr@husky.neu.edu
+* PRATIKSHA SHETTY, 001643697, shetty.pr@husky.neu.edu
 * YOGITA JAIN, 001643815, jain.yo@husky.neu.edu
 
 ## Project Title: Web Application Development using Spring boot and Gradle
@@ -20,7 +20,7 @@
 3) Includes:
    * .jmx for Jmeter testing
    * .yml for travis-ci testing
-   * JUnits for unit testing
+   * JUnits for unit testing 
 
 For running the application locally
 Change the property `spring.profiles.active` in application properties to dev
@@ -35,4 +35,4 @@ For running the JMeter test: Change the property spring.profiles.active in appli
 
 The load test creates 100 random users and tests the GET, POST, PUT, and DELETE performance of the application.
 
-link to travisci: https://travis-ci.com/Riteshgpt11/csye6225-fall2017
+link to travisci: https://travis-ci.com/Riteshgpt11/csye6225-fall2017 

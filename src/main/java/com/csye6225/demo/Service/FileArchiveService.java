@@ -33,7 +33,9 @@ import java.time.Instant;
 @Service
 public class FileArchiveService {
 
-    private static final String S3_BUCKET_NAME = "ec2.csye6225-fall2017-guptarite.me.csye6225.com";
+
+    private static final String S3_BUCKET_NAME = "ec2.csye6225-fall2017-shettypr.me.csye6225.com";
+
 
 
     private AmazonS3 s3Client;

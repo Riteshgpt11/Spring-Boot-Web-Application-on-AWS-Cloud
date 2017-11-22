@@ -167,7 +167,7 @@ Resources:
 
 # VPC Security Group for RDS instance
   RDSSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
+    Type: 'AWS::EC2::SecurityGroup'    #Create RDS Security group
     Properties:
       GroupName: !Ref DBSecurityGroup
       VpcId: !Ref VpcId
@@ -324,24 +324,15 @@ Resources:
             echo 'export JAVA_OPTS="$JAVA_OPTS -Daws.AWS_SERECT_ACCESS_KEY=${IAMSecretKey}"' >> /opt/tomcat/bin/setenv.sh
             echo 'export JAVA_OPTS="$JAVA_OPTS -Daws.S3_BUCKET_NAME=${DomainName}.csye6225.com"' >> /opt/tomcat/bin/setenv.sh
             echo 'export JAVA_OPTS="$JAVA_OPTS -Daws.AWS_REGION=${AWS::Region}"' >> /opt/tomcat/bin/setenv.sh
+
             sleep 3
             chmod -R 755 /opt/tomcat/bin/setenv.sh
             chown tomcat:tomcat /opt/tomcat/bin/setenv.sh
             source /opt/tomcat/bin/setenv.sh
-            sleep 3
+
+            sleep 10
             systemctl restart tomcat
 
-        # S3 bucket
-          S3Bucket:
-            Type: AWS::S3::Bucket
-            Properties:
-              BucketName: !Join ["." , [!Ref DomainName, "csye6225.com"]]
-              AccessControl: Private
-
-        # DynamoDB Table
-          DynamoDBTable:
-            Type: "AWS::DynamoDB::Table"
-           
 
 # S3 bucket
   S3Bucket:
