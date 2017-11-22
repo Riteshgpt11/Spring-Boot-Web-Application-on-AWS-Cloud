@@ -6,14 +6,17 @@
  **/
 package com.csye6225.demo.controllers;
 
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.csye6225.demo.Service.CreateTopic;
 import com.csye6225.demo.Service.FileArchiveService;
 import com.csye6225.demo.dao.MediaFileUploadDao;
+import com.csye6225.demo.dao.PasswordDao;
 import com.csye6225.demo.dao.PersistTaskDao;
 import com.csye6225.demo.dao.UserDao;
-import com.csye6225.demo.databse.mysqlDatasource;
-import com.csye6225.demo.entity.MediaFile;
-import com.csye6225.demo.entity.Task;
-import com.csye6225.demo.entity.User;
+import com.csye6225.demo.entity.*;
 import com.google.gson.JsonObject;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -28,14 +31,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.nio.charset.Charset;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class
 HomeController {
 
+    static final long ONE_MINUTE_IN_MILLIS = 120000;//millisecs
 
     private final static Logger logger = LoggerFactory.getLogger(HomeController.class);
     @Autowired
@@ -46,6 +48,10 @@ HomeController {
     private MediaFileUploadDao fileUploadDao;
     @Autowired
     private FileArchiveService fileArchiveService;
+    @Autowired
+    private PasswordDao passwordDao;
+    @Autowired
+    private CreateTopic createTopic;
 
 
     /**
@@ -56,7 +62,6 @@ HomeController {
     @ResponseBody()
     public String home() throws Exception {
 
-//        mysqlDatasource.getRemotedConnection();
         JsonObject jsonO = new JsonObject();
         jsonO.addProperty("message", "Home Page. Use /login.htm for login & /register.htm for register");
         return jsonO.toString();
@@ -142,6 +147,29 @@ HomeController {
         }
         return jsonObject.toString();
     }
+
+
+
+
+
+
+
+    /*private SimpleMailMessage constructEmail(String subject, String body,
+                                             User user) {
+        SimpleMailMessage email = new SimpleMailMessage();
+        email.setSubject(subject);
+        email.setText(body);
+        email.setTo(user.getEmailId());
+       *//* email.setFrom(env.getProperty("support.email"));*//*
+        return email;
+    }*/
+
+
+
+
+
+    /*11/7/17*/
+
 
     /**
      * @param request
@@ -574,6 +602,120 @@ HomeController {
         return j.toString();
     }
 
+    /**
+     * @param request
+     * @param userEmail
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/user/resetPassword", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public String resetPassword(HttpServletRequest request, HttpServletResponse response, @RequestBody User userEmail) {
+        JsonObject j = new JsonObject();
+        User user = userDao.findUserByEmailId(userEmail.getEmailId());
+        if (user != null) {
+            String token = UUID.randomUUID().toString();
+            Date dynamoDate = checkTime(user);
+            System.out.println("dynamoDate: " + dynamoDate);
+            Calendar calendar = Calendar.getInstance();
+            System.out.println("Current Time: " + calendar.getTime());
+            //dynamo
+            try {
+                Calendar cal = Calendar.getInstance();
+                System.out.println("Difference: " + (dynamoDate.getTime() - cal.getTime()
+                        .getTime()));
+                if ((dynamoDate.getTime() - cal.getTime()
+                        .getTime()) <= 0) {
+                    saveToDynamo(token, user);
+                    String url = constructResetTokenEmail(request.getContextPath(),
+                            request.getLocale(), token, user);
+                   // amazonSES.awsSES(user, url);
+                    createTopic.createSnsTopic(user,url);
+                }
+                j.addProperty("message", "Email has been sent");
+
+            } catch (Exception ex) {
+                System.out.println("exce: " + ex);
+            }
+            response.setStatus(HttpServletResponse.SC_ACCEPTED);
+        } else {
+
+            j.addProperty("message", "Email has been sent");
+            response.setStatus(HttpServletResponse.SC_ACCEPTED);
+
+        }
+        return j.toString();
+
+    }
+
+    private void saveToDynamo(String token, User user) {
+
+        AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
+        DynamoDBMapper mapper = new DynamoDBMapper(client);
+        DynamoPassword item = new DynamoPassword();
+        Calendar date = Calendar.getInstance();
+        System.out.println("Current: " + date);
+        long t = date.getTimeInMillis();
+        Date expiry = new Date(t + (ONE_MINUTE_IN_MILLIS));
+        item.setDate(expiry);
+        System.out.println("After: " + expiry);
+        item.setEmailId(user.getEmailId());
+        item.setToken(token);
+        mapper.save(item);
+    }
+
+
+    private Date checkTime(User user) {
+
+        AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
+        DynamoDBMapper mapper = new DynamoDBMapper(client);
+        DynamoPassword dynamoPassword = new DynamoPassword();
+        dynamoPassword.setEmailId(user.getEmailId());
+        DynamoDBQueryExpression<DynamoPassword> queryExpression = new DynamoDBQueryExpression<DynamoPassword>()
+                .withHashKeyValues(dynamoPassword);
+        List<DynamoPassword> itemList = mapper.query(DynamoPassword.class, queryExpression);
+        Date date = new Date();
+        for (int i = 0; i < itemList.size(); i++) {
+            date = itemList.get(i).getDate();
+            System.out.println(itemList.get(i).getDate());
+            //System.out.println(itemList.get(i).getBookAuthors());
+        }
+        return date;
+    }
+
+    /**
+     * Save in Dynamo DB
+     *
+     * @param user
+     * @param token
+     */
+    private void createPasswordResetTokenForUser(User user, String token) {
+        PasswordResetToken myToken = new PasswordResetToken(token, user);
+
+        Calendar date = Calendar.getInstance();
+        System.out.println(date);
+        long t = date.getTimeInMillis();
+        Date expiry = new Date(t + (ONE_MINUTE_IN_MILLIS));
+        myToken.setExpiryDate(expiry);
+        System.out.println("After: " + expiry);
+        passwordDao.save(myToken);
+    }
+
+    /**
+     * Create URL
+     *
+     * @param contextPath
+     * @param locale
+     * @param token
+     * @param user
+     * @return
+     */
+    private String constructResetTokenEmail(
+            String contextPath, Locale locale, String token, User user) {
+        String url = contextPath + user.getEmailId() + "/changePassword?id=" +
+                user.getUserId() + "&token=" + token;
+        return url;
+    }
 
     /**
      * Private class to authenticate user credentials. This class does not determine if the user is

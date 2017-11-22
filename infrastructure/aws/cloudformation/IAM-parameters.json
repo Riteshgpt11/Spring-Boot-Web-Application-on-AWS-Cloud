@@ -1,7 +1,7 @@
 [
     {
        "ParameterKey": "KeyName",
-       "ParameterValue": "lenovo_key",
+       "ParameterValue": "MyKeyPair",
        "UsePreviousValue": true
      },
        {
@@ -38,7 +38,11 @@
          "ParameterKey": "TravisUserName",
          "ParameterValue": "travis_ci",
          "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "CloudWatch",
+         "ParameterValue": "CloudLogs",
+         "UsePreviousValue": true
        }
 
 ]
-

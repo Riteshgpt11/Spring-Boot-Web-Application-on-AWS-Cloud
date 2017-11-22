@@ -1,7 +1,7 @@
 [
     {
        "ParameterKey": "KeyName",
-       "ParameterValue": "lenovo_key",
+       "ParameterValue": "MyKeyPair",
        "UsePreviousValue": true
      },
      {
@@ -166,7 +166,7 @@
        },
        {
          "ParameterKey": "RoleStack",
-         "ParameterValue": "roles",
+         "ParameterValue": "role",
          "UsePreviousValue": true
        },
        {
@@ -189,4 +189,6 @@
          "ParameterValue": "",
          "UsePreviousValue": true
        }
+
+
 ]
