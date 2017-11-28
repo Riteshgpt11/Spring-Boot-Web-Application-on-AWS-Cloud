@@ -31,7 +31,7 @@
        },
        {
          "ParameterKey": "HostedZoneId",
-         "ParameterValue": "ZFLUDICG22F7Z",
+         "ParameterValue": "",
          "UsePreviousValue": true
        },
        {
@@ -181,12 +181,12 @@
        },
        {
          "ParameterKey": "IAMAccessKey",
-         "ParameterValue": "AKIAJTYBCSTZW3ZLGSFQ",
+         "ParameterValue": "",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "IAMSecretKey",
-         "ParameterValue": "blEQjnEf+v8TDglE16ynPRtaRi9Lk8PACfrbd1Tf",
+         "ParameterValue": "",
          "UsePreviousValue": true
        }
 
