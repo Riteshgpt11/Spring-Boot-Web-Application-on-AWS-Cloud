@@ -1,7 +1,7 @@
 [
     {
        "ParameterKey": "KeyName",
-       "ParameterValue": "MyKeyPair",
+       "ParameterValue": "MyPublicKey",
        "UsePreviousValue": true
      },
        {
@@ -31,12 +31,12 @@
        },
        {
          "ParameterKey": "WebApplicationName",
-         "ParameterValue": "WebApplication",
+         "ParameterValue": "Csye6225",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "TravisUserName",
-         "ParameterValue": "travis_ci",
+         "ParameterValue": "Travis",
          "UsePreviousValue": true
        },
        {

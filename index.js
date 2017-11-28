@@ -24,7 +24,7 @@ exports.handler = function(event, context) {
                 Data: “Reset password”
             }
         },
-        Source: “password-reset@csye6225-fall2017-jainyo.me"
+        Source: “password-reset@csye6225-fall2017-guptarite.me"
     };
 
     console.log('===SENDING EMAIL===');
