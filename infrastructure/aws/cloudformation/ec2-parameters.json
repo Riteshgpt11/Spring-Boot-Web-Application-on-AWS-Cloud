@@ -1,7 +1,7 @@
 [
     {
        "ParameterKey": "KeyName",
-       "ParameterValue": "MyPublicKey",
+       "ParameterValue": "PKey",
        "UsePreviousValue": true
      },
      {
@@ -16,7 +16,7 @@
        },
        {
          "ParameterKey": "VpcId",
-         "ParameterValue": "vpc-9e9374e6",
+         "ParameterValue": "vpc-ce3a20b7",
          "UsePreviousValue": true
        },
        {
@@ -31,12 +31,12 @@
        },
        {
          "ParameterKey": "HostedZoneId",
-         "ParameterValue": "ZFLUDICG22F7Z",
+         "ParameterValue": "Z37VZ58TYYN174",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "DomainName",
-         "ParameterValue": "ec2.csye6225-fall2017-guptarite.me",
+         "ParameterValue": "ec2.csye6225-fall2017-shettypr.me",
          "UsePreviousValue": true
        },
        {
@@ -101,12 +101,12 @@
        },
        {
          "ParameterKey": "SubnetId1",
-         "ParameterValue": "subnet-bb2fd1f0",
+         "ParameterValue": "subnet-51ecdd0b",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "SubnetId2",
-         "ParameterValue": "subnet-4da29c61",
+         "ParameterValue": "subnet-1cf70b57",
          "UsePreviousValue": true
        },
        {
@@ -156,7 +156,7 @@
        },
        {
          "ParameterKey": "EC2TagName",
-         "ParameterValue": "course",
+         "ParameterValue": "NAME",
          "UsePreviousValue": true
        },
        {
@@ -166,7 +166,7 @@
        },
        {
          "ParameterKey": "RoleStack",
-         "ParameterValue": "STACK_NAME",
+         "ParameterValue": "role",
          "UsePreviousValue": true
        },
        {
@@ -180,13 +180,23 @@
          "UsePreviousValue": true
        },
        {
+       "ParameterKey": "LoadBalancerName",
+       "ParameterValue": "myLoadBalancer",
+       "UsePreviousValue": true
+       },
+       {
+       "ParameterKey": "mySSLarn",
+       "ParameterValue": "arn:aws:acm:us-east-1:958600502365:certificate/2faf2868-b8e3-4352-82b9-a8615f3ebfe0",
+       "UsePreviousValue": true
+       },
+       {
          "ParameterKey": "IAMAccessKey",
-         "ParameterValue": "AKIAJTYBCSTZW3ZLGSFQ",
+         "ParameterValue": "AKIAID54JQND42DMYGNQ",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "IAMSecretKey",
-         "ParameterValue": "blEQjnEf+v8TDglE16ynPRtaRi9Lk8PACfrbd1Tf",
+         "ParameterValue": "h0GoOHZVMksJi3GUPmTF0/J3lDGrKvG3NAwsi1zl",
          "UsePreviousValue": true
        }
 
