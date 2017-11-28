@@ -181,12 +181,12 @@
        },
        {
          "ParameterKey": "IAMAccessKey",
-         "ParameterValue": "",
+         "ParameterValue": "AKIAJTYBCSTZW3ZLGSFQ",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "IAMSecretKey",
-         "ParameterValue": "",
+         "ParameterValue": "blEQjnEf+v8TDglE16ynPRtaRi9Lk8PACfrbd1Tf",
          "UsePreviousValue": true
        }
 
