@@ -1,7 +1,7 @@
 [
     {
        "ParameterKey": "KeyName",
-       "ParameterValue": "PKey",
+       "ParameterValue": "MyPublicKey",
        "UsePreviousValue": true
      },
      {
@@ -16,7 +16,7 @@
        },
        {
          "ParameterKey": "VpcId",
-         "ParameterValue": "vpc-ce3a20b7",
+         "ParameterValue": "vpc-9e9374e6",
          "UsePreviousValue": true
        },
        {
@@ -31,12 +31,12 @@
        },
        {
          "ParameterKey": "HostedZoneId",
-         "ParameterValue": "Z37VZ58TYYN174",
+         "ParameterValue": "ZFLUDICG22F7Z",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "DomainName",
-         "ParameterValue": "ec2.csye6225-fall2017-shettypr.me",
+         "ParameterValue": "ec2.csye6225-fall2017-guptarite.me",
          "UsePreviousValue": true
        },
        {
@@ -101,12 +101,17 @@
        },
        {
          "ParameterKey": "SubnetId1",
-         "ParameterValue": "subnet-51ecdd0b",
+         "ParameterValue": "subnet-bb2fd1f0",
          "UsePreviousValue": true
        },
        {
          "ParameterKey": "SubnetId2",
-         "ParameterValue": "subnet-1cf70b57",
+         "ParameterValue": "subnet-4da29c61",
+         "UsePreviousValue": true
+       },
+       {
+         "ParameterKey": "SubnetId3",
+         "ParameterValue": "subnet-4ab88b10",
          "UsePreviousValue": true
        },
        {
@@ -156,7 +161,7 @@
        },
        {
          "ParameterKey": "EC2TagName",
-         "ParameterValue": "NAME",
+         "ParameterValue": "course",
          "UsePreviousValue": true
        },
        {
@@ -166,7 +171,7 @@
        },
        {
          "ParameterKey": "RoleStack",
-         "ParameterValue": "role",
+         "ParameterValue": "roles",
          "UsePreviousValue": true
        },
        {
