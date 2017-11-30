@@ -110,6 +110,11 @@
          "UsePreviousValue": true
        },
        {
+         "ParameterKey": "SubnetId3",
+         "ParameterValue": "subnet-4ab88b10",
+         "UsePreviousValue": true
+       },
+       {
          "ParameterKey": "DynamodbTableName",
          "ParameterValue": "csye6225",
          "UsePreviousValue": true
@@ -178,6 +183,16 @@
          "ParameterKey": "DNSTtl",
          "ParameterValue": "60",
          "UsePreviousValue": true
+       },
+       {
+       "ParameterKey": "LoadBalancerName",
+       "ParameterValue": "myLoadBalancer",
+       "UsePreviousValue": true
+       },
+       {
+       "ParameterKey": "mySSLarn",
+       "ParameterValue": "",
+       "UsePreviousValue": true
        },
        {
          "ParameterKey": "IAMAccessKey",
