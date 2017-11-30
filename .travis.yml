@@ -1,6 +1,6 @@
 branches:
   only:
-  - master
+  - p_ass10
 
 language: java
 jdk:
