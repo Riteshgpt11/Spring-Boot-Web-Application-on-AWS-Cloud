@@ -78,6 +78,9 @@ Parameters:
   SubnetId2:
     Description: Subnet Id for us-east-1b
     Type: "String"
+  SubnetId3:
+    Description: Subnet Id for us-east-1d
+    Type: "String"
   DynamodbTableName:
     Description: Name of the Dynamodb
     Type: "String"
@@ -169,6 +172,7 @@ Resources:
           FromPort: '8080'
           ToPort: '8080'
           CidrIp: 0.0.0.0/0
+
 
 
 # VPC Security Group for RDS instance
@@ -392,7 +396,7 @@ Resources:
           - WebServerSecurityGroup
           - GroupId
       SubnetId:
-        Ref: SubnetId1
+        Ref: SubnetId2
       Tags:
         -
           Key: !Ref EC2TagName
@@ -525,7 +529,7 @@ Resources:
           - WebServerSecurityGroup
           - GroupId
       SubnetId:
-        Ref: SubnetId1
+        Ref: SubnetId3
       Tags:
         -
           Key: !Ref EC2TagName
@@ -688,14 +692,25 @@ Resources:
       Subnets:
         - !Ref SubnetId1
         - !Ref SubnetId2
+        - !Ref SubnetId3
 
 
   TargetGroup:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
-      Port: '80'
       Name: ecs-test-target-group
-      Protocol: HTTPS
+      Port: 8080
+      Targets:
+      - Id:
+          Ref: EC2Instance1
+        Port: 8080
+      - Id:
+          Ref: EC2Instance2
+        Port: 8080
+      - Id:
+          Ref: EC2Instance3
+        Port: 8080    
+      Protocol: HTTP
       VpcId: !Ref VpcId
 
 
@@ -708,21 +723,35 @@ Resources:
         - Type: forward
           TargetGroupArn: !Ref TargetGroup
       LoadBalancerArn: !Ref LoadBalancer
-      Port: 80
+      Port: 443
       Protocol: HTTPS
 
-          
+
   myDNSRecord:
-    Type: AWS::Route53::RecordSet
+    Type: "AWS::Route53::RecordSetGroup"
     Properties:
       HostedZoneId:
         Ref: HostedZoneId
-      Name:
-        Ref: DomainName
-      Type: !Ref DNSRecordType
-      TTL: !Ref DNSTtl
-      ResourceRecords:
-      - !GetAtt EC2Instance1.PublicIp
+      Comment: Zone apex targeted to ELB LoadBalancer
+      RecordSets:
+      - Name: !Ref DomainName
+        Type: !Ref DNSRecordType
+        AliasTarget:
+          HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
+          DNSName: !GetAtt LoadBalancer.DNSName
+
+          
+#  myDNSRecord:
+#    Type: AWS::Route53::RecordSet
+#    Properties:
+#      HostedZoneId:
+#        Ref: HostedZoneId
+#      Name:
+#        Ref: DomainName
+#      Type: !Ref DNSRecordType
+#      TTL: !Ref DNSTtl
+#      ResourceRecords:
+#      - !GetAtt EC2Instance1.PublicIp
 
 
 Outputs:
