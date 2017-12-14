@@ -1,0 +1,56 @@
+imports:
+- path: cloud_function.jinja
+- path: bigtable.py
+- path: dnsZone.py
+
+resources:
+- name: function
+  type: cloud_function.jinja
+  properties:
+     region: us-central1
+     entryPoint: handler
+     sourceArchiveUrl: gs://bucketyogi508/index.js.zip
+
+- name: my-bigtable
+  type: bigtable.py
+  properties:
+    instanceId: my-instance
+    instance:
+      displayName: My BigTable Instance.
+      type: PRODUCTION
+    clusters:
+      initial:
+        defaultStorageType: HDD
+        # Can only specify serveNodes when instance type is not DEVELOPMENT
+        serveNodes: 4
+        location: us-central1-b
+    tables:
+      data:
+        granularity: MILLIS
+        columnFamilies:
+          foo:
+            gcRule:
+              maxNumVersions: 2
+          bar:
+            gcRule:
+              maxNumVersions: 2
+      users:
+        columnFamilies:
+          username:
+            gcRule:
+              maxNumVersions: 2
+          email:
+            gcRule:
+              maxNumVersions: 2
+
+- name: csye
+  type: dnsZone.py
+  properties:
+    dnsName: csye6225-fall2017-guptarite.me.
+    description: My description.
+    resourceRecordSets:
+    - name: a.csye6225-fall2017-guptarite.me.
+      type: A
+      ttl: 300
+      rrdatas:
+      - 35.227.246.48 
