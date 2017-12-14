@@ -1,0 +1,15 @@
+imports:
+- path: sqladmin.jinja
+
+resources:
+- type: storage.v1.bucket
+  name: bucketyogi508
+  properties:
+    name: bucketyogi508
+    project: csye6225
+
+- name: database
+  type: sqladmin.jinja
+  properties:
+    tier: db-n1-standard-1
+    region: us-central1
